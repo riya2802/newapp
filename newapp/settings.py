@@ -75,13 +75,13 @@ WSGI_APPLICATION = 'newapp.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'CONN_MAX_AGE': 3600,
-        'NAME': 'newapp',
-        'USER': 'root',
-        'PASSWORD': '',
-    }
+    'default': {
+       'ENGINE': 'django.db.backends.mysql',
+       'CONN_MAX_AGE': 3600,
+       'NAME': 'newapp',
+       'USER': 'root',
+       'PASSWORD': '',
+   }
 }
 
 
