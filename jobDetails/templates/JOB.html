@@ -14,7 +14,16 @@
 </style>
 </head>
 <body>
+	{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+
+  </ul>
+{% endif %}
 	<form method= "post"action="">
+		 {% csrf_token %}
 	<div class="container" style="border:1px solid black;" >
 		
 		<div style="font-size: 20px; background-color: blue; color: white">
@@ -23,9 +32,16 @@
 
 		<div class="row">
 		  <div class="col-sm-3" ><b>Date Joined <span class="required">*</span>:</b></div>
-		   <div class="col-sm-3"><b><input type="Date" name="datejoin"></b></div>
+		   <div class="col-sm-3"><b><input type="Date" name="datejoin" required></b></div>
 		  <div class="col-sm-3"><b>End of Probation:</b></div>
-		  <div class="col-sm-3"><b> <input type="Date" name="endofprobation"></b></div>
+		  <div class="col-sm-3"><b> <input type="Date" name="endofprobation"> 	{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+
+  </ul>
+{% endif %}</b></div>
 		</div>
 		<br>
 	</div>
@@ -38,8 +54,8 @@
 		<div class="row">
 		  <div class="col-sm-3" ><b>Position <span class="required">*</span>:</b></div> 
 		  <div class="col-sm-3" ><b> 
-												<select>
-												  <option value="Positionnotassigned">Not Assigned</option>
+												<select name="positiondd" required>
+												  <option value ="">Not Assigned</option>
 												  <option value="positionasyouwant">As you want</option>
 												  <option value="positionasyouwant">As you want</option>
 												  <option value="positionasyouwant">As you want</option>
@@ -48,13 +64,13 @@
 			</div>
 
 		  <div class="col-sm-3"><b>Effective Date <span class="required">*</span>:</b></div>
-		  <div class="col-sm-3"><b><input type="Date" name="jobstatuseffectivedate"></b></div>
+		  <div class="col-sm-3"><b><input type="Date" name="jobstatuseffectivedate" required></b></div>
 		</div><br>
 		<div class="row">
 		  <div class="col-sm-3" ><b>Line Manager:</b></div>
 		   <div class="col-sm-3" ><b>
-		  										<select>
-												  <option value="linemangaernotassigned">Not Assigned</option>
+		  										<select name="linemanagedd">
+												  <option value="">Not Assigned</option>
 												  <option value="linemangaerasyouwant">As you want</option>
 												  <option value="linemangaerasyouwant">As you want</option>
 												  <option value="linemangaerasyouwant">As you want</option>
@@ -63,8 +79,8 @@
 			</div>
 		  <div class="col-sm-3"><b>Department:</b></div>
 		  <div class="col-sm-3"><b>	
-		  										<select>
-												  <option value="departmentnotassigned">Not Assigned</option>
+		  										<select name="departmentdd">
+												  <option value="">Not Assigned</option>
 												  <option value="departmentasyouwant">As you want</option>
 												  <option value="departmentasyouwant">As you want</option>
 												  <option value="departmentasyouwant">As you want</option>
@@ -76,8 +92,8 @@
 		<div class="row">
 		  <div class="col-sm-3" ><b>Branch:</b></div>
 		  <div class="col-sm-3" ><b>
-		  										<select>
-												  <option value="branchnotassigned">Not Assigned</option>
+		  										<select name="branchdd">
+												  <option value="">Not Assigned</option>
 												  <option value="branchasyouwant">As you want</option>
 												  <option value="branchasyouwant">As you want</option>
 												  <option value="branchasyouwant">As you want</option>
@@ -85,8 +101,8 @@
 		   </b></div>
 		  <div class="col-sm-3"><b>Level:</b></div>
 		  <div class="col-sm-3"><b>
-		  								 		<select>
-												  <option value="branchnotassigned">Not Assigned</option>
+		  								 		<select name="leveldd">
+												  <option value="">Not Assigned</option>
 												  <option value="branchasyouwant">As you want</option>
 												  <option value="branchasyouwant">As you want</option>
 												  <option value="branchasyouwant">As you want</option>
@@ -105,8 +121,8 @@
 		<div class="row">
 		  <div class="col-sm-3" ><b>Job Type:</b></div>
 		  <div class="col-sm-3" ><b>
-												<select>
-												  <option value="jobtypenotassigned">Not Assigned</option>
+												<select name="jobtypedd">
+												  <option value="">Not Assigned</option>
 												  <option value="jobtypeasyouwant">As you want</option>
 												  <option value="jobtypeasyouwant">As you want</option>
 												  <option value="jobtypeasyouwant">As you want</option>
@@ -115,13 +131,13 @@
 			</div>
 
 		  <div class="col-sm-3"><b>Effective Date <span class="required">*</span>:</b></div>
-		   <div class="col-sm-3"><b><input type="Date" name="Employmentstatuseffectivedate"></b></div>
+		   <div class="col-sm-3"><b><input type="Date" name="employmentstatuseffectivedate" required></b></div>
 		</div><br>
 		<div class="row">
 		  <div class="col-sm-3" ><b>Job Status:</b></div>
 		  <div class="col-sm-3" ><b>
-		  										<select>
-												  <option value="jobstatusnotassigned">Not Assigned</option>
+		  										<select name="jobstatusdd">
+												  <option value="">Not Assigned</option>
 												  <option value="jobstatusasyouwant">As you want</option>
 												  <option value="jobstatusasyouwant">As you want</option>
 												  <option value="jobstatusasyouwant">As you want</option>
@@ -130,8 +146,8 @@
 			</div>
 		  <div class="col-sm-3"><b>Leave Workflow:</b></div> 	
 		  <div class="col-sm-3"><b>	
-		  										<select>
-												  <option value="leaveworkflownotassigned">Default</option>
+		  										<select name="leaveworkflowdd">
+												  <option value="">Default</option>
 												  <option value="leaveworkflowasyouwant">As you want</option>
 												  <option value="leaveworkflowasyouwant">As you want</option>
 												  <option value="leaveworkflowasyouwant">As you want</option>
@@ -143,17 +159,17 @@
 		<div class="row">
 		  <div class="col-sm-3" ><b>Workdays:</b></div>
 		  <div class="col-sm-3" ><b>
-		  										<select>
-												  <option value="workdaysdefault">Default</option>
-												  <option value="workdaysasyouwant">As you want</option>
-												  <option value="workdaysasyouwant">As you want</option>
-												  <option value="workdaysasyouwant">As you want</option>
-												</select>
+			<select name="workdays">
+			  	<option value="">Default</option>
+			  	<option value="workdaysasyouwant">As you want</option>
+			  	<option value="workdaysasyouwant">As you want</option>
+			  	<option value="workdaysasyouwant">As you want</option>
+			</select>
 		   </b></div>
 		  <div class="col-sm-3"><b>Holidays:</b></div>
 		  <div class="col-sm-3"><b>
-		  										<select>
-												  <option value="holidaysnotassigned">Default</option>
+		  										<select name="holidaysdd">
+												  <option value="">Default</option>
 												  <option value="holidaysasyouwant">As you want</option>
 												  <option value="holidaysasyouwant">As you want</option>
 												  <option value="holidaysasyouwant">As you want</option>
@@ -165,8 +181,8 @@
 		<div class="row">
 		  <div class="col-sm-3" ><b style="color: lightgrey">Term Start:</b></div>
 		  <div class="col-sm-3"><b style="color: lightgrey">
-		  										<select disabled>
-												  <option value="termstartnotassigned">Not Assigned</option>
+		  										<select disabled name="termstartdd">
+												  <option value="">Not Assigned</option>
 												  <option value="termstartasyouwant">As you want</option>
 												  <option value="termstartasyouwant">As you want</option>
 												  <option value="termstartasyouwant">As you want</option>
@@ -174,8 +190,8 @@
 		   </b></div>
 		  <div class="col-sm-3" ><b style="color: lightgrey">Term End:</b></div>
 		  <div class="col-sm-3"><b style="color: lightgrey">
-		  										<select disabled>
-												  <option value="termendnotassigned">Not Assigned</option>
+		  										<select  disabled name="termend">
+												  <option v>Not Assigned</option>
 												  <option value="termendasyouwant">As you want</option>
 												  <option value="termstartasyouwant">As you want</option>
 												  <option value="termstartasyouwant">As you want</option>

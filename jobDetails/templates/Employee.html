@@ -1,0 +1,130 @@
+<html>
+<head>
+    <link rel = "stylesheet" href="index.css">
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+
+       .custom-control-input{
+            padding-left:15px;
+        }
+                  .required {
+  color: red;
+}
+    </style>
+</head>
+    <body>
+        <form method= "post"action="">
+                <div class="container" style="border:1px solid black; border-top: hidden;">
+                        <div style="font-size: 20px; background-color: blue; color: white ">
+                            Personal Details
+                        </div><br>
+
+        <div class="row">
+          <div class="col-sm-3" ><b>ID<span class="required">*</span>:</b></div> 
+          <div class="col-sm-6" ><b><input type="text" name="id" required>  <span class="error">Available</span></b></div>
+
+          <div class="col-sm-3">
+                                 <img src ="New Picture.bmp" id="filetoupload" height="200" width="200" >
+          <input type="file"  class="form-control" name="filetoupload" id="filetoupload" value="filetoupload" >
+          
+        </div>
+    </div><br>
+                    <div class="row">
+                      <div class="col-sm-3" ><b>First Name <span class="required">*</span>:</b></div>
+                       <div class="col-sm-3" ><b><input type="text" name="firstname" required> </b></div>
+                      <!-- <div class="col-sm-6"></div> -->
+                </div><br>
+
+                     <div class="row">
+                      <div class="col-sm-3" ><b>Middle Name:</b></div>
+                       <div class="col-sm-3" ><b><input type="text" name="middlename" > </b></div>
+                      <!-- <div class="col-sm-6"></div> -->
+                </div><br>
+                <div class="row">
+                      <div class="col-sm-3" ><b>Last Name:</b></div>
+                       <div class="col-sm-3" ><b><input type="text" name="lastname" > </b></div>
+                      <!-- <div class="col-sm-6"></div> -->
+                </div><br>
+
+                                <div class="row">
+                      <div class="col-sm-3" ><b>Gender:</b></div>
+                        <div class="col-sm-6" class="radio" ><b><label><input type="radio" name="gender" value="female">Female</label>                                         <label><input type="radio" name="gender" value="male">Male</label>
+                                                                <label><input type="radio" name="gender" value="unknown">Unknown</label>
+                                                            </b>
+                        </div>
+                      <!-- <div class="col-sm-3"></div> -->
+                </div><br>
+                    
+                    <div class="row">
+          <div class="col-sm-3" ><b>Birth Date <span class="required">*</span>:</b></div>
+           <div class="col-sm-3"><b><input type="Date" name="birthdate"></b></div>
+          <!-- <div class="col-sm-6"></div> -->
+        </div>
+        <br>
+    </div>
+
+        <div class="container" style="border:1px solid black; border-top: hidden;">
+                        <div style="font-size: 20px; background-color: blue; color: white ">
+                            Nationality Details
+                        </div><br>
+
+                <div class="row">
+                      <div class="col-sm-3" ><b>Nationality <span class="required">*</span>:</b></div>
+                       <div class="col-sm-3" ><b>
+                                                <select>
+                                                  <option value="nationalityIndia">India</option>
+                                                  <option value="nationalityasyouwant">As you want</option>
+                                                  <option value="nationalityasyouwant">As you want</option>
+                                                  <option value="nationalityasyouwant">As you want</option>
+                                                </select>
+                                            </b>
+                        </div>
+                        <div class="col-sm-6" ><b>National ID <span class="required">*</span>: <input type="text" name="nationalid" > <span class="error">Available</span></b></div>   
+                </div>
+                <br>
+                <div class="row">
+                      <div class="col-sm-3" ><b>Passport:</b></div>
+                       <div class="col-sm-3" ><input type="text" name="passport" >
+                        </div>
+                        <div class="col-sm-6" ></div>   
+                </div><br>
+</div>
+
+        <div class="container" style="border:1px solid black; border-top: hidden;">
+                        <div style="font-size: 20px; background-color: blue; color: white ">
+                            Additional Details
+                        </div><br>
+
+                <div class="row">
+                      <div class="col-sm-3" ><b>Ethnicity:</b></div>
+                       <div class="col-sm-3" ><b>
+                                                <select>
+                                                  <option value="noethnicity">No Ethnicity</option>
+                                                  <option value="ethnicityasyouwant">As you want</option>
+                                                  <option value="ethnicityasyouwant">As you want</option>
+                                                  <option value="ethnicityasyouwant">As you want</option>
+                                                </select>
+                                            </b>
+                        </div>
+                        <div class="col-sm-3" ><b>Religion:</b></div>
+                         <div class="col-sm-3" ><b>
+                                                <select>
+                                                  <option value="noreligion">No Religion</option>
+                                                  <option value="religionasyouwant">As you want</option>
+                                                  <option value="religionasyouwant">As you want</option>
+                                                  <option value="religionasyouwant">As you want</option>
+                                                </select></b></div>   
+                </div>
+                <br>
+            </div>
+        
+        </form>
+    </body> 
+    
+    
+   
+</html>
