@@ -21,19 +21,19 @@ Religion= [
         ('Gernal' ,'Gernal'),                                                                                                                        
         ('NA','NA'),]
 
-class employee(models.Model):
-	employeeId= models.IntegerField(primary_key=True)
-	employeementId =models.IntegerField(null=False,blank=False)
-	employeeFirstName= models.CharField(max_length=255,blank=False,null=False)
-	employeeMiddelName=models.CharField(max_length=255,null=True,blank=True)
-	employeeLastName=models.CharField( max_length=255,blank=False,null=False)
-	employeeGender= models.CharField(max_length=1, choices=gender, default='U',blank=False,null=False)
-	employeeBirthDate=models.DateField(blank=False,null=False)
-	employeeNationality=models.CharField(max_length=1, choices=Nationality, default='India',blank=False,null=False)
-	employeeNationalId=models.IntegerField(null=False,blank=False)
-	employeePassport=models.IntegerField(null=True,blank=True)
-	employeeEthnicity=models.CharField(max_length=1,choices=Ethnicity, default='NA',null=True,blank=True)
-	employeeReligion=models.CharField(max_length=1,choices=Religion, default='NA',null=True,blank=True)
+# class employee(models.Model):
+# 	employeeId= models.IntegerField(primary_key=True)
+# 	employeementId =models.IntegerField(null=False,blank=False)
+# 	employeeFirstName= models.CharField(max_length=255,blank=False,null=False)
+# 	employeeMiddelName=models.CharField(max_length=255,null=True,blank=True)
+# 	employeeLastName=models.CharField( max_length=255,blank=False,null=False)
+# 	employeeGender= models.CharField(max_length=1, choices=gender, default='U',blank=False,null=False)
+# 	employeeBirthDate=models.DateField(blank=False,null=False)
+# 	employeeNationality=models.CharField(max_length=1, choices=Nationality, default='India',blank=False,null=False)
+# 	employeeNationalId=models.IntegerField(null=False,blank=False)
+# 	employeePassport=models.IntegerField(null=True,blank=True)
+# 	employeeEthnicity=models.CharField(max_length=1,choices=Ethnicity, default='NA',null=True,blank=True)
+# 	employeeReligion=models.CharField(max_length=1,choices=Religion, default='NA',null=True,blank=True)
 
 class Job(models.Model):
 

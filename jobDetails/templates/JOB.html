@@ -1,210 +1,188 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Job Information</title>
-	  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <style >
-		  .required {
-  color: red;
+<title>Job Information</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style >
+.required {
+color: red;
 }
 </style>
 </head>
-<body>
-	{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
+	<body>
+		<form method= "post"action="">
+		{% csrf_token %}
+			<ul class="nav nav-tabs">
+			<li><a href="#">Personal</a></li>
+			<li><a href="/newapp/job">Job</a></li>
+			<li><a href="#">Salary</a></li>
+			<li><a href="#">Family</a></li>
+			<li><a href="/newapp/contact">Contact</a></li>
+			<li><a href="#">Health</a></li>
+			<li><a href="#">Directory</a></li>
+			<li><a href="#">Remark</a></li>
+			</ul>
+			<div class="container" style="border:1px solid black;" >
+				<div style="font-size: 20px; background-color: blue; color: white">Employment Information</div><br>
+					<div class="row">
+						<div class="col-sm-3" ><b>Date Joined <span class="required">*</span>:</b></div>
+						<div class="col-sm-3"><b><input type="Date" name="datejoin" required></b></div>
+						<div class="col-sm-3"><b>End of Probation:</b></div>
+						<div class="col-sm-3"><b> <input type="Date" name="endofprobation"> 	{% if messages %}
+						<ul class="messages">
+						{% for message in messages %}
+						<li class="{{ message.tags }}">{{ message }}</li>
+						{% endfor %}
 
-  </ul>
-{% endif %}
-	<form method= "post"action="">
-		 {% csrf_token %}
-	<div class="container" style="border:1px solid black;" >
-		
-		<div style="font-size: 20px; background-color: blue; color: white">
-			Employment Information
-		</div><br>
-
-		<div class="row">
-		  <div class="col-sm-3" ><b>Date Joined <span class="required">*</span>:</b></div>
-		   <div class="col-sm-3"><b><input type="Date" name="datejoin" required></b></div>
-		  <div class="col-sm-3"><b>End of Probation:</b></div>
-		  <div class="col-sm-3"><b> <input type="Date" name="endofprobation"> 	{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-
-  </ul>
-{% endif %}</b></div>
-		</div>
-		<br>
-	</div>
-
-	<div class="container" style="border:1px solid black; border-top: hidden;">
-		<div style="font-size: 20px; background-color: blue; color: white ">
-			Job Status
-		</div><br>
-
-		<div class="row">
-		  <div class="col-sm-3" ><b>Position <span class="required">*</span>:</b></div> 
-		  <div class="col-sm-3" ><b> 
-												<select name="positiondd" required>
-												  <option value ="">Not Assigned</option>
-												  <option value="positionasyouwant">As you want</option>
-												  <option value="positionasyouwant">As you want</option>
-												  <option value="positionasyouwant">As you want</option>
-												</select>
-								</b>
+						</ul>
+						{% endif %}</b></div>
+					</div>
+					<br>
+			</div>
+			<div class="container" style="border:1px solid black; border-top: hidden;">
+				<div style="font-size: 20px; background-color: blue; color: white ">Job Status</div><br>
+					<div class="row">
+						<div class="col-sm-3" ><b>Position <span class="required">*</span>:</b></div> 
+						<div class="col-sm-3" ><b> 
+							<select name="positiondd" required>
+							<option value ="">Not Assigned</option>
+							<option value="positionasyouwant">As you want</option>
+							<option value="positionasyouwant">As you want</option>
+							<option value="positionasyouwant">As you want</option>
+							</select></b>
+						</div>
+						<div class="col-sm-3"><b>Effective Date <span class="required">*</span>:</b></div>
+						<div class="col-sm-3"><b><input type="Date" name="jobstatuseffectivedate" required></b></div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-sm-3" ><b>Line Manager:</b></div>
+						<div class="col-sm-3" ><b>
+							<select name="linemanagedd">
+							<option value="">Not Assigned</option>
+							<option value="linemangaerasyouwant">As you want</option>
+							<option value="linemangaerasyouwant">As you want</option>
+							<option value="linemangaerasyouwant">As you want</option>
+							</select></b>
+						</div>
+						<div class="col-sm-3"><b>Department:</b></div>
+						<div class="col-sm-3"><b>	
+							<select name="departmentdd">
+							<option value="">Not Assigned</option>
+							<option value="departmentasyouwant">As you want</option>
+							<option value="departmentasyouwant">As you want</option>
+							<option value="departmentasyouwant">As you want</option>
+							</select></b>
+						</div>
+					</div><br>
+					<div class="row">
+						<div class="col-sm-3" ><b>Branch:</b></div>
+						<div class="col-sm-3" ><b>
+							<select name="branchdd">
+							<option value="">Not Assigned</option>
+							<option value="branchasyouwant">As you want</option>
+							<option value="branchasyouwant">As you want</option>
+							<option value="branchasyouwant">As you want</option>
+							</select></b>
+						</div>
+						<div class="col-sm-3"><b>Level:</b></div>
+						<div class="col-sm-3"><b>
+							<select name="leveldd">
+							<option value="">Not Assigned</option>
+							<option value="branchasyouwant">As you want</option>
+							<option value="branchasyouwant">As you want</option>
+							<option value="branchasyouwant">As you want</option>
+							</select></b>
+						</div>
+					</div>
+					<br>
 			</div>
 
-		  <div class="col-sm-3"><b>Effective Date <span class="required">*</span>:</b></div>
-		  <div class="col-sm-3"><b><input type="Date" name="jobstatuseffectivedate" required></b></div>
-		</div><br>
-		<div class="row">
-		  <div class="col-sm-3" ><b>Line Manager:</b></div>
-		   <div class="col-sm-3" ><b>
-		  										<select name="linemanagedd">
-												  <option value="">Not Assigned</option>
-												  <option value="linemangaerasyouwant">As you want</option>
-												  <option value="linemangaerasyouwant">As you want</option>
-												  <option value="linemangaerasyouwant">As you want</option>
-												</select>
-								 </b>
+			<div class="container" style="border:1px solid black; border-top: hidden;">
+				<div style="font-size: 20px; background-color: blue; color: white">Employment Status</div><br>
+					<div class="row">
+						<div class="col-sm-3" ><b>Job Type:</b></div>
+						<div class="col-sm-3" ><b>
+						<select name="jobtypedd">
+						<option value="">Not Assigned</option>
+						<option value="jobtypeasyouwant">As you want</option>
+						<option value="jobtypeasyouwant">As you want</option>
+						<option value="jobtypeasyouwant">As you want</option>
+						</select></b>
+						</div>
+						<div class="col-sm-3"><b>Effective Date <span class="required">*</span>:</b></div>
+						<div class="col-sm-3"><b><input type="Date" name="employmentstatuseffectivedate" required></b></div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-sm-3" ><b>Job Status:</b></div>
+						<div class="col-sm-3" ><b>
+							<select name="jobstatusdd">
+							<option value="">Not Assigned</option>
+							<option value="jobstatusasyouwant">As you want</option>
+							<option value="jobstatusasyouwant">As you want</option>
+							<option value="jobstatusasyouwant">As you want</option>
+							</select></b>
+						</div>
+						<div class="col-sm-3"><b>Leave Workflow:</b></div> 	
+						<div class="col-sm-3"><b>	
+							<select name="leaveworkflowdd">
+							<option value="">Default</option>
+							<option value="leaveworkflowasyouwant">As you want</option>
+							<option value="leaveworkflowasyouwant">As you want</option>
+							<option value="leaveworkflowasyouwant">As you want</option>
+							</select></b>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-sm-3" ><b>Workdays:</b></div>
+						<div class="col-sm-3" ><b>
+							<select name="workdays">
+							<option value="">Default</option>
+							<option value="workdaysasyouwant">As you want</option>
+							<option value="workdaysasyouwant">As you want</option>
+							<option value="workdaysasyouwant">As you want</option>
+							</select></b>
+						</div>
+						<div class="col-sm-3"><b>Holidays:</b></div>
+						<div class="col-sm-3"><b>
+							<select name="holidaysdd">
+							<option value="">Default</option>
+							<option value="holidaysasyouwant">As you want</option>
+							<option value="holidaysasyouwant">As you want</option>
+							<option value="holidaysasyouwant">As you want</option>
+							</select></b>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-sm-3" ><b style="color: lightgrey">Term Start:</b></div>
+						<div class="col-sm-3"><b style="color: lightgrey">
+							<select disabled name="termstartdd">
+							<option value="">Not Assigned</option>
+							<option value="termstartasyouwant">As you want</option>
+							<option value="termstartasyouwant">As you want</option>
+							<option value="termstartasyouwant">As you want</option>
+							</select></b>
+						</div>
+						<div class="col-sm-3" ><b style="color: lightgrey">Term End:</b></div>
+						<div class="col-sm-3"><b style="color: lightgrey">
+							<select  disabled name="termend">
+							<option v>Not Assigned</option>
+							<option value="termendasyouwant">As you want</option>
+							<option value="termstartasyouwant">As you want</option>
+							<option value="termstartasyouwant">As you want</option>
+							</select></b>
+						</div>
+					</div>
+					<br>
+					<input type="submit" value="Next">
 			</div>
-		  <div class="col-sm-3"><b>Department:</b></div>
-		  <div class="col-sm-3"><b>	
-		  										<select name="departmentdd">
-												  <option value="">Not Assigned</option>
-												  <option value="departmentasyouwant">As you want</option>
-												  <option value="departmentasyouwant">As you want</option>
-												  <option value="departmentasyouwant">As you want</option>
-												</select>
-								</b>
-			</div>
-		</div><br>
-
-		<div class="row">
-		  <div class="col-sm-3" ><b>Branch:</b></div>
-		  <div class="col-sm-3" ><b>
-		  										<select name="branchdd">
-												  <option value="">Not Assigned</option>
-												  <option value="branchasyouwant">As you want</option>
-												  <option value="branchasyouwant">As you want</option>
-												  <option value="branchasyouwant">As you want</option>
-												</select>
-		   </b></div>
-		  <div class="col-sm-3"><b>Level:</b></div>
-		  <div class="col-sm-3"><b>
-		  								 		<select name="leveldd">
-												  <option value="">Not Assigned</option>
-												  <option value="branchasyouwant">As you want</option>
-												  <option value="branchasyouwant">As you want</option>
-												  <option value="branchasyouwant">As you want</option>
-												</select>
-								</b>
-		  </div>
-		</div>
-		<br>
-	</div>
-
-	<div class="container" style="border:1px solid black; border-top: hidden;">
-		<div style="font-size: 20px; background-color: blue; color: white">
-			Employment Status
-		</div><br>
-
-		<div class="row">
-		  <div class="col-sm-3" ><b>Job Type:</b></div>
-		  <div class="col-sm-3" ><b>
-												<select name="jobtypedd">
-												  <option value="">Not Assigned</option>
-												  <option value="jobtypeasyouwant">As you want</option>
-												  <option value="jobtypeasyouwant">As you want</option>
-												  <option value="jobtypeasyouwant">As you want</option>
-												</select>
-								</b>
-			</div>
-
-		  <div class="col-sm-3"><b>Effective Date <span class="required">*</span>:</b></div>
-		   <div class="col-sm-3"><b><input type="Date" name="employmentstatuseffectivedate" required></b></div>
-		</div><br>
-		<div class="row">
-		  <div class="col-sm-3" ><b>Job Status:</b></div>
-		  <div class="col-sm-3" ><b>
-		  										<select name="jobstatusdd">
-												  <option value="">Not Assigned</option>
-												  <option value="jobstatusasyouwant">As you want</option>
-												  <option value="jobstatusasyouwant">As you want</option>
-												  <option value="jobstatusasyouwant">As you want</option>
-												</select>
-								 </b>
-			</div>
-		  <div class="col-sm-3"><b>Leave Workflow:</b></div> 	
-		  <div class="col-sm-3"><b>	
-		  										<select name="leaveworkflowdd">
-												  <option value="">Default</option>
-												  <option value="leaveworkflowasyouwant">As you want</option>
-												  <option value="leaveworkflowasyouwant">As you want</option>
-												  <option value="leaveworkflowasyouwant">As you want</option>
-												</select>
-								</b>
-			</div>
-		</div><br>
-
-		<div class="row">
-		  <div class="col-sm-3" ><b>Workdays:</b></div>
-		  <div class="col-sm-3" ><b>
-			<select name="workdays">
-			  	<option value="">Default</option>
-			  	<option value="workdaysasyouwant">As you want</option>
-			  	<option value="workdaysasyouwant">As you want</option>
-			  	<option value="workdaysasyouwant">As you want</option>
-			</select>
-		   </b></div>
-		  <div class="col-sm-3"><b>Holidays:</b></div>
-		  <div class="col-sm-3"><b>
-		  										<select name="holidaysdd">
-												  <option value="">Default</option>
-												  <option value="holidaysasyouwant">As you want</option>
-												  <option value="holidaysasyouwant">As you want</option>
-												  <option value="holidaysasyouwant">As you want</option>
-												</select>
-								</b>
-		  </div>
-		</div>
-		<br>
-		<div class="row">
-		  <div class="col-sm-3" ><b style="color: lightgrey">Term Start:</b></div>
-		  <div class="col-sm-3"><b style="color: lightgrey">
-		  										<select disabled name="termstartdd">
-												  <option value="">Not Assigned</option>
-												  <option value="termstartasyouwant">As you want</option>
-												  <option value="termstartasyouwant">As you want</option>
-												  <option value="termstartasyouwant">As you want</option>
-												</select>
-		   </b></div>
-		  <div class="col-sm-3" ><b style="color: lightgrey">Term End:</b></div>
-		  <div class="col-sm-3"><b style="color: lightgrey">
-		  										<select  disabled name="termend">
-												  <option v>Not Assigned</option>
-												  <option value="termendasyouwant">As you want</option>
-												  <option value="termstartasyouwant">As you want</option>
-												  <option value="termstartasyouwant">As you want</option>
-												</select>
-		   </b></div>
-		  
-		</div>
-		<br>
-		<input type="submit" value="Next">
-	</div>
-
-
-	</form>
-
-</body>
+		</form>
+	</body>
 </html>

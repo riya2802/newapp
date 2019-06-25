@@ -73,7 +73,7 @@ def job(request):
 
 def contact(request):
 	try:
-		print("we are in the job function")
+		print("we are in the contact function")
 		if request.method=='POST':
 
 			Email = request.POST.get('email')

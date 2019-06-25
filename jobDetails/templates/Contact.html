@@ -17,6 +17,16 @@ color: red;
 <body>
 	<form method= "post"action="">
 		{% csrf_token %}
+		  <ul class="nav nav-tabs">
+    <li><a href="#">Personal</a></li>
+    <li><a href="/newapp/job">Job</a></li>
+    <li><a href="#">Salary</a></li>
+    <li><a href="#">Family</a></li>
+    <li><a href="/newapp/contact">Contact</a></li>
+    <li><a href="#">Health</a></li>
+    <li><a href="#">Directory</a></li>
+    <li><a href="#">Remark</a></li>
+  </ul>
 		<div class="container" style="border:1px solid black;">
 			<div style="font-size: 20px; background-color: blue; color: white">Web</div><br>
 				<div class="row">
@@ -69,7 +79,7 @@ color: red;
 					</b>
 					</div>
 
-					<div class="col-sm-3"><b>Address2:</b></div>
+					<div class="col-sm-3"><b>Address 2:</b></div>
 					<div class="col-sm-3"><b><input type="text" name="address2"></b></div>
 				</div>
 				<br>
