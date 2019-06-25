@@ -1,197 +1,170 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Contact Information</title>
-	  <meta charset="utf-8">
+<title>Contact Information</title>
+<meta charset="utf-8">
 <style >
-		  .required {
-  color: red;
+.required {
+color: red;
 }
 </style>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 </head>
 <body>
 	<form method= "post"action="">
 		{% csrf_token %}
-	<div class="container" style="border:1px solid black;">
-		
-		<div style="font-size: 20px; background-color: blue; color: white">
-			Web
-		</div><br>
-
-		<div class="row">
-		  <div class="col-sm-3" ><b>Email:</b></div>
-		   <div class="col-sm-3"><b><input type="text" name="email"></b></div>
-		  <div class="col-sm-3"><b>Blog/Homepage:</b></div>
-		  <div class="col-sm-3"><b> <input type="text" name="bloghomepage"></b></div>
-		</div>
-		<br>
-	</div>
-
-	<div class="container" style="border:1px solid black; border-top: hidden;">
-		<div style="font-size: 20px; background-color: blue; color: white ">
-			Phone
-		</div><br>
-
-		<div class="row">
-		  <div class="col-sm-3" ><b>Office:</b></div> 
-		  <div class="col-sm-3" ><b><input type="text" name="office"></b></div>
-
-		  <div class="col-sm-3"><b>Office Extension:</b></div>
-		  <div class="col-sm-3"><b><input type="text" name="officeextention"></b></div>
-		</div><br>
-		<div class="row">
-		  <div class="col-sm-3" ><b>Mobile:</b></div>
-		   <div class="col-sm-3" ><b><input type="text" name="mobile"> </b>  	
-		   																		{% if messages %}
-  																				<ul class="messages">
-    																			{% for message in messages %}
-     																			 <li class="{{ message.tags }}">{{ message }}</li>
-   																				{% endfor %}
-  																				</ul>
-																				{% endif %}
-</div>
-		  <div class="col-sm-3"><b>Home:</b></div>
-		  <div class="col-sm-3"><b><input type="text" name="home">
-								</b>{% if messages %}
-														<ul class="messages">
-													{% for message in messages %}
-														 <li class="{{ message.tags }}">{{ message }}</li>
-														{% endfor %}
-														</ul>
-													{% endif %}
-		
-		</div><br>
-		<br>
-		</div>
-	</div>
-
-	<div class="container" style="border:1px solid black; border-top: hidden;">
-		<div style="font-size: 20px; background-color: blue; color: white">
-			Address
-		</div><br>
-
-		<div class="row">
-		  <div class="col-sm-3" ><b>Address 1:</b></div>
-		  <div class="col-sm-3" ><b><input type="text" name="address1">
-								</b>
-			</div>
-
-		  <div class="col-sm-3"><b>Address2:</b></div>
-		   <div class="col-sm-3"><b><input type="text" name="address2"></b></div>
-		</div><br>
-
-		<div class="row">
-		  <div class="col-sm-3" ><b>City:</b></div>
-		  <div class="col-sm-3" ><b><input type="text" name="city">
-								 </b>
-			</div>
-		  <div class="col-sm-3"><b>Postcode:</b></div> 	
-		  <div class="col-sm-3"><b>	<input type="text" name="postcode">
-								</b>{% if messages %}
-														<ul class="messages">
-													{% for message in messages %}
-														 <li class="{{ message.tags }}">{{ message }}</li>
-														{% endfor %}
-														</ul>
-													{% endif %}
-			</div>
-		</div><br>
-
-		<div class="row">
-		  <div class="col-sm-3" ><b>State:</b></div>
-		  <div class="col-sm-3" ><b>
-		  									<input type="text" name="state">
-		   </b></div>
-		  <div class="col-sm-3"><b>Country <span class="required">*</span>:</b></div>
-		  <div class="col-sm-3"><b>
-		  										<select name="countrydd">
-												  <option value="India">India</option>
-												  <option value="countryasyouwant">As you want</option>
-												  <option value="countryasyouwant">As you want</option>
-												  <option value="countryasyouwant">As you want</option>
-												</select>
-								</b>
-		  </div>
-		</div>
-		<br>
-	</div>
-			<div class="container" style="border:1px solid black; border-top: hidden;">
-		<div style="font-size: 20px; background-color: blue; color: white">
-			In Case of Emergency
-		</div><br>
-		<div class="row">
-		  <div class="col-sm-3" ><b>First Name:</b></div>
-		  <div class="col-sm-3"><b>
-		  										<input type="text" name="firstname">
-		   </b></div>
-		  <div class="col-sm-3" ><b>Last Name:</b></div>
-		  <div class="col-sm-3"><b>
-		  								<input type="text" name="lastname">
-		   </b></div>
-		  
-		</div>
-		<br>
+		<div class="container" style="border:1px solid black;">
+			<div style="font-size: 20px; background-color: blue; color: white">Web</div><br>
 				<div class="row">
-		  <div class="col-sm-3" ><b>Middle Name:</b></div>
-		  <div class="col-sm-3"><b>
-		  										<input type="text" name="middlename">
-		   </b></div>
-		  <div class="col-sm-3" ></div>
-		  <div class="col-sm-3"></div>
-		  
+					<div class="col-sm-3" ><b>Email:</b></div>
+					<div class="col-sm-3"><b><input type="text" name="email"></b></div>
+					<div class="col-sm-3"><b>Blog/Homepage:</b></div>
+					<div class="col-sm-3"><b> <input type="text" name="bloghomepage"></b></div>
+				</div>
+				<br>
 		</div>
-		<br>
-				<div class="row">
-		  <div class="col-sm-3" ><b>Relationship:</b></div>
-		  <div class="col-sm-3"><b>
-		  										<input type="text" name="relationship">
-		   </b></div>
-		  <div class="col-sm-3" ><b>Mobile Phone:</b></div>
-		  <div class="col-sm-3"><b>
-		  								<input type="text" name="mobilephone">
-		   </b>{% if messages %}
-														<ul class="messages">
-													{% for message in messages %}
-														 <li class="{{ message.tags }}">{{ message }}</li>
-														{% endfor %}
-														</ul>
-													{% endif %}</div>
-		  
-		</div>
-		<br>
-				<div class="row">
-		  <div class="col-sm-3" ><b>House Phone:</b></div>
-		  <div class="col-sm-3"><b>
-		  										<input type="text" name="housephone">
-		   </b>{% if messages %}
-														<ul class="messages">
-													{% for message in messages %}
-														 <li class="{{ message.tags }}">{{ message }}</li>
-														{% endfor %}
-														</ul>
-													{% endif %}</div>
-		  <div class="col-sm-3" ><b>Office Phone:</b></div>
-		  <div class="col-sm-3"><b>
-		  								<input type="text" name="officephone">
-		   </b>{% if messages %}
-														<ul class="messages">
-													{% for message in messages %}
-														 <li class="{{ message.tags }}">{{ message }}</li>
-														{% endfor %}
-														</ul>
-													{% endif %}</div>
-		  
-		</div>
-		<br>
-		<input type="submit" value="Next">
-	</div>
 
+		<div class="container" style="border:1px solid black; border-top: hidden;">
+			<div style="font-size: 20px; background-color: blue; color: white ">Phone</div><br>
+				<div class="row">
+					<div class="col-sm-3" ><b>Office:</b></div> 
+					<div class="col-sm-3" ><b><input type="text" name="office"></b></div>
+					<div class="col-sm-3"><b>Office Extension:</b></div>
+					<div class="col-sm-3"><b><input type="text" name="officeextention"></b></div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-3" ><b>Mobile:</b></div>
+					<div class="col-sm-3" ><b><input type="text" name="mobile"> </b>  	
+					{% if messages %}
+					<ul class="messages">
+					{% for message in messages %}
+					<li class="{{ message.tags }}">{{ message }}</li>
+					{% endfor %}
+					</ul>
+					{% endif %}
+					</div>
+					<div class="col-sm-3"><b>Home:</b></div>
+					<div class="col-sm-3"><b><input type="text" name="home">
+					</b>{% if messages %}
+						<ul class="messages">
+						{% for message in messages %}
+						<li class="{{ message.tags }}">{{ message }}</li>
+						{% endfor %}
+						</ul>
+						{% endif %}
+					</div><br>
+				</div>
+		</div>
+
+		<div class="container" style="border:1px solid black; border-top: hidden;">
+			<div style="font-size: 20px; background-color: blue; color: white">Address</div><br>
+				<div class="row">
+					<div class="col-sm-3" ><b>Address 1:</b></div>
+					<div class="col-sm-3" ><b><input type="text" name="address1">
+					</b>
+					</div>
+
+					<div class="col-sm-3"><b>Address2:</b></div>
+					<div class="col-sm-3"><b><input type="text" name="address2"></b></div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-3" ><b>City:</b></div>
+					<div class="col-sm-3" ><b><input type="text" name="city"></b></div>
+					<div class="col-sm-3"><b>Postcode:</b></div> 	
+					<div class="col-sm-3"><b>	<input type="text" name="postcode"></b>
+					{% if messages %}
+					<ul class="messages">
+					{% for message in messages %}
+					<li class="{{ message.tags }}">{{ message }}</li>
+					{% endfor %}
+					</ul>
+					{% endif %}
+					</div>
+				</div><br>
+				<div class="row">
+					<div class="col-sm-3" ><b>State:</b></div>
+					<div class="col-sm-3" ><b>
+					<input type="text" name="state">
+					</b></div>
+					<div class="col-sm-3"><b>Country <span class="required">*</span>:</b></div>
+					<div class="col-sm-3"><b>
+					<select name="countrydd">
+					<option value="India">India</option>
+					<option value="countryasyouwant">As you want</option>
+					<option value="countryasyouwant">As you want</option>
+					<option value="countryasyouwant">As you want</option>
+					</select>
+					</b>
+					</div>
+				</div>
+				<br>
+		</div>
+		<div class="container" style="border:1px solid black; border-top: hidden;">
+			<div style="font-size: 20px; background-color: blue; color: white">In Case of Emergency</div><br>
+				<div class="row">
+					<div class="col-sm-3" ><b>First Name:</b></div>
+					<div class="col-sm-3"><b><input type="text" name="firstname"></b></div>
+					<div class="col-sm-3" ><b>Last Name:</b></div>
+					<div class="col-sm-3"><b><input type="text" name="lastname"></b></div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-3" ><b>Middle Name:</b></div>
+					<div class="col-sm-3"><b>
+					<input type="text" name="middlename">
+					</b></div>
+					<div class="col-sm-3" ></div>
+					<div class="col-sm-3"></div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-3" ><b>Relationship:</b></div>
+					<div class="col-sm-3"><b>
+					<input type="text" name="relationship">
+					</b></div>
+					<div class="col-sm-3" ><b>Mobile Phone:</b></div>
+					<div class="col-sm-3"><b>
+					<input type="text" name="mobilephone">
+					</b>{% if messages %}
+					<ul class="messages">
+					{% for message in messages %}
+					<li class="{{ message.tags }}">{{ message }}</li>
+					{% endfor %}
+					</ul>
+					{% endif %}</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-3" ><b>House Phone:</b></div>
+					<div class="col-sm-3"><b>
+					<input type="text" name="housephone">
+					</b>{% if messages %}
+					<ul class="messages">
+					{% for message in messages %}
+					<li class="{{ message.tags }}">{{ message }}</li>
+					{% endfor %}
+					</ul>
+					{% endif %}</div>
+					<div class="col-sm-3" ><b>Office Phone:</b></div>
+					<div class="col-sm-3"><b>
+					<input type="text" name="officephone">
+					</b>{% if messages %}
+					<ul class="messages">
+					{% for message in messages %}
+					<li class="{{ message.tags }}">{{ message }}</li>
+					{% endfor %}
+					</ul>
+					{% endif %}</div>
+				</div>
+				<br>
+					<input type="submit" value="Next">
+		</div>
 	</form>
-
 </body>
 </html>
