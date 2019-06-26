@@ -12,10 +12,35 @@ color: red;
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-</head>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+
+<script>
+
+$(document).ready(function() {
+
+  $('form[id="contactform"]').validate({
+    rules: {
+      countrydd: 'required',
+  },
+    // messages: {
+    //   datejoin: 'This field is required',
+    //   positiondd: 'This field is required',
+    //   jobstatuseffectivedate: 'Enter a valid email',
+    //   employmentstatuseffectivedate: 'Enter a valid email' 
+    // },
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+
+});
+
+</script>
 </head>
 <body>
-	<form method= "post"action="">
+	<form method= "post"id="contactform">
 		{% csrf_token %}
 		  <ul class="nav nav-tabs">
     <li><a href="#">Personal</a></li>
@@ -49,24 +74,11 @@ color: red;
 				<br>
 				<div class="row">
 					<div class="col-sm-3" ><b>Mobile:</b></div>
-					<div class="col-sm-3" ><b><input type="text" name="mobile"> </b>  	
-					{% if messages %}
-					<ul class="messages">
-					{% for message in messages %}
-					<li class="{{ message.tags }}">{{ message }}</li>
-					{% endfor %}
-					</ul>
-					{% endif %}
+					<div class="col-sm-3" ><b><input type="text" name="mobile" id="mobile"> </b>  	
 					</div>
 					<div class="col-sm-3"><b>Home:</b></div>
 					<div class="col-sm-3"><b><input type="text" name="home">
-					</b>{% if messages %}
-						<ul class="messages">
-						{% for message in messages %}
-						<li class="{{ message.tags }}">{{ message }}</li>
-						{% endfor %}
-						</ul>
-						{% endif %}
+					</b>
 					</div><br>
 				</div>
 		</div>
@@ -88,13 +100,6 @@ color: red;
 					<div class="col-sm-3" ><b><input type="text" name="city"></b></div>
 					<div class="col-sm-3"><b>Postcode:</b></div> 	
 					<div class="col-sm-3"><b>	<input type="text" name="postcode"></b>
-					{% if messages %}
-					<ul class="messages">
-					{% for message in messages %}
-					<li class="{{ message.tags }}">{{ message }}</li>
-					{% endfor %}
-					</ul>
-					{% endif %}
 					</div>
 				</div><br>
 				<div class="row">
@@ -104,7 +109,8 @@ color: red;
 					</b></div>
 					<div class="col-sm-3"><b>Country <span class="required">*</span>:</b></div>
 					<div class="col-sm-3"><b>
-					<select name="countrydd">
+					<select name="countrydd"  id="countrydd">
+					<option value="">Select</option>
 					<option value="India">India</option>
 					<option value="countryasyouwant">As you want</option>
 					<option value="countryasyouwant">As you want</option>
@@ -140,37 +146,19 @@ color: red;
 					</b></div>
 					<div class="col-sm-3" ><b>Mobile Phone:</b></div>
 					<div class="col-sm-3"><b>
-					<input type="text" name="mobilephone">
-					</b>{% if messages %}
-					<ul class="messages">
-					{% for message in messages %}
-					<li class="{{ message.tags }}">{{ message }}</li>
-					{% endfor %}
-					</ul>
-					{% endif %}</div>
+					<input type="text" name="mobilephone" id="mobilephone">
+					</b></div>
 				</div>
 				<br>
 				<div class="row">
 					<div class="col-sm-3" ><b>House Phone:</b></div>
 					<div class="col-sm-3"><b>
-					<input type="text" name="housephone">
-					</b>{% if messages %}
-					<ul class="messages">
-					{% for message in messages %}
-					<li class="{{ message.tags }}">{{ message }}</li>
-					{% endfor %}
-					</ul>
-					{% endif %}</div>
+					<input type="text" name="housephone" id="housephone">
+					</b></div>
 					<div class="col-sm-3" ><b>Office Phone:</b></div>
 					<div class="col-sm-3"><b>
-					<input type="text" name="officephone">
-					</b>{% if messages %}
-					<ul class="messages">
-					{% for message in messages %}
-					<li class="{{ message.tags }}">{{ message }}</li>
-					{% endfor %}
-					</ul>
-					{% endif %}</div>
+					<input type="text" name="officephone"  id="officephone">
+					</b></div>
 				</div>
 				<br>
 					<input type="submit" value="Next">

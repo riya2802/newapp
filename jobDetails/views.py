@@ -65,9 +65,6 @@ def job(request):
 		return render(request,'JOB.html')
 	except Exception as e:
 		print(e,"error")
-		messages.error(request, 'Fill the date')
-		storage = messages.get_messages(request)
-		storage.used = True
 		# msg="fill"
 		return render(request,'JOB.html')
 
