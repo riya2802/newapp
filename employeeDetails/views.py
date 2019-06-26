@@ -2,8 +2,21 @@ from django.shortcuts import render
 from .models import employee,employeeFamily,employeeChildren,employeeHealth
 from . import personaldetails
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from . import validation_function
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
+@csrf_exempt
+def isuserIdcorrect(request):
+	strdata= request.POST.get('request_data')
+	print('strdata',strdata)
+	user_obj = employee.objects.filter(employeementId = strdata).first()
+	if user_obj:
+		return JsonResponse({'data':True})
+	else:
+		return JsonResponse({'data':False})
+
 
 def personalDetails(request):
 	if request.method=="POST":
@@ -72,32 +85,21 @@ def FamilyDetails(request,employeeid):
 		spousenationalId= request.POST.get('spousenationalid',None)
 		spouseethnicity= request.POST.get('spouseethnicity',None)
 		spousereligion= request.POST.get('spousereligion',None)
-		if spousebirthDate is not None and spousebirthDate !="" and spousenationalId is not None and spousenationalId !="" and spousepassport is not None and spousepassport !="":
-			print("in ")
-			spousedob = spousebirthDate
-			newspousepassport = spousepassport
-			newspousenationalId	=spousenationalId
-		else:
-			spousedob = None
-			newspousepassport= None
-			newspousenationalId=None
+		query_dict_childfirstname=request.POST.getlist('childfirstname')
+		query_dict_childmiddlename=request.POST.getlist('childmiddlename')
+		query_dict_childlastname=request.POST.getlist('childlastname')
+		query_dict_childbirthdate=request.POST.getlist('childbirthdate')
+		query_dict_childgender=request.POST.getlist('childgender')
+		query_dict_childmaritalstatus=request.POST.getlist('childmaritalstatus')
+		spousedob = validation_function.checkForNone(spousebirthDate)
+		newspousepassport = validation_function.checkForNone(spousepassport)
+		newspousenationalId	=validation_function.checkForNone(spousenationalId)
 		employeeFamily.objects.create(employeeForeignId=employee_obj,employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousedob,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=newspousenationalId,employeeFamilySpousePassport=newspousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
-		childFirstName= request.POST.get('childfirstname',None)
-		print('childFirstName',childFirstName)
-		childMiddelName= request.POST.get('childmiddlename',None)
-		print('childMiddelName',childMiddelName)
-		childLastName= request.POST.get('childlastname',None)
-		print('childLastName',childLastName)
-		childBirthDate= request.POST.get('childbirthdate',None)
-		print('childBirthDate',childBirthDate)
-		childGender= request.POST.get('childgender',None)
-		print('childGender',childGender)
-		childMaritalStatus=request.POST.get('childmaritalstatus',None)
-		print('childMaritalStatus',childMaritalStatus)
-		query_dict=request.POST.getlist('childfirstname[]')
-		print('dic',len(query_dict),query_dict)
+		for i in range(len(query_dict_childfirstname)):
+			newchildbirthdate = validation_function.checkForNone(query_dict_childbirthdate[i])
+			employeeChildren.objects.bulk_create([employeeChildren(employeeForeignId=employee_obj,employeeChildrenFirstName=query_dict_childfirstname[i],employeeChildrenMiddelName=query_dict_childmiddlename[i],employeeChildrenLastName=query_dict_childlastname[i],employeeChildrenBirthDate=newchildbirthdate,employeeChildrenGender=query_dict_childgender[i],employeeChildrenMaritalStatus=query_dict_childmaritalstatus[i]),])
 		healthform= personaldetails.healthDetails()
-		return render('request','health.html',{'healthform',healthform} )
+		return render(request,"health.html",{'healthform':healthform})
 	else:
 		familyform = personaldetails.familyDetails()
 		childform = personaldetails.childrenDetails()

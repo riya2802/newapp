@@ -28,7 +28,7 @@ MaritalStaus=[
 BloodGroup=[
 		('AN','AN'), 
 		('AP','AP'),
-		('B' ,'B'),
+		('B' ,'B'),		
 		('BP','BP'),
 		('ABN','ABN'),
 		('ABP','ABP'),

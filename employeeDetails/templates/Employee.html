@@ -1,12 +1,19 @@
+{% load staticfiles %}
 {% load static %} 
 <html>
 <head>
     <link rel = "stylesheet" href="index.css">
  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+
+
     <style>
 
        .custom-control-input{
@@ -15,115 +22,158 @@
                   .required {
   color: red;
 }
-    </style>
+</style>
+<script>
+      function checkId(str){
+          if (str){
+            $.ajax({
+              url: "/newapp/isuseridcorrect",
+              type:"POST",
+              data : { request_data:$('#employeeid').val()},
+              success: function(response_data) { 
+                console.log(response_data);
+
+                if (response_data['data']){
+                    document.getElementById("txtHint").innerHTML =" Already Exist ";
+                }
+                else{
+                    document.getElementById("txtHint").innerHTML ="Available";
+                }
+            },
+            });
+          }
+      }
+      
+</script>
+<script >
+  $(document).ready(function() {
+
+  $('form[id="jobform"]').validate({
+    rules: {
+      employeeid: 'required',
+      firstname: 'required',
+      lastname: 'required',
+      gender: 'required',
+      birthdate:'required',
+      nationality:'required',
+      nationalid:'required',
+  },
+    // messages: {
+    //   datejoin: 'This field is required',
+    //   positiondd: 'This field is required',
+    //   jobstatuseffectivedate: 'Enter a valid email',
+    //   employmentstatuseffectivedate: 'Enter a valid email' 
+    // },
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+
+});
+
+</script>
+   
 </head>
     <body>
         <form method= "post"action="" enctype="multipart/form-data">
           {% csrf_token %}
-                <div class="container" style="border:1px solid black; border-top: hidden;">
-                        <div style="font-size: 20px; background-color: blue; color: white ">
-                            Personal Details
-                        </div><br>
+          <div class="container" style="border:1px solid black; border-top: hidden;">
+            <div style="font-size: 20px; background-color: blue; color: white ">Personal Details
+              </div><br>
 
-        <div class="row">
-          <div class="col-sm-3" ><b>ID<span class="required">*</span>:</b></div> 
-          <div class="col-sm-6" ><b><input type="text" name="employeeid">  <span style="color: red;" class="error">{{ error}}{{ msg }}</span></b></div>
-
-          <div class="col-sm-3">
-                                 <img src ="New Picture.bmp" id="filetoupload" height="200" width="200" >
-          <input type="file"  class="form-control" name="photo" >
-          
-        </div>
-    </div><br>
-                    <div class="row">
-                      <div class="col-sm-3" ><b>First Name <span class="required">*</span>:</b></div>
-                       <div class="col-sm-3" ><b><input type="text" name="firstname" ><span style="color:red;">{{ error}}</span> </b></div>
+            <div class="row">
+              <div class="col-sm-2" ><b>ID<span class="required">*</span>:</b></div> 
+              <div class="col-sm-6" ><b><input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span></b></div>
+              <div class="col-sm-3">
+                  <img src ="New Picture.bmp" id="filetoupload" height="200" width="200" >
+                  <input type="file"  class="form-control" name="photo" >
+              </div>
+            </div><br>
+            <div class="row">
+              <div class="col-sm-2" ><b>First Name <span class="required">*</span>:</b></div>
+              <div class="col-sm-2" ><b><input type="text" name="firstname" id ="firstname" ></b></div>
+              <div class= "col-sm-2" ><b><span style="color:red;">{{ error}}</span> </b></div>
                       <!-- <div class="col-sm-6"></div> -->
-                </div><br>
-
-                     <div class="row">
-                      <div class="col-sm-3" ><b>Middle Name:</b></div>
-                       <div class="col-sm-3" ><b><input type="text" name="middlename" > </b></div>
-                      <!-- <div class="col-sm-6"></div> -->
-                </div><br>
-                <div class="row">
-                      <div class="col-sm-3" ><b>Last Name:</b></div>
-                       <div class="col-sm-3" ><b><input type="text" name="lastname" ><span style="color:red;">{{ error}}</span></b></div>
-                      <!-- <div class="col-sm-6"></div> -->
-                </div><br>
-
-                                <div class="row">
-                      <div class="col-sm-3" ><b>Gender:</b></div>
-                        <div class="col-sm-6" class="radio" ><b><label><input type="radio" name="gender" value="female">Female</label>                                         <label><input type="radio" name="gender" value="male">Male</label>
-                                                                <label><input type="radio" name="gender" value="unknown">Unknown</label>
-                                                            </b>
-                        </div>
-                      <!-- <div class="col-sm-3"></div> -->
-                </div><br>
-                    
-                    <div class="row">
-          <div class="col-sm-3" ><b>Birth Date <span class="required">*</span>:</b></div>
-           <div class="col-sm-3"><b><input type="Date" name="birthdate"> <span style="color:red;">{{ error}}</span></b></div>
-          <!-- <div class="col-sm-6"></div> -->
-        </div>
-        <br>
-    </div>
-
+            </div><br>
+            <div class="row">
+              <div class="col-sm-2" ><b>Middle Name:</b></div>
+              <div class="col-sm-2" ><b><input type="text" name="middlename" > </b></div>
+              <div class= "col-sm-2" ></div>
+            </div><br>
+            <div class="row">
+              <div class="col-sm-2" ><b>Last Name:</b></div>
+              <div class="col-sm-2" ><b><input type="text" name="lastname" id="lastname"></b></div>
+              <div class= "col-sm-2" ><b><span style="color:red;">{{ error}}</span> </b></div>
+            </div><br>
+            <div class="row">
+              <div class="col-sm-2" ><b>Gender:</b></div>
+              <div class="col-sm-4" class="radio" id ="gender">
+                <label><input type="radio" name="gender" value="female">Female</label>           
+                <label><input type="radio" name="gender" value="male">Male</label>
+                <label><input type="radio" name="gender" value="unknown">Unknown</label></b>
+                <b><span style="color:red;">{{ error}}</span></b>
+              </div>
+                <div class="col-sm-6"></div>
+            </div><br>
+            <div class="row">
+                <div class="col-sm-2" ><b>Birth Date <span class="required">*</span>:</b></div>
+                <div class="col-sm-2"><b><input type="Date" name="birthdate" id="birthdate"> </div>
+                <div class= "col-sm-2" ><b><span style="color:red;">{{ error}}</span> </b></div>
+            </div><br>
+          </div>
         <div class="container" style="border:1px solid black; border-top: hidden;">
-                        <div style="font-size: 20px; background-color: blue; color: white ">
+          <div style="font-size: 20px; background-color: blue; color: white ">
                             Nationality Details
-                        </div><br>
+          </div><br>
+          <div class="row">
+            <div class="col-sm-2" ><b>Nationality <span class="required">*</span>:</b></div>
+            <div class="col-sm-2" id ="nationality" ><b>
+                  <select name="nationality">
+                  <option value="India">India</option>
+                  <option value="Canada">Canada</option>
+                  <option value="nationalityasyouwant">As you want</option>
+                  <option value="nationalityasyouwant">As you want</option>
+                  </select></b>
+            </div>
+            <div class= "col-sm-2" ><b><span style="color:red;">{{ error}}</span> </b></div>
 
-                <div class="row">
-                      <div class="col-sm-3" ><b>Nationality <span class="required">*</span>:</b></div>
-                       <div class="col-sm-3" ><b>
-                                                <select name="nationality">
-                                                  <option value="India">India</option>
-                                                  <option value="Canada">Canada</option>
-                                                  <option value="nationalityasyouwant">As you want</option>
-                                                  <option value="nationalityasyouwant">As you want</option>
-                                                </select>
-                                            </b>
-                        </div>
-                        <div class="col-sm-6" ><b>National ID <span class="required">*</span>: <input type="text" name="nationalid" > <span class="error"style="color:red;">{{error}}{{ msg }}{{ nationalmsg }}</span></b></div>   
-                </div>
+            <div class="col-sm-2" ><b>National ID <span class="required">*</span></b></div>
+            <div class="col-sm-2"><input type="text" name="nationalid" id ="nationalid"></div>
+            <div class="col-sm-2"><span class="error"style="color:red;">{{error}}{{ msg }}{{ nationalmsg }}</span></div>
+          </div>   
+                
                 <br>
-                <div class="r
-                ow">
-                      <div class="col-sm-3" ><b>Passport:</b></div>
-                       <div class="col-sm-3" ><input type="text" name="passport" ><span style="color:red;">{{ passmsg}}</span>
-                        </div>
-                        <div class="col-sm-6" ></div>   
+          <div class="row">
+            <div class="col-sm-2" ><b>Passport:</b></div>
+            <div class="col-sm-2" ><input type="text" name="passport" ><span style="color:red;">{{ passmsg}}</span></div>
+            <div class= "col-sm-2" ></div>
+            <div class="col-sm-6" ></div>   
                 </div><br>
-</div>
-
+        </div></div>
         <div class="container" style="border:1px solid black; border-top: hidden;">
-                        <div style="font-size: 20px; background-color: blue; color: white ">
-                            Additional Details
-                        </div><br>
-
-                <div class="row">
-                      <div class="col-sm-3" ><b>Ethnicity:</b></div>
-                       <div class="col-sm-3" ><b>
-                                                <select name= "ethnicity">
-                                                  <option value="noethnicity">No Ethnicity</option>
-                                                  <option value="ethnicityasyouwant">As you want</option>
-                                                  <option value="ethnicityasyouwant">As you want</option>
-                                                  <option value="ethnicityasyouwant">As you want</option>
-                                                </select>
-                                            </b>
-                        </div>
-                        <div class="col-sm-3" ><b>Religion:</b></div>
-                         <div class="col-sm-3" ><b>
-                                                <select name = "religion">
-                                                  <option value="noreligion">No Religion</option>
-                                                  <option value="religionasyouwant">As you want</option>
-                                                  <option value="religionasyouwant">As you want</option>
-                                                  <option value="religionasyouwant">As you want</option>
-                                                </select></b></div>   
-                </div>
-
-                <br>
+            <div style="font-size: 20px; background-color: blue; color: white ">Additional Details
+            </div><br>
+        <div class="row">
+          <div class="col-sm-2" ><b>Ethnicity:</b></div>
+          <div class="col-sm-2" ><b>
+              <select name= "ethnicity">
+                <option value="noethnicity">No Ethnicity</option>
+                <option value="ethnicityasyouwant">As you want</option>
+                <option value="ethnicityasyouwant">As you want</option>
+                <option value="ethnicityasyouwant">As you want</option>
+              </select></b>
+          </div>
+          <div class= "col-sm-2" ></div>
+          <div class="col-sm-2" ><b>Religion:</b></div>
+          <div class="col-sm-2" ><b>
+              <select name = "religion">
+                <option value="noreligion">No Religion</option>
+                <option value="religionasyouwant">As you want</option>
+                <option value="religionasyouwant">As you want</option>
+                <option value="religionasyouwant">As you want</option>
+              </select></b></div>   
+          <div class= "col-sm-2" ></div>
+          </div><br>
 <input type="submit" value="next"><br><br>
 </div>
 

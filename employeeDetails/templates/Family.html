@@ -13,10 +13,34 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<script type="text/javascript">
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+<script >
+  $(document).ready(function() {
+
+  $('form[id="jobform"]').validate({
+    rules: {
+    	spousenationality: 'required',
+  },
+    // messages: {
+    //   datejoin: 'This field is required',
+    //   positiondd: 'This field is required',
+    //   jobstatuseffectivedate: 'Enter a valid email',
+    //   employmentstatuseffectivedate: 'Enter a valid email' 
+    // },
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+
+});
+
+</script>
+
+<script >
         function displayResult()
         {
-            document.getElementById("myTable").insertRow(-1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname"></td> <td><input type = "text" name="childmiddlename"></td> <td><input type = "text" name="childlastname"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><input type = "checkbox" value="Yes" name="childmaritalstatus"></td></tr></tbody>' ;
+            document.getElementById("myTable").insertRow(-1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname"></td> <td><input type = "text" name="childmiddlename"></td> <td><input type = "text" name="childlastname"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
         }
 
  </script>
@@ -73,7 +97,7 @@
 			<div class="row">
 		 		<div class="col-sm-3" ><b>Nationality <span class="required">*</span>:</b></div>
 				<div class="col-sm-3" ><b>
-                    <select name="spousenationality" required>
+                    <select name="spousenationality" id ="spousenationality">
                     <option value="India">India</option>
                     <option value="Canada">Canada</option>
                     <option value="nationalityasyouwant">As you want</option>
@@ -111,7 +135,7 @@
 					</select></b>
 				</div>   
             </div><br>
-            <input type="submit" value="next"><br><br>
+            
         </div>
 		<div class="container" style="border:1px solid black; border-top: hidden;">
         	<div style="font-size: 20px; background-color: blue; color: white ">Children Details</div><br>
