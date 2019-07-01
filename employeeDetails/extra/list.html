@@ -1,0 +1,25 @@
+{% load staticfiles %}
+{% load static %} 
+<html>
+<head>
+	</head>
+<body>
+	<h2 align="center" class="title">All Employee </h2>
+
+                    {% for i in employeeObj %}
+
+
+                    <p>{{ i.employeementId }} 
+                   
+                    <!-- <img src ="media/{{i.}}" alt="" height=" 70" width="70"/> -->
+                     <div class="p-t-20">
+                            <a class="btn btn--radius btn--green" href="editemployee/{{ i.employeementId}}">Edit</a> <br><br>
+                            <a class="btn btn--radius btn--green" href="emplyeeDelete/{{ i.employeementId }}">Delete</a> <br><br>
+
+                     </div>
+                     <br><br>
+                    <hr>
+                    <br>
+                    {% endfor %}
+</body>
+</html>

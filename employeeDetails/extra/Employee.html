@@ -5,7 +5,8 @@
     <link rel = "stylesheet" href="index.css">
  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> 
+  <!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
@@ -15,7 +16,12 @@
 
 
     <style>
-
+        .photo-background{
+          height:100px;
+          width:100px;
+          /*background-img:url('/media/New Picture.bmp');*/
+          background-color: pink;
+    }
        .custom-control-input{
             padding-left:15px;
         }
@@ -84,10 +90,17 @@
             <div class="row">
               <div class="col-sm-2" ><b>ID<span class="required">*</span>:</b></div> 
               <div class="col-sm-6" ><b><input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span></b></div>
-              <div class="col-sm-3">
-                  <img src ="New Picture.bmp" id="filetoupload" height="200" width="200" >
-                  <input type="file"  class="form-control" name="photo" >
-              </div>
+              <div class="col-sm-3 photo-background">
+                  <!-- <img src ="New Picture.bmp" id="filetoupload" height="200" width="200" >
+                  <input type="file"  class="form-control" name="photo" > -->
+                    
+                  
+                  <!--<input type="file"  class="form-control" name="photo" > -->
+                 
+              </div><img src="" id='imgshow'>
+              <input id="fileInput" type="file" style="display:none;" />
+                  <a class="btn" value="Choose Files!" onclick="document.getElementById('fileInput').click();"> Change Photo</a>
+                
             </div><br>
             <div class="row">
               <div class="col-sm-2" ><b>First Name <span class="required">*</span>:</b></div>
