@@ -163,6 +163,75 @@ BloodGroup=[
 		('ON',"ON"),
 		("Don/'t know","Don/'t know")
 ]
+Status = [
+	('isactive','isactive'),
+	('notactive','notactive')
+]
+
+Jobtype=[
+	('permanent','permanent'),
+	('temporary','temporary')
+
+]
+
+Position=[
+	('position1','position1'),
+	('position2','position2'),
+	('poition3','position3'),
+]
+
+jobStatusList=[
+	('intern','intern'),
+	('permanent','permanent')
+]
+class nationality(models.Model):
+	nationalityName = models.CharField(max_length=30)
+	status=models.CharField(max_length=30, choices=Status, default="notactive" )
+
+class country(models.Model):
+	countryName = models.CharField(max_length=30)
+	countryCode= models.CharField(max_length = 30)
+	status =models.CharField(max_length = 30,choices=Status,default= "notactive")
+ 
+class ethnicity(models.Model):
+	ethnicityName = models.CharField(max_length = 30)
+	status = models.CharField(choices= Status, max_length=30, null = True, blank = True)
+
+class religion(models.Model):
+	religionName = models.CharField(max_length = 30)
+	status = models.CharField(choices= Status, max_length=30, default="notactive" )
+
+class jobType(models.Model):
+	jobType=models.CharField(max_length=30,choices=Jobtype,default='temporary')
+	
+class jobStatus(models.Model):
+	jobStatus=models.CharField(max_length=30,choices=jobStatusList,default='intern')
+
+class workDays(models.Model):
+	workdays= models.CharField(max_length=20)
+
+class leaveWorkFlow(models.Model):
+	leaveworkflow= models.CharField(max_length=20)
+
+class holiDays (models.Model):
+	holidays= models.CharField(max_length=20)
+
+class lineManager(models.Model):
+	lineManagerList= models.CharField(max_length=20)
+
+class level (models.Model):
+	joblevel= models.CharField(max_length=20)
+
+class position(models.Model):
+	position= models.CharField(max_length=20)
+
+class branch(models.Model):
+	branchName = models.CharField(max_length=20)
+
+class department(models.Model):
+	branchObj = models.ForeignKey(branch,models.CASCADE)
+	department =  models.CharField(max_length=20)	
+
 class employee(models.Model):
 	employeeId= models.AutoField(primary_key=True)
 	employeementId =models.CharField(max_length=255,null=False,blank=False,unique=True)
@@ -171,7 +240,11 @@ class employee(models.Model):
 	employeeLastName=models.CharField( max_length=255,blank=False,null=False)
 	employeeGender= models.CharField(max_length=15, choices=gender, default='U',blank=False,null=False)
 	employeeBirthDate=models.DateField(blank=False,null=False)
+
+	employeeNationality=models.CharField(max_length=15)
+
 	employeeNationality=models.CharField(max_length=15, choices=Nationality, default='India',blank=False,null=False)
+
 	employeeNationalId=models.IntegerField(null=False,blank=False)
 	employeePassport=models.IntegerField(null=True,blank=True)
 	employeeEthnicity=models.CharField(max_length=15,choices=Ethnicity, default='NA',null=True,blank=True)

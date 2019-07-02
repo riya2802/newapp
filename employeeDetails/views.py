@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import employee,employeeFamily,employeeChildren,employeeHealth,Contact,Job
+from .models import country, employee,employeeFamily,employeeChildren,employeeHealth,Contact,Job,nationality
 from . import personaldetails
 from django.shortcuts import render, redirect
 from . import validation_function
@@ -230,6 +230,8 @@ def editHtmlForm(request,employeementId):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
 	objEmployeePersonal=employee.objects.filter(employeementId = employeementId).first()
+	nationalityList = nationality.objects.filter(status="isactive")
+	countryList = country.objects.filter(status="isactive")
 	print('nationality ',objEmployeePersonal.employeeNationality)
 	if objEmployeePersonal:
 		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal)
@@ -241,7 +243,7 @@ def editHtmlForm(request,employeementId):
 		print("objEmployeeJob",objEmployeeJob)
 		
 		# print("objEmployeeJob",dateJoined)
-		return render(request,'form1edit.html',{'action':"/newapp/editFun",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
+		return render(request,'form1edit.html',{'nationalityList':nationalityList,'action':"/newapp/editFun",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
 		# return render(request,'editform.html',{'obj':objList})
 	else:
 		return render(request,'error.html',{'error':'User not exist'})
@@ -557,7 +559,7 @@ def addEmployee(request):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
 	action = "addFun"
-	return render(request,'form.html' , {'action':action})
+	return render(request,'form1edit.html' , {'action':action})
 
 # @csrf_exempt
 # def forgotPassword(request):
