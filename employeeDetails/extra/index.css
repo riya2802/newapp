@@ -1,0 +1,147 @@
+*{
+    margin:0%;
+    padding:0%;
+}
+.main{
+    background-color:white;
+    margin-top:20px;
+    margin-right: 34px;
+    margin-left: 34px;
+    margin-bottom:38px;
+    height: 87%;
+}
+
+.tab{
+    margin: 0px;
+    height:28px;
+    background-color: aliceblue;
+}
+.line{
+    height:4px;
+    background-color: aqua;
+    margin-top: 0px;
+    
+}
+.container{
+    margin: 0px;
+    height:100%;
+    background-color: white;
+/*    border: 1px solid blue;*/
+}
+.inner-container{
+    margin-left: 14px;
+    margin-right: 14px;
+    margin-top: 14px;
+    margin-bottom: 40px;
+    height:93%;
+/*    border: 5px solid blue;*/
+    background-color: pink;
+    
+}
+.inner-1{
+    margin: 0px;
+    height:55%;
+    background-color: wheat;
+    width:auto;
+    
+}
+.inner-2{
+    margin: 0px;
+    height:25%;
+    background-color: white;
+    width:auto;
+    
+}
+
+.inner-3{
+    margin: 0px;
+    height:20%;
+    background-color: white;
+    width:auto;
+    
+}
+.heading{
+    height:34px;
+    margin:0px;
+    background-color: skyblue;
+    width:auto;
+    
+}
+.heading > h4{
+    padding: 7px;
+    color: white;
+    font-size: 18px;
+}
+.body-1{
+    margin:0px;
+    height:86%;
+    background-color: white;
+}
+.body-1 > .left{
+    display:inline-block;
+    margin-top: 5px;
+    height: 100%;
+    width:60%;
+    background-color: white;
+    float: left;
+}
+.body-1 > .right{
+    display:inline-block;
+    float:right;
+    margin-top: 5px;
+    height:100%;
+    background-color:white;
+    width:40%;
+    
+}
+.required{
+    color:red;
+}
+.textbox{
+    display:inline-block;
+/*    float:right;*/
+    margin-left:12%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width:55%;
+    height:30px;
+    
+}
+.error{
+    color: blue;
+}
+.imgblock{
+    display: block;
+    margin-top: 15px;
+    margin-left: 110px;
+    margin-right:20px;
+    margin-bottom: 30px;
+    height:140px;
+    width:140px;
+    background-color: dimgrey;
+}
+.body-2{
+    margin:0px;
+    height:86%;
+    background-color: white;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,164 @@
+{% load static %} 
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Family Information</title>
+	  <meta charset="utf-8">
+<style >
+		  .required {
+  color: red;
+}
+</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+<script >
+  $(document).ready(function() {
+
+  $('form[id="jobform"]').validate({
+    rules: {
+    	spousenationality: 'required',
+  },
+    // messages: {
+    //   datejoin: 'This field is required',
+    //   positiondd: 'This field is required',
+    //   jobstatuseffectivedate: 'Enter a valid email',
+    //   employmentstatuseffectivedate: 'Enter a valid email' 
+    // },
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+
+});
+
+</script>
+
+<script >
+        function displayResult()
+        {
+            document.getElementById("myTable").insertRow(-1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname"></td> <td><input type = "text" name="childmiddlename"></td> <td><input type = "text" name="childlastname"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
+        }
+
+ </script>
+</head>
+</head>
+<body>
+	<form method= "post"action="">
+	{% csrf_token %}
+	<div class="container" style="border:1px solid black;">
+		<div style="font-size: 20px; background-color: blue; color: white">Family Details</div><br>
+			<div class="row">
+		  		<div class="col-sm-3" ><b>Maritial Status:</b></div>
+		   		<div class="col-sm-3"><b>
+					<select name="maritalstatus">
+				  	<option value="Married">Married</option>
+				  	<option value="Single">Single</option>
+					</select></b>
+				</div>
+		  		<div class="col-sm-6"><b>Spouse:<input type="checkbox" name = "spouseworking" value="yes"></b></div>
+			</div><br>
+			<div class="row">
+		  		<div class="col-sm-3" ><b>Number of Children:</b></div>
+		   		<div class="col-sm-3"><b>
+					<select name="numbeofchild">
+				  	<option value="0">0</option>
+				  	<option value="1">1</option>
+				  	<option value="2">2</option>
+				  	<option value="3">3</option>
+				  	<option value="4">4</option>
+				  	<option value="more">more</option>
+					</select></b>
+				</div>
+		  		<div class="col-sm-3"><b></b></div>
+		  		<div class="col-sm-3"><b></b></div>
+			</div>
+		<br>
+	</div>
+
+	<div class="container" style="border:1px solid black; border-top: hidden;">
+		<div style="font-size: 20px; background-color: blue; color: white ">Spouse Details</div><br>
+			<div class="row">
+		  		<div class="col-sm-3" ><b>First Name:</b></div> 
+		  		<div class="col-sm-3" ><b><input type="text" name="spousefirstname"></b></div>
+		  		<div class="col-sm-3"><b>Last Name:</b></div>
+		  		<div class="col-sm-3"><b><input type="text" name="spouselastname"></b></div>
+		  	</div>
+		  	<br>
+			<div class="row">
+		  		<div class="col-sm-3" ><b>Middle Name:</b></div>
+		   		<div class="col-sm-3" ><b><input type="text" name="spousemiddlename"></b></div>
+		  		<div class="col-sm-3"></div>
+		  		<div class="col-sm-3"></div>
+			</div><br>
+			<div class="row">
+		 		<div class="col-sm-3" ><b>Nationality <span class="required">*</span>:</b></div>
+				<div class="col-sm-3" ><b>
+                    <select name="spousenationality" id ="spousenationality">
+                    <option value="India">India</option>
+                    <option value="Canada">Canada</option>
+                    <option value="nationalityasyouwant">As you want</option>
+                    <option value="nationalityasyouwant">As you want</option>
+                    </select></b>
+                </div>
+			  	<div class="col-sm-3" ><b>National ID </b></div>
+			  	<div class="col-sm-3"><b><input type="text" name="spousenationalid" ></b></div>   
+         	</div>
+			<br>
+			<div class="row">
+		 		<div class="col-sm-3" ><b>Birthdate: </b></div>
+                <div class="col-sm-3" ><input type="Date" name="spousebirthdate"></div>
+			  	<div class="col-sm-3" ><b>Passport:</b></div>
+                <div class="col-sm-3" ><input type="text" name="spousepassport" ></div>
+            </div>
+			<br>
+			<div class="row">
+            	<div class="col-sm-3" ><b>Ethnicity:</b></div>
+                <div class="col-sm-3" ><b>
+                    <select name="spouseethnicity">
+					<option value="NA">No Ethnicity</option>
+					<option value="NA">Not Available</option>
+					<option value="NA">Not Available</option>
+					<option value="NA">Not Available</option>
+                    </select></b>
+				</div>
+				<div class="col-sm-3" ><b>Religion:</b></div>
+				<div class="col-sm-3" ><b>
+					<select name="spouserelegion">
+					<option value="NA">Not Available</option>
+					<option value="NA">Not Available</option>
+					<option value="NA">Not Available</option>
+					<option value="NA">Not Available</option>
+					</select></b>
+				</div>   
+            </div><br>
+            
+        </div>
+		<div class="container" style="border:1px solid black; border-top: hidden;">
+        	<div style="font-size: 20px; background-color: blue; color: white ">Children Details</div><br>
+        	<button type="button" onclick="displayResult()">Insert new row</button>
+        	<br>
+            <table class="table table-striped" id="myTable">
+    				<thead>
+      					<tr>
+					        <th>First Name</th>
+					        <th>Middle Name</th>
+					        <th>Last Name</th>
+					        <th>BirthDate</th>
+					        <th>Gender</th>
+					        <th>Married</th>
+					    </tr>
+					</thead>
+
+			</table>
+			
+	    </div></div>
+	    <input type="submit" value="Submit"><br><br>
+
+	</form>
+
+</body>
+</html>
