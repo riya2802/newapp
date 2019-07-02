@@ -21,6 +21,15 @@ function bar_progress(progress_line_object, direction) {
 }
 
 jQuery(document).ready(function() {
+
+    $(document).on('input','.num', function (event) {
+   this.value = this.value.replace(/[^0-9]/g, '');
+});
+
+    $(document).on('input','.alph', function (event) {
+        console.log(event)
+   this.value = this.value.replace(/[^a-zA-Z]+$/g, '');
+});
 	
     /*
         Fullscreen background
@@ -43,6 +52,36 @@ jQuery(document).ready(function() {
     	$(this).removeClass('input-error');
     });
     
+
+// $("#fullform").validate({
+
+//             rules: {
+//               employeeid: 'required',
+//               firstname: 'required',
+//               lastname: 'required',
+//               gendern: 'required',
+//               birthdate: 'required',
+//               nationalitydd: 'required',
+//               nationalid: 'required',
+//               datejoin: 'required',
+//               positiondd:'required',
+//               jobstatuseffectivedate:'required',
+//               employmentstatuseffectivedate:'required',
+//               countrydd:'required',
+//               spousenationality:'required',
+//           },
+//             // messages: {
+//             //   datejoin: 'This field is required',
+//            //   positiondd: 'This field is required',
+//             //   jobstatuseffectivedate: 'Enter a valid email',
+//             //   employmentstatuseffectivedate: 'Enter a valid email' 
+//             // },
+//             // submitHandler: function(form) {
+//             //    form.submit();
+//             // }
+
+//           });
+
     // next step
     $('.f1 .btn-next').on('click', function() {
     	var parent_fieldset = $(this).parents('fieldset');

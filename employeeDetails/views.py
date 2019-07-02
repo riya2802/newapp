@@ -30,9 +30,9 @@ def loginFun(request):
 		username = request.POST.get('username')
 		password = request.POST.get('password')
 		user_obj =User.objects.filter(username=username).first()
-		print(user_obj.username, user_obj.email)
+		# print(user_obj.username, user_obj.email)
 		if user_obj is None:
-			return redirect('/login')
+			return redirect('/newapp/login')
 		user = authenticate(username =user_obj.username, password= password )
 		if user is not None:
 			login(request,user)
@@ -559,7 +559,7 @@ def addEmployee(request):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
 	action = "addFun"
-	return render(request,'form1edit.html' , {'action':action})
+	return render(request,'form.html' , {'action':action})
 
 # @csrf_exempt
 # def forgotPassword(request):

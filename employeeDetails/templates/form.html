@@ -66,59 +66,58 @@
         <!-- Top content -->
         <div class="top-content">
             <div class="container">
-                
-                <div class="row">
+                               <div class="row">
                     <div class=" form-box">
-                    	<form role="form" id="fullform" action="{{ action }}" method="post" class="f1">
+                      <form role="form" id="fullform" action="" method="post" class="f1">
 
-                    		<div class="f1-steps">
-                    			<div class="f1-progress">
-                    			    <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="8" style="width: 16.66%;"></div>
-                    			</div>
-                    			<div class="f1-step active">
-                    				<div class="f1-step-icon">Personal</div>
-                    				<p></p>
-                    			</div>
+                        <div class="f1-steps">
+                          <div class="f1-progress">
+                              <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="8" style="width: 16.66%;"></div>
+                          </div>
+                          <div class="f1-step active">
+                            <div class="f1-step-icon" style="font-size: 15px; color: white"><p>Personal</p></div>
+                            <p></p>
+                          </div>
 
 
                                 <div class="f1-step">
-                                    <div class="f1-step-icon">Job</div>
+                                    <div class="f1-step-icon" style="font-size: 15px; color: white"><p>Job</p></div>
                                     
                                 </div>
 
                                 <div class="f1-step">
-                                    <div class="f1-step-icon">Family</div>
+                                    <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Family</p></div>
                                     
                                 </div>
 
                                 <div class="f1-step">
-                                    <div class="f1-step-icon">Contact</div>
+                                    <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Contact</p></div>
                                     
                                 </div>   
 
                                 <div class="f1-step">
-                                    <div class="f1-step-icon">Health</div>
+                                    <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Health</p></div>
                                     
                                 </div>
 
 
                                 <div class="f1-step">
-                                    <div class="f1-step-icon">Preview</div>
+                                    <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Preview</p></div>
                                     
                                 </div>
 
-                    			<div class="f1-step">
-                    				<div class="f1-step-icon">account</div>
-                    				
-                    			</div>
-                    		    <div class="f1-step">
-                    				<div class="f1-step-icon">social</div>
-                    				
-                    			</div>
-                    		</div>
+                          <div class="f1-step">
+                            <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Account</p></div>
+                            
+                          </div>
+                            <div class="f1-step">
+                            <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Social</p></div>
+                            
+                          </div>
+                        </div>
                     		
                     		<fieldset>
-                    		    <h4>Personal:</h4>
+                    		    <h4>Personalhhh:</h4>
                                 <div style="font-size: 20px; background-color: blue; color: white ">Personal Details</div><br>
                                     <div class="row">
                                         <div class="col-sm-2" ><b>ID <span class="required">*</span></b></div> 
@@ -133,19 +132,19 @@
                                     <br>
                                      <div class="row">
                                       <div class="col-sm-2" ><b>First Name <span class="required">*</span>: </b></div>
-                                      <div class="col-sm-6" ><b><input type="text" name="firstname" id ="firstname" ><span style="color:red;"></span> </b></div>
+                                      <div class="col-sm-6" ><b><input type="text" name="firstname" class="alph" id ="firstname" ><span style="color:red;"></span> </b></div>
                                       <div class= "col-sm-4" ></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                       <div class="col-sm-2" ><b>Middle Name:</b></div>
-                                      <div class="col-sm-2" ><b><input type="text" name="middlename" id="middlename"> </b></div>
+                                      <div class="col-sm-2" ><b><input type="text" name="middlename" class="alph" id="middlename"> </b></div>
                                       <div class= "col-sm-2" ></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                       <div class="col-sm-2" ><b>Last Name <span class="required">*</span>:</b></div>
-                                      <div class="col-sm-6" ><b><input type="text" name="lastname" id="lastname"> <span style="color:red;"></span></b></div>
+                                      <div class="col-sm-6" ><b><input type="text" name="lastname" class="alph" id="lastname"> <span style="color:red;"></span></b></div>
                                       <div class= "col-sm-4"> </div>
                                     </div>
                                     <br>
@@ -180,14 +179,14 @@
                                     
 
                                     <div class="col-sm-2" ><b>National ID <span class="required">*</span>:</b></div>
-                                    <div class="col-sm-4"><input type="text" name="nationalid" id ="nationalid"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>
+                                    <div class="col-sm-4"><input type="text" class="num" name="nationalid" id ="nationalid"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>
                                     
                                   </div>   
                                         
                                         <br>
                                   <div class="row">
                                     <div class="col-sm-2" ><b>Passport:</b></div>
-                                    <div class="col-sm-6" ><input type="text" name="passport" id="passport" ><span style="color:red;">{{ passmsg}}</span></div>
+                                    <div class="col-sm-6" ><input type="text"  class="num" name="passport" id="passport" ><span style="color:red;">{{ passmsg}}</span></div>
                                     <div class= "col-sm-4" ></div>   
                                         </div><br>
                                          <div style="font-size: 20px; background-color: blue; color: white ">Additional Details</div><br>
@@ -422,14 +421,14 @@
                                 <div style="font-size: 20px; background-color: blue; color: white ">Spouse Details</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>First Name:</b></div> 
-                                        <div class="col-sm-3" ><b><input type="text" name="spousefirstname" id="spousefirstname"></b></div>
+                                        <div class="col-sm-3" ><b><input type="text" class="alph" name="spousefirstname" id="spousefirstname"></b></div>
                                         <div class="col-sm-3"><b>Last Name:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" name="spouselastname" id ="spouselastname"></b></div>
+                                        <div class="col-sm-3"><b><input type="text" class="alph" name="spouselastname" id ="spouselastname"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Middle Name:</b></div>
-                                        <div class="col-sm-3" ><b><input type="text" name="spousemiddlename" id="spousemiddlename"></b></div>
+                                        <div class="col-sm-3" ><b><input type="text" class="alph" name="spousemiddlename" id="spousemiddlename"></b></div>
                                         <div class="col-sm-3"></div>
                                         <div class="col-sm-3"></div>
                                     </div><br>
@@ -444,7 +443,7 @@
                                             </select></b>
                                         </div>
                                         <div class="col-sm-3" ><b>National ID </b></div>
-                                        <div class="col-sm-3"><b><input type="text" name="spousenationalid" id="spousenationalid" ></b>{{nationalmsg}}</div>   
+                                        <div class="col-sm-3"><b><input type="text" class="num" name="spousenationalid" id="spousenationalid" ></b>{{nationalmsg}}</div>   
                                     </div>
                                     <br>
                                     <div class="row">
@@ -523,17 +522,17 @@
                                 <div style="font-size: 15px; background-color: blue; color: white ">Phone</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Office:</b></div> 
-                                        <div class="col-sm-3" ><b><input type="text" name="office" id="office"></b>{{mobileerror}}</div>
+                                        <div class="col-sm-3" ><b><input class="num" type="text" name="office" id="office"></b>{{mobileerror}}</div>
                                         <div class="col-sm-3"><b>Office Extension:</b></div>
                                         <div class="col-sm-3"><b><input type="text" name="officeextention"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Mobile:</b></div>
-                                        <div class="col-sm-3" ><b><input type="text" name="mobile" id="mobile">{{mobileerror}}</b>    
+                                        <div class="col-sm-3" ><b><input class="num" type="text" name="mobile" id="mobile">{{mobileerror}}</b>    
                                         </div>
                                         <div class="col-sm-3"><b>Home:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" name="home" id="home">
+                                        <div class="col-sm-3"><b><input type="text" class="num" name="home" id="home">
                                         </b>
                                         </div><br>
                                     </div>
@@ -551,15 +550,15 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>City:</b></div>
-                                        <div class="col-sm-3" ><b><input type="text" name="city"  id="city"></b></div>
+                                        <div class="col-sm-3" ><b><input  class="alph" type="text" name="city"  id="city"></b></div>
                                         <div class="col-sm-3"><b>Postcode:</b></div>    
-                                        <div class="col-sm-3"><b>   <input type="text" name="postcode" id="postcode"></b>
+                                        <div class="col-sm-3"><b>   <input type="text" class="num" name="postcode" id="postcode"></b>
                                         </div>
                                     </div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>State:</b></div>
                                         <div class="col-sm-3" ><b>
-                                        <input type="text" name="state"  id="state">
+                                        <input type="text" class="alph" name="state"  id="state">
                                         </b></div>
                                         <div class="col-sm-3"><b>Country <span class="required">*</span>:</b></div>
                                         <div class="col-sm-3"><b>
@@ -577,15 +576,15 @@
                                 <div style="font-size: 15px; background-color: blue; color: white">In Case of Emergency</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>First Name:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" name="coefirstname"  id="coefirstname" ></b></div>
+                                        <div class="col-sm-3"><b><input class="alph" type="text" name="coefirstname"  id="coefirstname" ></b></div>
                                         <div class="col-sm-3" ><b>Last Name:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" name="coelastname" id="coelastname"></b></div>
+                                        <div class="col-sm-3"><b><input  class="alph" type="text" name="coelastname" id="coelastname"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Middle Name:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" name="coemiddlename" id="coemiddlename">
+                                        <input type="text" class="alph" name="coemiddlename" id="coemiddlename">
                                         </b></div>
                                         <div class="col-sm-3" ></div>
                                         <div class="col-sm-3"></div>
@@ -594,22 +593,22 @@
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Relationship:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" name="coerelationship" id="coerelationship">
+                                        <input type="text" class="alph" n class="alph"ame="coerelationship" id="coerelationship">
                                         </b></div>
                                         <div class="col-sm-3" ><b>Mobile Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" name="coemobile" id="coemobile">
+                                        <input type="text" class="num" name="coemobile" id="coemobile">
                                         </b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>House Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" name="coehousephone" id="coehousephone">
+                                        <input type="text" class="num" name="coehousephone" id="coehousephone">
                                         </b></div>
                                         <div class="col-sm-3" ><b>Office Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" name="officephone"  id="officephone">
+                                        <input type="text" class="num" name="officephone"  id="officephone">
                                         </b></div>
                                     </div>
                                     <br>                             
@@ -636,12 +635,12 @@
                                 <h4>Health:</h4>
                                  <div style="font-size: 20px; background-color: blue; color: white">Health Details</div><br>
                                     <div class="row">
-                                        <div class="col-sm-3" ><b>Height</b></div>
+                                        <div class="col-sm-3" ><b>Height (cm)</b></div>
                                         <div class="col-sm-3"><b>
-                                            <input type= "number" name="height" id="height"></b>
+                                            <input min="4" type= "number" name="height" id="height"></b>
                                         </div>
-                                        <div class="col-sm-3"><b>Weight:</b></div>
-                                        <div class="col-sm-3"><b><input type="number" name = "weight" id = "weight"></b></div>
+                                        <div class="col-sm-3"><b>Weight (kg)</b></div>
+                                        <div class="col-sm-3"><b><input min="25" type="number" name = "weight" id = "weight"></b></div>
 
                                     </div><br>
                                     <div class="row">
@@ -1081,12 +1080,12 @@ $(document).ready(function(){
 <script >
         function displayResult()
         {
-            document.getElementById("myTable").insertRow(-1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname"></td> <td><input type = "text" name="childmiddlename"></td> <td><input type = "text" name="childlastname"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
+            document.getElementById("myTable").insertRow(-1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname" class="alph"></td> <td><input type = "text" name="childmiddlename" class="alph"></td> <td><input type = "text" name="childlastname" class="alph"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
         }
 
                 function deleterow()
         {
-            document.getElementById("myTable").deleteRow(-1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname"></td> <td><input type = "text" name="childmiddlename"></td> <td><input type = "text" name="childlastname"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
+            document.getElementById("myTable").deleteRow(1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname"></td> <td><input type = "text" name="childmiddlename"></td> <td><input type = "text" name="childlastname"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
         }
 
  </script>
