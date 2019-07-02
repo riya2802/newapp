@@ -167,22 +167,13 @@ Status = [
 	('isactive','isactive'),
 	('notactive','notactive')
 ]
+employeeStatus=(('Success','Success'),('Pending','Pending'))
 
-Jobtype=[
-	('permanent','permanent'),
-	('temporary','temporary')
-
-]
 
 Position=[
 	('position1','position1'),
 	('position2','position2'),
 	('poition3','position3'),
-]
-
-jobStatusList=[
-	('intern','intern'),
-	('permanent','permanent')
 ]
 class nationality(models.Model):
 	nationalityName = models.CharField(max_length=30)
@@ -194,21 +185,21 @@ class country(models.Model):
 	status =models.CharField(max_length = 30,choices=Status,default= "notactive")
  
 class ethnicity(models.Model):
-	ethnicityName = models.CharField(max_length = 30)
+	ethnicityName = models.CharField(max_length = 30,unique=True)
 	status = models.CharField(choices= Status, max_length=30, null = True, blank = True)
 
 class religion(models.Model):
-	religionName = models.CharField(max_length = 30)
+	religionName = models.CharField(max_length = 30,unique=True)
 	status = models.CharField(choices= Status, max_length=30, default="notactive" )
 
 class jobType(models.Model):
-	jobType=models.CharField(max_length=30,choices=Jobtype,default='temporary')
+	jobType=models.CharField(max_length=30,default='temporary',unique=True)
 	
 class jobStatus(models.Model):
-	jobStatus=models.CharField(max_length=30,choices=jobStatusList,default='intern')
+	jobStatus=models.CharField(max_length=30,default='intern',unique=True)
 
 class workDays(models.Model):
-	workdays= models.CharField(max_length=20)
+	workdays= models.CharField(max_length=30)
 
 class leaveWorkFlow(models.Model):
 	leaveworkflow= models.CharField(max_length=20)
@@ -234,22 +225,20 @@ class department(models.Model):
 
 class employee(models.Model):
 	employeeId= models.AutoField(primary_key=True)
-	employeementId =models.CharField(max_length=255,null=False,blank=False,unique=True)
+	employeementId =models.IntegerField(max_length=255,null=False,blank=False,unique=True)
 	employeeFirstName= models.CharField(max_length=255,blank=False,null=False)
 	employeeMiddelName=models.CharField(max_length=255,null=True,blank=True)
 	employeeLastName=models.CharField( max_length=255,blank=False,null=False)
 	employeeGender= models.CharField(max_length=15, choices=gender, default='U',blank=False,null=False)
 	employeeBirthDate=models.DateField(blank=False,null=False)
-
 	employeeNationality=models.CharField(max_length=15)
-
 	employeeNationality=models.CharField(max_length=15, choices=Nationality, default='India',blank=False,null=False)
-
 	employeeNationalId=models.IntegerField(null=False,blank=False)
 	employeePassport=models.IntegerField(null=True,blank=True)
 	employeeEthnicity=models.CharField(max_length=15,choices=Ethnicity, default='NA',null=True,blank=True)
 	employeeReligion=models.CharField(max_length=15,choices=Religion, default='NA',null=True,blank=True)
 	employeePhoto=models.ImageField(upload_to='photo', blank=True,)
+	status=models.CharField(max_length=30, choices=employeeStatus, default="notactive" )
 
 class employeeFamily(models.Model):
 	employeeForeignId =models.ForeignKey(employee,models.CASCADE,unique=True)

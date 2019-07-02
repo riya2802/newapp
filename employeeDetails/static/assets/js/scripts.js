@@ -45,7 +45,9 @@ jQuery(document).ready(function() {
     
     // next step
     $('.f1 .btn-next').on('click', function() {
+
     	var parent_fieldset = $(this).parents('fieldset');
+        console.log(parent_fieldset)
     	var next_step = true;
     	// navigation steps / progress steps
     	var current_active_step = $(this).parents('.f1').find('.f1-step.active');

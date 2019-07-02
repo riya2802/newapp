@@ -124,9 +124,9 @@
                                         <div class="col-sm-6" ><input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" value="{{ objEmployeePersonal.employeementId }}">  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
                                         </div>
                                         <div id="wrapper" >
-                       <input type="file" accept="image/*" onchange="preview_image(event)">
-                       <img id="output_image"/ height="70" width="100">
-                      </div>
+                                            <input type="file" accept="image/*" onchange="preview_image(event)">
+                                            <img id="output_image"/ height="70" width="100">
+                                        </div>
                                         
                                     </div>
                                     <br>
@@ -233,8 +233,9 @@
                                     <button type="button" class="btn btn-next">Next</button>
                                 </div>  
                             </fieldset>
-                                {% for i in objEmployeeJob %}
+                                
                             <fieldset>
+                              {% for i in objEmployeeJob %}
                                  <h4>Job:</h4>
 
                                  <div style="font-size: 15px; background-color: blue; color: white; ">Employment Information</div><br>
@@ -402,8 +403,9 @@
                                     <button type="button" class="btn btn-next">Next</button>
                                 </div>  
                             </fieldset>
-                                {% for i in objEmployeeFamily %}
+                              
                              <fieldset>
+                                {% for i in objEmployeeFamily %}
                                 <h4>Family:</h4>
                                 <div style="font-size: 20px; background-color: blue; color: white">Family Details</div><br>
                                     <div class="row">
@@ -529,8 +531,9 @@
                                 {% endfor%}
                                 </div>
                             </fieldset>
-                                  {% for i in objEmployeeContact %}
+                                  
                             <fieldset>
+                                {% for i in objEmployeeContact %}
                                 <h4>Contact:</h4>
                                 <div style="font-size: 15px; background-color: blue; color: white">Web</div><br>
                                     <div class="row">
@@ -653,8 +656,9 @@
                                     {% endfor %}
                                 </div>
                             </fieldset>
-                                {% for i in objEmployeeHealth %}
+                                
                             <fieldset>
+                              {% for i in objEmployeeHealth %}
                                 <h4>Health:</h4>
                                  <div style="font-size: 20px; background-color: blue; color: white">Health Details</div><br>
                                     <div class="row">
@@ -1044,13 +1048,14 @@
                                 </div>
                             </fieldset>
                     	
-                    	</form>
+                    	
                     </div>
+                    </form>
                 </div>
                     
             </div>
         </div>
-
+      </div>
 
         <!-- Javascript -->
         <script src="{% static 'assets/js/jquery-1.11.1.min.js' %}"></script>

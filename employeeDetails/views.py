@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import country, employee,employeeFamily,employeeChildren,employeeHealth,Contact,Job,nationality
+from .models import department, branch, position,level,lineManager, holiDays,leaveWorkFlow,workDays,jobStatus, jobType, religion, ethnicity, country, employee,employeeFamily,employeeChildren,employeeHealth,Contact,Job,nationality
 from . import personaldetails
 from django.shortcuts import render, redirect
 from . import validation_function
@@ -55,7 +55,31 @@ def home(request):
  ## --------------------------------------------------------------------------------------------------------
 
  # after
-@csrf_exempt 
+def employeeSubmit(request):
+	if not request.user.is_authenticated:
+		return redirect('/newapp/login')
+	if request.method == "POST":
+		employeementId= request.POST.get('employeementId',None)
+		firstName= request.POST.get('firstname',None)
+		middelName= request.POST.get('middlename',None)
+		lastName= request.POST.get('lastname',None)
+		gender= request.POST.get('gender',None)
+		birthDate= request.POST.get('birthdate',None)
+		nationality= request.POST.get('nationality',None)
+		passport= request.POST.get('passport',None)
+		nationalId= request.POST.get('nationalid',None)
+		ethnicity= request.POST.get('ethnicity',None)
+		religion= request.POST.get('religion',None)
+		photo=request.FILES.get('photo')
+		passportcheck=passport.isalpha()
+		if employeeId is None or employeeId ==""  or firstName is None or firstName=="" or lastName is None or lastName=="" or gender is None or gender=="" or birthDate is None or birthDate==""  or nationality=="" or nationality is None or nationalId is None or nationalId =="" :
+			return JsonResponse({'msg':'Required fields empty !','status':400})
+		employee_obj =employee.objects.filter(employeementId = employeementId,status='Success').first()
+		if employee_obj:
+			return JsonResponse({'msg':'Id Already exist !','status':400})
+		if not check_is_valid_name(firstName):
+			return JsonResponse({'msg':'First name !','status':400})
+
 def editFun(request,employeementId):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
@@ -231,7 +255,19 @@ def editHtmlForm(request,employeementId):
 		return redirect('/newapp/login')
 	objEmployeePersonal=employee.objects.filter(employeementId = employeementId).first()
 	nationalityList = nationality.objects.filter(status="isactive")
-	countryList = country.objects.filter(status="isactive")
+	countryListList = country.objects.filter(status="isactive")
+	ethnicityList=ethnicity.objects.filter(status="isactive")
+	religionList=religion.objects.filter(status="isactive")
+	jobTypeList=jobType.objects.all()
+	jobStatusList=jobStatus.objects.all()
+	workDaysList= workDays.objects.all()
+	leaveWorkFlowList=leaveWorkFlow.objects.all()
+	holiDaysList=holiDays.objects.all()
+	lineManagerList=lineManager.objects.all()
+	levelList=level.objects.all()
+	positionList=position.objects.all()
+	branchList=branch.objects.all()
+	departmentList=department.objects.all()
 	print('nationality ',objEmployeePersonal.employeeNationality)
 	if objEmployeePersonal:
 		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal)
@@ -239,12 +275,9 @@ def editHtmlForm(request,employeementId):
 		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal)
 		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal)
 		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal)
-		objList= [objEmployeePersonal,objEmployeeFamily,objEmployeeChildren,objEmployeeHealth,objEmployeeJob,objEmployeeContact]
 		print("objEmployeeJob",objEmployeeJob)
-		
-		# print("objEmployeeJob",dateJoined)
-		return render(request,'form1edit.html',{'nationalityList':nationalityList,'action':"/newapp/editFun",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
-		# return render(request,'editform.html',{'obj':objList})
+		return render(request,'form1edit.html',{"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
+,'action':"/newapp/editFun",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
 	else:
 		return render(request,'error.html',{'error':'User not exist'})
 
@@ -280,31 +313,59 @@ def addFun(request,):
 		if employeeId is None or employeeId ==""  or firstName is None or firstName=="" or lastName is None or lastName=="" or gender is None or gender=="" or birthDate is None or birthDate==""  or nationality=="" or nationality is None or nationalId is None or nationalId =="" :
 			print('error')
 			return render(request, 'form.html', {'errorrequired':"This field is required"})
-		# employeeObj= employee.objects.filter(employeementId = employeeId).first()#check username is exist or not  
-		# print(employeeObj)
-		# if employeeObj:
-		# 	print('error1')
-		# 	return render(request, 'form.html',{'error':'user already exist'})#user already exist
-		passportcheck=passport.isalpha()
-		if passportcheck :
-			print('error2')
-			passmsg="It takes only numeric value "
-			return render(request, 'form.html',{'passmsg':passmsg })
-		elif passport == "":
-			passport =None
+		try:
+			employeeObj= employee.objects.filter(employeementId = employeeId).first() 
+		except:
+			if employeeObj:
+				print('error1')
+				return render(request, 'form.html',{'error':'user already exist'})
 		else:
-			passport = passport
+			if employeeObj:
+				print('error1')
+				return render(request, 'form.html',{'error':'user already exist'})
 
-		print('passport',passport)
-		nationalIdcheck =nationalId.isalpha()
-		if nationalIdcheck:
-			print('error3')
-			nationalmsg="It takes only numeric value"
-			return render(request, 'form.html',{'nationalmsg':nationalmsg })
-		elif nationalId =="":
-			nationalId = None
+		validate_username = validation_function.is_valid_username(employeeId)
+		if validate_username is None: ## true when name contain spaces
+			return render(request,'form.html',{'username_errorq':'Enter Valid user name'})
+		validfirstname=validation_function.check_is_valid_name(firstName)
+		if 	validfirstname is None : 
+			return render(request, 'form.html',{'firstname_error':'Invalid name' })
+		validlastname=validation_function.check_is_valid_name(lastName)
+		if 	validlastname is None : 
+			return render(request, 'form.html',{'lastname_error':'Invalid name' })
+		validmiddelname=validation_function.check_is_valid_name(middelName)
+		if 	validmiddelname is None : 
+			return render(request, 'form.html',{'middelname_error':'Invalid  name' })		
+		# passport validation
+		if str(passport).isnumeric():
+		    if len(str(passport)) == 12:
+		        passport=passport
+		        print(passport)
+            else:
+		       	passportmsg="Invalid number"
+		       	print(passportmsg)
+                return render(request, 'form.html',{'passportmsg':passportmsg })
+		elif passport== "":
+		    passport = None
 		else:
-			nationalId =nationalId
+		    passportmsg="Enter number"
+		    print(nationalmsg)
+		    return render(request, 'form.html',{'passportmsg':passportmsg })
+		## national validation
+		if str(nationalId).isnumeric()
+			if len(str(nationalId)) == 8 :
+				nationalId =nationalId
+			else: 
+				nationalmsg="Enter valid number"
+				print(nationalmsg)
+				return render(request, 'form.html',{'nationalmsg':nationalmsg })
+		elif nationalId =="":
+				nationalId = None
+		else:
+			print('error3')
+    		nationalmsg="It takes only numeric value"
+    		print(nationalmsg)
+			return render(request, 'form.html',{'nationalmsg':nationalmsg })
 		print('personal done')
 		maritalStatus=request.POST.get('maritalstatus',None)
 		numberOfChild=request.POST.get('numbeofchild',None)
@@ -331,6 +392,16 @@ def addFun(request,):
 		query_dict_childmaritalstatus=request.POST.getlist('childmaritalstatus')
 		print('query_dict_childmaritalstatus',query_dict_childmaritalstatus)
 		spousedob = validation_function.checkForNone(spousebirthDate)
+		validspousefirstname=validation_function.check_is_valid_name(spousefirstName)
+		if 	validspousefirstname is None : 
+			return render(request, 'form.html',{'spousefirstname_error':'Invalid name' })
+		validspouselastname=validation_function.check_is_valid_name(spouselastName)
+		if 	validspouselastname is None : 
+			return render(request, 'form.html',{'spouselastname_error':'Invalid name' })
+		validspousemiddelname=validation_function.check_is_valid_name(spousemiddelName)
+		if 	validspousemiddelname is None : 
+			return render(request, 'form.html',{'spousemiddelname_error':'Invalid  name' })
+
 		# if spousepassport is not None and spousepassport.isalpha():
 		# 		#newspousepassport=spousepassport.isalpha()
 		# 	print('spousepassport',spousepassport,'spousenationalId',spousenationalId)

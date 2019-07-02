@@ -39,9 +39,15 @@ def is_valid_phone(phone):
 def is_valid_username(username):
 	if re.search(' +', username): ## return true when user name contain space 
 		print('is_valid_username function call')
-		return None
+		return False
 	else:
 		return username
+
+def check_is_valid_name(name): 
+ 	if name.isalpha():
+ 		return name.lower()
+ 	return False
+
 
 
 
