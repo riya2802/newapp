@@ -41,13 +41,50 @@ def is_valid_username(username):
 		print('is_valid_username function call')
 		return False
 	else:
-		return username
+		return True
 
 def check_is_valid_name(name): 
+	if name is None or name =="":
+		return True
  	if name.isalpha():
- 		return name.lower()
+ 		return True
  	return False
 
 
+def calculateAge(born): 
+    today = date.today() 
+    try:  
+        birthday = born.replace(year = today.year)  
+    except ValueError:  						
+    # raised when birth date is February 29 
+    # and the current year is not a leap year
+        birthday = born.replace(year = today.year, 
+                  month = born.month + 1, day = 1) 
+  	if birthday > today: 
+        return today.year - born.year - 1
+    else: 
+        return today.year - born.year 
 
+def is_valid_passport(passport):
+    if str(passport).isalpha():
+        print("1")
+        return False
+    if passport == "":
+        return True
+    if len(str(passport)) != 12:
+        print("2")
+        return False
+    print("3")
+    return True
 
+def is_valid_national(nationaid):
+	if str(nationaid).isalpha():
+        print("1")
+        return False
+    if nationaid == "":
+        return False
+    if len(str(nationaid)) != 8:
+        print("2")
+        return False
+    print("3")
+    return True

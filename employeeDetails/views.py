@@ -77,8 +77,19 @@ def employeeSubmit(request):
 		employee_obj =employee.objects.filter(employeementId = employeementId,status='Success').first()
 		if employee_obj:
 			return JsonResponse({'msg':'Id Already exist !','status':400})
-		if not check_is_valid_name(firstName):
-			return JsonResponse({'msg':'First name !','status':400})
+		if not check_is_valid_name(firstName) :
+			return JsonResponse({'msg':'First name only takes alphabets !','status':400})
+		if not check_is_valid_name(middelName):
+			return JsonResponse({'msg':'Middle Name name only takes alphabets !','status':400})
+		if not check_is_valid_name(lastName):
+			return JsonResponse({'msg':'Last name only takes alphabets !','status':400})
+		if (calculateAge(date(birthDate))) < 18:
+			return JsonResponse({'msg':'Your age is less then 18 years !','status':400})
+    	if not is_valid_passport(passport):
+			return JsonResponse({'msg':' passport no is not valid !','status':400})
+		if not is_valid_national(nationalId):
+			return JsonResponse({'msg':' passport no is not valid !','status':400})
+
 
 def editFun(request,employeementId):
 	if not request.user.is_authenticated:
