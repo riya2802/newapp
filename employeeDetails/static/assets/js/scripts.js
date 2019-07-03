@@ -26,6 +26,24 @@ jQuery(document).ready(function() {
    this.value = this.value.replace(/[^0-9]/g, '');
 });
 
+$(document).on('#childbirthdate', function (event) {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+
+ if(dd<10){
+        dd='0'+dd;
+    } 
+    if(mm<10){
+        mm='0'+mm;
+    } 
+
+
+today = yyyy+'-'+mm+'-'+dd;
+
+$("#childbirthdate").attr("max", today);
+});
     $(document).on('input','.alph', function (event) {
         console.log(event)
    this.value = this.value.replace(/[^a-zA-Z]+$/g, '');
