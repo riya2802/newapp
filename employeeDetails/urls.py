@@ -4,9 +4,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    # path('persoanldetails',views.personalDetails),
-    # path('familydetails<employeeid>',views.FamilyDetails),
-    # path('healthdetails/<employeeid>',views.HealthDetails),
     path('isuseridcorrect',views.isuserIdcorrect),
     path('login',views.loginFun),
     path('logout',views.logoutFun),
@@ -16,5 +13,11 @@ urlpatterns = [
     path('editFun/<employeementId>',views.editFun),#save edit form data in database , update data in database 
     path('employeeList',views.employeeList),
     path('emplyeeDelete/<employeementId>',views.emplyeeDelete),
-    path('home',views.home)
+    path('home',views.home),
+    path('persoanldetails',views.personalAjaxRequest), #call ajax function 
+    path('familydetails',views.familyAjaxRequest),
+    path('jobdetails',views.jobAjaxRequest), #call ajax function 
+    path('contactdetails',views.contactAjaxRequest),
+    path('healthdetails',views.healthAjaxRequest),
+
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
