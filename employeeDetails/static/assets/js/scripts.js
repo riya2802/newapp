@@ -1,4 +1,34 @@
-
+function apiService(data) 
+{
+    var apiUrl = 'http://192.168.0.191:8000/newapp/persoanldetails';
+    $.ajax({
+        url : apiUrl,
+        method: 'POST',
+        type: 'jsonp',
+        data: data,
+    }).success(function(response) {
+        console.log(response);
+    });
+}
+function apiServiceForFormData(form) 
+{
+    var response={}
+    var apiUrl = 'http://192.168.0.191:8000/newapp/persoanldetails';
+    $.ajax({
+        url : apiUrl,
+        type: 'POST',
+        data: form,
+        cache:false,
+        contentType: false,
+        processData: false,
+        mimeType: "multipart/form-data",
+    }).success(function(response) {
+        response =response
+        console.log('call')
+    });
+    console.log('call2')
+    return response
+}
 
 function scroll_to_class(element_class, removed_height) {
 	var scroll_to = $(element_class).offset().top - removed_height;
@@ -25,33 +55,9 @@ jQuery(document).ready(function() {
     $(document).on('input','.num', function (event) {
    this.value = this.value.replace(/[^0-9]/g, '');
 });
-
-$(document).on('#childbirthdate', function (event) {
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth()+1; //January is 0!
-  var yyyy = today.getFullYear();
-
- if(dd<10){
-        dd='0'+dd;
-    } 
-    if(mm<10){
-        mm='0'+mm;
-    } 
-
-
-today = yyyy+'-'+mm+'-'+dd;
-
-$("#childbirthdate").attr("max", today);
-});
     $(document).on('input','.alph', function (event) {
-        console.log(event)
    this.value = this.value.replace(/[^a-zA-Z]+$/g, '');
 });
-	
-    /*
-        Fullscreen background
-    */
     $.backstretch("assets/img/backgrounds/1.jpg");
     
     $('#top-navbar-1').on('shown.bs.collapse', function(){
@@ -60,49 +66,17 @@ $("#childbirthdate").attr("max", today);
     $('#top-navbar-1').on('hidden.bs.collapse', function(){
     	$.backstretch("resize");
     });
-    
-    /*
-        Form
-    */
     $('.f1 fieldset:first').fadeIn('slow');
     
     $('#datejoin,#positiondd,#jobstatuseffectivedate,#employmentstatuseffectivedate,#countrydd,#employeeid,#firstname,#lastname,#birthdate,#nationalid').on('focus', function() {
     	$(this).removeClass('input-error');
     });
-    
-
-// $("#fullform").validate({
-
-//             rules: {
-//               employeeid: 'required',
-//               firstname: 'required',
-//               lastname: 'required',
-//               gendern: 'required',
-//               birthdate: 'required',
-//               nationalitydd: 'required',
-//               nationalid: 'required',
-//               datejoin: 'required',
-//               positiondd:'required',
-//               jobstatuseffectivedate:'required',
-//               employmentstatuseffectivedate:'required',
-//               countrydd:'required',
-//               spousenationality:'required',
-//           },
-//             // messages: {
-//             //   datejoin: 'This field is required',
-//            //   positiondd: 'This field is required',
-//             //   jobstatuseffectivedate: 'Enter a valid email',
-//             //   employmentstatuseffectivedate: 'Enter a valid email' 
-//             // },
-//             // submitHandler: function(form) {
-//             //    form.submit();
-//             // }
-
-//           });
 
     // next step
     $('.f1 .btn-next').on('click', function() {
     	var parent_fieldset = $(this).parents('fieldset');
+        var selectedid = ($(this).parents('fieldset').attr('id'))
+        console.log(selectedid)
     	var next_step = true;
     	// navigation steps / progress steps
     	var current_active_step = $(this).parents('.f1').find('.f1-step.active');
@@ -115,10 +89,119 @@ $("#childbirthdate").attr("max", today);
              $(this).addClass('input-error');
              next_step = false;
          }
-         else {
-             $(this).removeClass('input-error');
-         }
+        else{
+                $(this).removeClass('input-error');
+            }
+
         });
+                next_step = false;
+                var data = {};
+                var i =0
+                if (selectedid =='personalfield'){
+                    var form = new FormData();
+                    form.append("employeeid", $('#employeeid').val());
+                    form.append("firstname", $('#firstname').val());
+                    form.append("middlename", $('#middlename').val());
+                    form.append("lastname", $('#lastname').val());
+                    form.append("gendern", $('#gendern').val());
+                    form.append("birthdate", $('#birthdate').val());
+                    form.append("nationalitydd",$('#nationalitydd').val());
+                    form.append("nationalid", $('#nationalid').val());
+                    form.append("image", $('#image').prop('files')[0]);
+                    var response={}
+                    var apiUrl = 'http://192.168.0.191:8000/newapp/persoanldetails';
+                    $.ajax({
+                        url : apiUrl,
+                        type: 'POST',
+                        data: form,
+                        async: false,
+                        cache:false,
+                        contentType: false,
+                        processData: false,
+                        mimeType: "multipart/form-data",
+                    }).success(function(response) {
+                        res=JSON.parse(response)
+                        console.log(res,res['status'])                        
+                        if(res['status']==200){
+                            next_step =true
+                            $('.action').show()
+                            $('.action').addClass('alert-success');
+                            $('.action').removeClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }else{
+                            $('.action').show()
+                            $('.action').removeClass('alert-success');
+                            $('.action').addClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }
+                         // $('.action').show()
+                    });
+                   }
+                else if (selectedid =='jobfield'){
+                    data[$('#datejoin').attr('name')] = $('#datejoin').val();
+                    data[$('#endofprobation').attr('name')] = $('#endofprobation').val();
+                    data[$('#positiondd').attr('name')] = $('#positiondd').val();
+                    data[$('#jobstatuseffectivedate').attr('name')] = $('#jobstatuseffectivedate').val();
+                    data[$('#linemanagedd').attr('name')] = $('#linemanagedd').val();
+                    data[$('#departmentdd').attr('name')] = $('#departmentdd').val();
+                    data[$('#branchdd').attr('name')] = $('#branchdd').val();
+                    data[$('#leveldd').attr('name')] = $('#leveldd').val();
+                    data[$('#jobtypedd').attr('name')] = $('#jobtypedd').val();
+                    data[$('#employmentstatuseffectivedate').attr('name')] = $('#employmentstatuseffectivedate').val();
+                    data[$('#jobstatusdd').attr('name')] = $('#jobstatusdd').val();
+                    data[$('#workdays').attr('name')] = $('#workdays').val(); 
+                    data[$('#holidaysdd').attr('name')] = $('#holidaysdd').val(); 
+                    data[$('#termstartdd').attr('name')] = $('#termstartdd').val(); 
+                    data[$('#termend').attr('name')] = $('#termend').val(); 
+                    apiService(data);
+                    }
+
+                else if (selectedid =='familyfield'){
+                    data[$('#maritalstatus').attr('name')] = $('#maritalstatus').val();
+                    data[$('#spouseworking').attr('name')] = $('#spouseworking').val();
+                    data[$('#numberofchild').attr('name')] = $('#numberofchild').val();
+                    data[$('#spousefirstname').attr('name')] = $('#spousefirstname').val();
+                    data[$('#spousemiddlename').attr('name')] = $('#spousemiddlename').val();
+                    data[$('#spousenationality').attr('name')] = $('#spousenationality').val();
+                    data[$('#spousebirthdate').attr('name')] = $('#spousebirthdate').val();
+                    data[$('#spousepassport').attr('name')] = $('#spousepassport').val();
+                    data[$('#spouseethnicity').attr('name')] = $('#spouseethnicity').val();
+                    data[$('#spouserelegion').attr('name')] = $('#spouserelegion').val();
+                    apiService(data);
+                }
+                else if (selectedid =='contactfield'){
+                    data[$('#email').attr('name')] = $('#email').val();
+                    data[$('#bloghomepage').attr('name')] = $('#bloghomepage').val();
+                    data[$('#office').attr('name')] = $('#office').val();
+                    data[$('#mobile').attr('name')] = $('#mobile').val();
+                    data[$('#home').attr('name')] = $('#home').val();
+                    data[$('#address1').attr('name')] = $('#address1').val();
+                    data[$('#address2').attr('name')] = $('#address2').val();
+                    data[$('#city').attr('name')] = $('#city').val();
+                    data[$('#state').attr('name')] = $('#state').val();
+                    data[$('#countrydd').attr('name')] = $('#countrydd').val();
+                    data[$('#coefirstname').attr('name')] = $('#coefirstname').val();
+                    data[$('#coelastname').attr('name')] = $('#coelastname').val();
+                    data[$('#coemiddlename').attr('name')] = $('#coemiddlename').val();
+                    data[$('#coerelationship').attr('name')] = $('#coerelationship').val();
+                    data[$('#coemobile').attr('name')] = $('#coemobile').val();
+                    data[$('#coehousephone').attr('name')] = $('#coehousephone').val();
+                    data[$('#officephone').attr('name')] = $('#officephone').val();
+                    apiService(data);
+                }
+                else if (selectedid =='healthfield'){
+                    data[$('#height').attr('name')] = $('#height').val();
+                    data[$('#weight').attr('name')] = $('#weight').val();
+                    data[$('#bloodgroup').attr('name')] = $('#bloodgroup').val();
+                    apiService(data);
+                }
+                   console.log(next_step,'console.log(next_step)')
+                  
+   
+
+            
+
+          
     //    fields validation
         
 

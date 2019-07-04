@@ -13,43 +13,48 @@
         <title>Form</title>
 
         <!-- CSS -->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500"> -->
         <link rel="stylesheet" href=" {% static 'assets/bootstrap/css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'assets/font-awesome/css/font-awesome.min.css' %}">
 		<link rel="stylesheet" href="{% static 'assets/css/form-elements.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-            <style>
-                            #wrapper
-          {
-           text-align:center;
-           margin:0 auto;
-           padding:0px;
-           width:995px;
-          }
+    <style>
+        #wrapper{
+            text-align:center;
+            margin:0 auto;
+            padding:0px;
+            width:995px;
+        }
         .photo-background{
-          height:100px;
-          width:100px;
-          /*background-img:url('/media/New Picture.bmp');*/
-          background-color: pink;
-    }
+            height:100px;
+            width:100px;
+            background-color: pink;
+        }
        .custom-control-input{
             padding-left:15px;
         }
-                  .required {
-  					color: red;
-					}</style>
+        .required{
+  			color: red;
+		}
+        .action{display: none;}
+        .action1{display: none;}
+    </style>
 </script>
     </head>
-    <body >
+    <body style="background-color: lightgrey">
 		<!-- Top menu -->
         <!-- Top content -->
         <div class="top-content">
             <div class="container">
                                <div class="row">
+
                     <div class=" form-box">
+
                       <form role="form" id="fullform" action="" method="post" class="f1">
                         {% csrf_token %}
-
+                            <div class="alert  action  action1">
+                              
+                            </div>
                         <div class="f1-steps">
                           <div class="f1-progress">
                               <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="8" style="width: 16.66%;"></div>
@@ -92,107 +97,106 @@
                           </div>
                         </div>
                     		
-                    		<fieldset>
-                    		    <h4>Personal:</h4>
-                                <div style="font-size: 20px; background-color: blue; color: white ">Personal Details</div><br>
-                                    <div class="row">
-                                        <div class="col-sm-2" ><b>ID <span class="required">*</span></b></div> 
-                                        <div class="col-sm-6" ><input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
-                                        </div>
-                                        <div id="wrapper" >
-                       <input type="file" accept="image/*" onchange="preview_image(event)">
-                       <img id="output_image"/ height="70" width="100">
-                      </div>
-                                        
-                                    </div>
+                    	<fieldset id="personalfield">
+                    		<h4>Personal:</h4>
+                            <div style="font-size: 20px; background-color: blue; color: white ">Personal Details</div><br>
+                            <div class="row">
+                                <div class="col-sm-2" ><b>ID <span class="required">*</span></b></div> 
+                                <div class="col-sm-6" >
+                                    <input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
+                                </div>
+                                <div id="wrapper" >
+                                     <input type="file" accept="image/*" id="image" name="image" onchange="preview_image(event)">
+                                     <img id="output_image"/ height="70" width="100">
+                                </div>                                        
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-2" ><b>First Name <span class="required">*</span>: </b></div>
+                                <div class="col-sm-6" ><b><input type="text" name="firstname" class="alph" id ="firstname" ><span style="color:red;"></span> </b></div>
+                                <div class= "col-sm-4" ></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-2" ><b>Middle Name:</b></div>
+                                <div class="col-sm-2" ><b><input type="text" name="middlename" class="alph" id="middlename"> </b></div>
+                                <div class= "col-sm-2" ></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-2" ><b>Last Name <span class="required">*</span>:</b></div>
+                                <div class="col-sm-6" ><b><input type="text" name="lastname" class="alph" id="lastname"> <span style="color:red;"></span></b></div>
+                                <div class= "col-sm-4"> </div>
+                            </div>
                                     <br>
-                                     <div class="row">
-                                      <div class="col-sm-2" ><b>First Name <span class="required">*</span>: </b></div>
-                                      <div class="col-sm-6" ><b><input type="text" name="firstname" class="alph" id ="firstname" ><span style="color:red;"></span> </b></div>
-                                      <div class= "col-sm-4" ></div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-sm-2" ><b>Gender:</b></div>
+                                <div class="col-sm-6" class="radio" id ="gender" >
+                                    <label><input type="radio" name="gendern" id="gendern" value="female">Female</label><label><input type="radio" name="gendern" value="male" id="gendern">Male</label>
+                                    <label><input type="radio" name="gendern" value="unknown" id="gendern">Unknown</label><span style="color:red;">{{ error}}</span>
+                                </div>
+                                <div class="col-sm-4"></div>
+                            </div>
                                     <br>
-                                    <div class="row">
-                                      <div class="col-sm-2" ><b>Middle Name:</b></div>
-                                      <div class="col-sm-2" ><b><input type="text" name="middlename" class="alph" id="middlename"> </b></div>
-                                      <div class= "col-sm-2" ></div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                      <div class="col-sm-2" ><b>Last Name <span class="required">*</span>:</b></div>
-                                      <div class="col-sm-6" ><b><input type="text" name="lastname" class="alph" id="lastname"> <span style="color:red;"></span></b></div>
-                                      <div class= "col-sm-4"> </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                      <div class="col-sm-2" ><b>Gender:</b></div>
-                                      <div class="col-sm-6" class="radio" id ="gender" >
-                                        <label><input type="radio" name="gendern" id="gendern" value="female">Female</label>           
-                                        <label><input type="radio" name="gendern" value="male" id="gendern">Male</label>
-                                        <label><input type="radio" name="gendern" value="unknown" id="gendern">Unknown</label><span style="color:red;">{{ error}}</span>
-                                      </div>
-                                        <div class="col-sm-4"></div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-sm-2" ><b>Birth Date<span class="required">*</span>:</b></div>
-                                        <div class="col-sm-6"><b><input type="Date" name="birthdate" id="birthdate"><span style="color:red;"></span></b> </div>
-                                        <div class= "col-sm-4" > </div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-sm-2" ><b>Birth Date<span class="required">*</span>:</b></div>
+                                <div class="col-sm-6"><b><input type="Date" name="birthdate" id="birthdate"><span style="color:red;"></span></b> </div>
+                                <div class= "col-sm-4" > </div>
+                            </div>
                                     <br>
                                   
-                                  <div style="font-size: 20px; background-color: blue; color: white "> Nationality Details</div><br>
-                                  <div class="row">
-                                    <div class="col-sm-2" ><b>Nationality  <span class="required">*</span>:</b></div>
-                                    <div class="col-sm-4" ><b>
-                                          <select name="nationalitydd" id="nationalitydd">
-                                          <option value="India">India</option>
-                                          <option value="Canada">Canada</option>
-                                          <option value="nationalityasyouwant">As you want</option>
-                                          <option value="nationalityasyouwant">As you want</option>
-                                          </select><span style="color:red;"></span> </b>
-                                    </div>
-                                    
-
-                                    <div class="col-sm-2" ><b>National ID <span class="required">*</span>:</b></div>
-                                    <div class="col-sm-4"><input type="text" class="num" name="nationalid" id ="nationalid"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>
-                                    
-                                  </div>   
-                                        
-                                        <br>
-                                  <div class="row">
-                                    <div class="col-sm-2" ><b>Passport:</b></div>
-                                    <div class="col-sm-6" ><input type="text"  class="num" name="passport" id="passport" ><span style="color:red;">{{ passmsg}}</span></div>
-                                    <div class= "col-sm-4" ></div>   
-                                        </div><br>
-                                         <div style="font-size: 20px; background-color: blue; color: white ">Additional Details</div><br>
-                                    <div class="row">
-                                      <div class="col-sm-2" ><b>Ethnicity:</b></div>
-                                      <div class="col-sm-2" ><b>
-                                          <select name= "ethnicity" id= "ethnicity">
-                                            <option value="noethnicity">No Ethnicity</option>
-                                            <option value="ethnicityasyouwant">As you want</option>
-                                            <option value="ethnicityasyouwant">As you want</option>
-                                            <option value="ethnicityasyouwant">As you want</option>
-                                          </select></b>
-                                      </div>
-                                      <div class= "col-sm-2" ></div>
-                                      <div class="col-sm-2" ><b>Religion:</b></div>
-                                      <div class="col-sm-2" ><b>
-                                          <select name = "religion"  id = "religion">
-                                            <option value="noreligion">No Religion</option>
-                                            <option value="religionasyouwant">As you want</option>
-                                            <option value="religionasyouwant">As you want</option>
-                                            <option value="religionasyouwant">As you want</option>
-                                          </select></b></div>   
-                                      <div class= "col-sm-2" ></div>
-                                      </div><br>
+                                <div style="font-size: 20px; background-color: blue; color: white "> Nationality Details</div>
+                                    <br>
+                            <div class="row">
+                                <div class="col-sm-2" ><b>Nationality  <span class="required">*</span>:</b></div>
+                                <div class="col-sm-4" ><b>
+                                  <select name="nationalitydd" id="nationalitydd">
+                                  <option value="India">India</option>
+                                  <option value="Canada">Canada</option>
+                                  <option value="nationalityasyouwant">As you want</option>
+                                  <option value="nationalityasyouwant">As you want</option>
+                                  </select><span style="color:red;"></span> </b>
+                                </div>
+                                <div class="col-sm-2" ><b>National ID <span class="required">*</span>:</b></div>
+                                <div class="col-sm-4"><input type="text" class="num" maxlength="8" minlength="8" name="nationalid" id ="nationalid"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>    
+                            </div>   
+                                    <br>
+                            <div class="row">
+                                <div class="col-sm-2" ><b>Passport:</b></div>
+                                <div class="col-sm-6" ><input type="text"  maxlength="12" minlength="12" class="num" name="passport" id="passport" ><span style="color:red;">{{ passmsg}}</span></div>
+                                <div class= "col-sm-4" ></div>   
+                            </div>
+                                    <br>
+                                <div style="font-size: 20px; background-color: blue; color: white ">Additional Details</div><br>
+                            <div class="row">
+                                <div class="col-sm-2" ><b>Ethnicity:</b></div>
+                                <div class="col-sm-2" ><b>
+                                    <select name= "ethnicity" id= "ethnicity">
+                                    <option value="noethnicity">No Ethnicity</option>
+                                    <option value="ethnicityasyouwant">As you want</option>
+                                    <option value="ethnicityasyouwant">As you want</option>
+                                    <option value="ethnicityasyouwant">As you want</option>
+                                    </select></b>
+                                </div>
+                                <div class= "col-sm-2" ></div>
+                                <div class="col-sm-2" ><b>Religion:</b></div>
+                                <div class="col-sm-2" ><b>
+                                    <select name = "religion"  id = "religion">
+                                    <option value="noreligion">No Religion</option>
+                                    <option value="religionasyouwant">As you want</option>
+                                    <option value="religionasyouwant">As you want</option>
+                                    <option value="religionasyouwant">As you want</option>
+                                    </select></b>
+                                </div>   
+                                <div class= "col-sm-2" ></div>
+                            </div>
+                                <br>
                                 <div class="f1-buttons">
-                                    <button type="button" class="btn btn-next">Next</button>
+                                    <button type="button" class="btn btn-next" id="personalnext">Next</button>
                                 </div>  
-                            </fieldset>
+                        </fieldset>
 
-                            <fieldset>
+                            <fieldset id="jobfield">
                                  <h4>Job:</h4>
 
                                  <div style="font-size: 15px; background-color: blue; color: white; ">Employment Information</div><br>
@@ -349,7 +353,7 @@
                                 </div>  
                             </fieldset>
 
-                             <fieldset>
+                             <fieldset id = "familyfield">
                                 <h4>Family:</h4>
                                 <div style="font-size: 20px; background-color: blue; color: white">Family Details</div><br>
                                     <div class="row">
@@ -458,7 +462,7 @@
                                 </div>
                             </fieldset>
 
-                            <fieldset>
+                            <fieldset id="contactfield">
                                 <h4>Contact:</h4>
                                 <div style="font-size: 15px; background-color: blue; color: white">Web</div><br>
                                     <div class="row">
@@ -567,7 +571,7 @@
                                 </div>
                             </fieldset>
 
-                            <fieldset>
+                            <fieldset id="healthfield">
                                 <h4>Health:</h4>
                                  <div style="font-size: 20px; background-color: blue; color: white">Health Details</div><br>
                                     <div class="row">
@@ -899,17 +903,37 @@
 
         <!-- Javascript -->
         <script src="{% static 'assets/js/jquery-1.11.1.min.js' %}"></script>
-        <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+        <!-- <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script> -->
         <script src="{% static 'assets/js/jquery.backstretch.min.js' %}"></script>
         <script src="{% static 'assets/js/retina-1.1.0.min.js' %}"></script>
         <script src="{% static 'assets/js/scripts.js' %}"></script>
         <script>
 $(document).ready(function(){
+
+        $('#nationalid').onkeyup(function(){
+
+        console.log($(this).val())
+        var y=$(this).val()
+
+        if(y==8){
+        next_step =true
+        $('.action').show()
+        $('.action').addClass('alert-success');
+        $('.action').removeClass('alert-danger');
+        $('.action').text('')
+        }else{
+        next_step=false
+        $('.action').show()
+        $('.action').removeClass('alert-success');
+        $('.action').addClass('alert-danger');
+        $('.action').text('enter 8 digits')
+        }
+    });
+
   var today = new Date();
   var dd = today.getDate();
   var mm = today.getMonth()+1; //January is 0!
   var effdatemm = today.getMonth();
-  console.log(effdatemm,"this is the month");
   var yyyy = today.getFullYear();
 
  if(dd<10){
@@ -924,7 +948,6 @@ $(document).ready(function(){
 
 today = yyyy+'-'+mm+'-'+dd;
 var effdatemin = yyyy+'-'+effdatemm+'-'+dd;
-console.log(effdatemin,"this is the effdatemin");
 $("#birthdate").attr("max", today);
 // $("#childbirthdate").attr("max", today);
 
@@ -933,7 +956,6 @@ $("#jobstatuseffectivedate").attr("min",effdatemin);
 $("#employmentstatuseffectivedate").attr("max", today);
 $("#employmentstatuseffectivedate").attr("min",effdatemin);
 
-console.log(today);
 
     
 
@@ -946,16 +968,16 @@ console.log(today);
 
 
     $("#datejoin").on('change',function(){
-      console.log("we are in joindate")
+
     var mindate = $('#datejoin').val();
-    console.log(mindate);
+
      $("#endofprobation").attr("min",mindate);
      
 var eopdate = new Date(mindate);
 var dd = eopdate.getDate();
 var mm = eopdate.getMonth()+4; //January is 0!
  //January is 0!
-console.log(mm);
+
 var yyyy = eopdate.getFullYear();
  if(dd<10){
         dd='0'+dd
@@ -1016,6 +1038,8 @@ $("#endofprobation").attr("max", eopdatemax);
 </script>
 
 <script type="text/javascript">
+
+
 
 
   $("#maritalstatus").on('change',function(){
