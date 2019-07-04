@@ -125,7 +125,7 @@
                                         <div class="col-sm-6" ><input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
                                         </div>
                                         <div id="wrapper" >
-                       <input type="file" accept="image/*" onchange="preview_image(event)">
+                       <input type="file" accept="image/*"  name = "image" onchange="preview_image(event)" id= "image">
                        <img id="output_image"/ height="70" width="100">
                       </div>
                                         

@@ -7,9 +7,9 @@ from . import validation_function
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import base64
-from datetime import date
+from datetime import date,datetime
 from django.contrib.auth import authenticate, login, logout
-
+import json
 
 # Create your views here.
 # accept ajax request to check username is valid
@@ -33,7 +33,6 @@ def loginFun(request):
 		username = request.POST.get('username')
 		password = request.POST.get('password')
 		user_obj =User.objects.filter(username=username).first()
-		#print(user_obj.username, user_obj.email)
 		if user_obj is None:
 			return redirect('/newapp/login')
 		user = authenticate(username =user_obj.username, password= password )
@@ -41,6 +40,7 @@ def loginFun(request):
 			return render(request, 'login.html',)
 		login(request,user)
 		#return redirect('/newapp/home')
+		print(request.user.username)
 		return JsonResponse({'msg':'login user','status':200})
 	else:
 		error="Method is not allow"
@@ -60,51 +60,64 @@ def home(request):
  # after
 @csrf_exempt
 def personalAjaxRequest(request):
-	if not request.user.is_authenticated:
-		return redirect('/newapp/login')
+	# if not request.user.is_authenticated:
+	# 	print('not authenticate')
+	# 	#return redirect('/newapp/login')
+	# 	return JsonResponse({'msg':'User is not authenticated','status':400})
 	if request.method == "POST":
-		employeementId= request.POST.get('employeementId',None)
+		employeementId= request.POST.get('employeeid',None)
 		firstName= request.POST.get('firstname',None)
 		middelName= request.POST.get('middlename',None)
 		lastName= request.POST.get('lastname',None)
-		gender= request.POST.get('gender',None)
+		gender= request.POST.get('gendern',None)
 		birthDate= request.POST.get('birthdate',None)
-		nationality= request.POST.get('nationality',None)
+		print('birthDate',birthDate, type(birthDate))
+		nationality= request.POST.get('nationalitydd',None)
 		passport= request.POST.get('passport',None)
 		nationalId= request.POST.get('nationalid',None)
 		ethnicity= request.POST.get('ethnicity',None)
 		religion= request.POST.get('religion',None)
-		photo=request.FILES.get('photo')
-		#passportcheck=passport.isalpha()
+		photo=request.FILES.get('image')
+		print('photo',photo)
+		print("passport",passport)
+		print('nationalId',nationalId)
+		print('middelName',middelName)
 		if employeementId is None or employeementId ==""  or firstName is None or firstName=="" or lastName is None or lastName=="" or gender is None or gender=="" or birthDate is None or birthDate==""  or nationality=="" or nationality is None or nationalId is None or nationalId =="" :
 			print('employeementId',employeementId,'firstName',firstName,'lastName',lastName,'gender',gender,'birthDate',birthDate,'nationality',nationality,'nationalId',nationalId)
 			return JsonResponse({'msg':'Required fields empty !','status':400})
 		employee_obj =employee.objects.filter(employeementId = employeementId,status='Success').first()
 		if employee_obj:
 			return JsonResponse({'msg':'Id Already exist !','status':400})
+		if not validation_function.check_employeeId(employeementId):
+			return JsonResponse({'msg':'Invalid Id , Id should be numeric ','status':400})
 		if not validation_function.check_is_valid_name(firstName) :
 			return JsonResponse({'msg':'First name only takes alphabets !','status':400})
 		if not validation_function.check_is_valid_name(middelName):
 			return JsonResponse({'msg':'Middle Name name only takes alphabets !','status':400})
 		if not validation_function.check_is_valid_name(lastName):
 			return JsonResponse({'msg':'Last name only takes alphabets !','status':400})
-		if validation_function.calculateAge(date(birthDate))< 18:
+		if validation_function.calculateAge(datetime.strptime(birthDate, '%Y-%m-%d')) < 18 :
+		#if validation_function.calculateAge(date(birthDate)) < 18:
 			return JsonResponse({'msg':'Your age is less then 18 years !','status':400})
 		if not validation_function.is_valid_passport(passport):
 			return JsonResponse({'msg':' passport no is not valid !','status':400})
 		if not validation_function.is_valid_national(nationalId):
-			return JsonResponse({'msg':' passport no is not valid !','status':400})
+			return JsonResponse({'msg':' National no is not valid !','status':400})
+		checkEmployee =employee.objects.filter(employeementId = employeementId,status='Pending').update(employeeFirstName=firstName,employeeMiddelName=middelName,employeeLastName=lastName,employeeGender=gender,employeeBirthDate=birthDate,employeeNationality=nationality,employeeNationalId=nationalId,employeePassport=passport,employeeEthnicity=ethnicity,employeeReligion=religion,employeePhoto=photo,status="Pending")
+		if checkEmployee:
+			return JsonResponse({'msg':'success','status':200})
 		employee.objects.create(employeementId=employeementId,employeeFirstName=firstName,employeeMiddelName=middelName,employeeLastName=lastName,employeeGender=gender,employeeBirthDate=birthDate,employeeNationality=nationality,employeeNationalId=nationalId,employeePassport=passport,employeeEthnicity=ethnicity,employeeReligion=religion,employeePhoto=photo,status="Pending")		
 		return JsonResponse({'msg':'success','status':200})
 
 #------------------------------------------------------
+@csrf_exempt
 def familyAjaxRequest(request,employeementId):
-	if not request.user.is_authenticated:
-		return redirect('/newapp/login')
+	# if not request.user.is_authenticated:
+	# 	return redirect('/newapp/login')
 	if request.method == "POST":
 		obj =employee.objects.filter(employeementId = employeementId).first()
 		maritalStatus=request.POST.get('maritalstatus',None)
-		numberOfChild=request.POST.get('numbeofchild',None)
+		numberOfChild=request.POST.get('numberofchild',None)
 		spouseWorking=request.POST.get('spouseworking',None)
 		spousefirstName= request.POST.get('spousefirstname',None)
 		spousemiddelName= request.POST.get('spousemiddlename',None)
@@ -143,11 +156,14 @@ def familyAjaxRequest(request,employeementId):
 		print('insert_list',insert_list)
 		return JsonResponse({'msg':'success','status':200})
 #----------------------------------------------------------------
-def jobAjaxRequest(request,employeementId):
-	if not request.user.is_authenticated:
-		return redirect('/newapp/login')
+@csrf_exempt
+def jobAjaxRequest(request):
+	# if not request.user.is_authenticated:
+	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		obj =employee.objects.filter(employeementId = employeementId).first()
+		employeementId_obj=request.POST.get('employeementId',None)
+		obj =employee.objects.filter(employeementId = employeementId_obj).first()
+		print(obj.employeeBirthDate ,obj.employeementId)
 		DateJoined = request.POST.get('datejoin',None)
 		EndofProbation = request.POST.get('endofprobation',None)
 		Position = request.POST.get('positiondd',None)
@@ -163,18 +179,20 @@ def jobAjaxRequest(request,employeementId):
 		Workdays = request.POST.get('workdays',None)
 		Holidays = request.POST.get('holidaysdd',None)
 		TermStart = request.POST.get('termstartdd',None)
-		TermEnd = request.POST.get('termenddd',None)
+		TermEnd = request.POST.get('termend',None)
 		if DateJoined is  None or DateJoined == "" and Position is None or Position == "" and JobStatusEffectiveDate is None or JobStatusEffectiveDate == "" and EmploymentStatusEffectiveDate is None or EmploymentStatusEffectiveDate == "":		    
 			return JsonResponse({'msg':'Required fields empty !','status':400})
 		if EndofProbation is not None and EndofProbation != '':
 			   		newendofProbation=EndofProbation
-
+		if not validation_function.check_join_date(datetime.strptime(DateJoined, '%Y-%m-%d'),obj.employeeBirthDate):
+			return JsonResponse({'msg':'Invalid joining date','status':400})
 		Job.objects.create(employeeForeignId=obj,dateJoined=DateJoined,endofProbation=newendofProbation,position=Position,jobStatusEffectiveDate=JobStatusEffectiveDate,lineManager=LineManager,department=Department,branch=Branch,level=Level,jobType=JobType,employmentStatusEffectiveDate=EmploymentStatusEffectiveDate,jobStatus=JobStatus,leaveWorkflow=LeaveWorkflow,workdays=Workdays,holidays=Holidays,termStart=TermStart,termEnd=TermEnd)		
 		return JsonResponse({'msg':'success','status':200})
 #----------------------------------------------------------------------------
+@csrf_exempt
 def contactAjaxRequest(request,employeementId):
-	if not request.user.is_authenticated:
-		return redirect('/newapp/login')
+	# if not request.user.is_authenticated:
+	# 	return redirect('/newapp/login')
 	if request.method == "POST":
 		obj =employee.objects.filter(employeementId = employeementId).first()
 		Email = request.POST.get('email')
@@ -220,8 +238,8 @@ def contactAjaxRequest(request,employeementId):
 		return JsonResponse({'msg':'success','status':200})
 #------------------------------------------------------------------------
 def healthAjaxRequest(request,employeementId):
-	if not request.user.is_authenticated:
-		return redirect('/newapp/login')
+	# if not request.user.is_authenticated:
+	# 	return redirect('/newapp/login')
 	if request.method == "POST":
 		obj =employee.objects.filter(employeementId = employeementId).first()
 		height=	request.POST.get('height',None)

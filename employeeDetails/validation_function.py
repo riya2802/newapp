@@ -1,5 +1,5 @@
 import re
-from datetime import date 
+from datetime import date, datetime
 from django.contrib.auth.models import User
 
 
@@ -19,7 +19,7 @@ def is_valid_email(email):
 	else :
 		if re.search(r'\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b', email, re.I):
 			print('kkkk')
-			return True
+			return Truei
 		else:
 			return False
 		
@@ -47,13 +47,15 @@ def check_is_valid_name(name):
 		return True
 	if name.isalpha():
  		return True
+	if name.isalnum():
+		return False
 	return False
 
 
 def calculateAge(born): 
 	if born == "":
 		return True
-	today = date.today() 
+	today = datetime.today() 
 	try:  
 		birthday = born.replace(year = today.year)  
 	except ValueError:  						
@@ -66,31 +68,32 @@ def calculateAge(born):
 		return today.year - born.year 
 
 def is_valid_passport(passport):
-    if str(passport).isalpha():
-        print("1")
-        return False
-    if passport == "":
-        return True
-    if len(str(passport)) != 12:
-        print("2")
-        return False
-    print("3")
-    return True
+   	if passport == "" or passport is None :
+   		return True
+   	if len(str(passport)) != 12:
+   		print("2")
+   		return False
+   	if str(passport).isalpha():
+   		print("1")
+   		return False
+   	print("3")
+   	return True
 
 def is_valid_national(nationaid):
-	if str(nationaid).isalpha():
-		print("1")
-		return False
 	if nationaid == "":
 		return False
 	if len(str(nationaid)) != 8:
 		print("2")
 		return False
-		print("3")
-	return True
+	if str(nationaid).isalpha():
+		print("1")
+		return False
+	if str(nationaid).isdigit():
+		return True
 
-def calculate_join_date(joindate, birthdate):
-	current_date=date.today()
+def check_join_date(joindate, birthdate):
+	current_date=datetime.today()
+	print('joindate',type(joindate),'birthdate',type(birthdate),'current_date',type(current_date))
 	if joindate < birthdate and joindate > current_date :
 		return False
 	return True 
@@ -99,6 +102,12 @@ def calculate_Effective_date(effectivedate):
 	current_date=date.today()
 	last_month = now.month-1 if now.month > 1 else 12
 	if  effectivedate > current_date:
-	pass
+		pass
 
-
+def check_employeeId(employeeid):
+	if employeeid.isalpha():
+		return False
+	if employeeid.isdigit():
+		return True
+	else:
+		return False
