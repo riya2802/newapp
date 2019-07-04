@@ -7,6 +7,7 @@ from . import validation_function
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import base64
+from datetime import date
 from django.contrib.auth import authenticate, login, logout
 
 
@@ -39,7 +40,8 @@ def loginFun(request):
 		if not user:
 			return render(request, 'login.html',)
 		login(request,user)
-		return redirect('/newapp/home')
+		#return redirect('/newapp/home')
+		return JsonResponse({'msg':'login user','status':200})
 	else:
 		error="Method is not allow"
 		return render(request,'login.html')
@@ -73,23 +75,24 @@ def personalAjaxRequest(request):
 		ethnicity= request.POST.get('ethnicity',None)
 		religion= request.POST.get('religion',None)
 		photo=request.FILES.get('photo')
-		passportcheck=passport.isalpha()
-		if employeeId is None or employeeId ==""  or firstName is None or firstName=="" or lastName is None or lastName=="" or gender is None or gender=="" or birthDate is None or birthDate==""  or nationality=="" or nationality is None or nationalId is None or nationalId =="" :
+		#passportcheck=passport.isalpha()
+		if employeementId is None or employeementId ==""  or firstName is None or firstName=="" or lastName is None or lastName=="" or gender is None or gender=="" or birthDate is None or birthDate==""  or nationality=="" or nationality is None or nationalId is None or nationalId =="" :
+			print('employeementId',employeementId,'firstName',firstName,'lastName',lastName,'gender',gender,'birthDate',birthDate,'nationality',nationality,'nationalId',nationalId)
 			return JsonResponse({'msg':'Required fields empty !','status':400})
 		employee_obj =employee.objects.filter(employeementId = employeementId,status='Success').first()
 		if employee_obj:
 			return JsonResponse({'msg':'Id Already exist !','status':400})
-		if not check_is_valid_name(firstName) :
+		if not validation_function.check_is_valid_name(firstName) :
 			return JsonResponse({'msg':'First name only takes alphabets !','status':400})
-		if not check_is_valid_name(middelName):
+		if not validation_function.check_is_valid_name(middelName):
 			return JsonResponse({'msg':'Middle Name name only takes alphabets !','status':400})
-		if not check_is_valid_name(lastName):
+		if not validation_function.check_is_valid_name(lastName):
 			return JsonResponse({'msg':'Last name only takes alphabets !','status':400})
-		if (calculateAge(date(birthDate))) < 18:
+		if validation_function.calculateAge(date(birthDate))< 18:
 			return JsonResponse({'msg':'Your age is less then 18 years !','status':400})
-		if not is_valid_passport(passport):
+		if not validation_function.is_valid_passport(passport):
 			return JsonResponse({'msg':' passport no is not valid !','status':400})
-		if not is_valid_national(nationalId):
+		if not validation_function.is_valid_national(nationalId):
 			return JsonResponse({'msg':' passport no is not valid !','status':400})
 		employee.objects.create(employeementId=employeementId,employeeFirstName=firstName,employeeMiddelName=middelName,employeeLastName=lastName,employeeGender=gender,employeeBirthDate=birthDate,employeeNationality=nationality,employeeNationalId=nationalId,employeePassport=passport,employeeEthnicity=ethnicity,employeeReligion=religion,employeePhoto=photo,status="Pending")		
 		return JsonResponse({'msg':'success','status':200})
@@ -112,17 +115,17 @@ def familyAjaxRequest(request,employeementId):
 		spousenationalId= request.POST.get('spousenationalid',None)
 		spouseethnicity= request.POST.get('spouseethnicity',None)
 		spousereligion= request.POST.get('spousereligion',None)
-		if not check_is_valid_name(spousefirstName) :
+		if not validation_function.check_is_valid_name(spousefirstName) :
 			return JsonResponse({'msg':'First name only takes alphabets !','status':400})
-		if not check_is_valid_name(spousemiddelName):
+		if not validation_function.check_is_valid_name(spousemiddelName):
 			return JsonResponse({'msg':'Middle Name name only takes alphabets !','status':400})
-		if not check_is_valid_name(spouselastName):
+		if not validation_function.check_is_valid_name(spouselastName):
 			return JsonResponse({'msg':'Last name only takes alphabets !','status':400})
-		if (calculateAge(date(spousebirthDate))) < 18:
+		if validation_function.calculateAge(date(spousebirthDate)) < 18:
 			return JsonResponse({'msg':'Your age is less then 18 years !','status':400})
-		if not is_valid_passport(spousepassport):
+		if not validation_function.is_valid_passport(spousepassport):
 			return JsonResponse({'msg':' passport no is not valid !','status':400})
-		if not is_valid_national(spousenationalId):
+		if not validation_function.is_valid_national(spousenationalId):
 			return JsonResponse({'msg':' passport no is not valid !','status':400})
 		query_dict_childfirstname=request.POST.getlist('childfirstname')
 		query_dict_childmiddlename=request.POST.getlist('childmiddlename')
@@ -199,19 +202,19 @@ def contactAjaxRequest(request,employeementId):
 		print(Email,"OfficePhone->", type(OfficePhone),OfficePhone,"HousePhone",HousePhone, type(HousePhone),MobilePhone,type(MobilePhone),PostCode,type(PostCode),Mobile,type(Mobile))
 		if Country is None or Country == "" and str(Mobile).isalpha() or str(Mobile).isalnum() and str(PostCode).isalnum() and str(MobilePhone).isalnum() and str(HousePhone).isalnum() and str(OfficePhone).isalnum():                
 			return JsonResponse({'msg':'Required fields empty !','status':400})
-		if not is_valid_phone(Office):
+		if not validation_function.is_valid_phone(Office):
 			return JsonResponse({'msg':'Invalid Number !','status':400})
-		if not is_valid_phone(Mobile):
+		if not validation_function.is_valid_phone(Mobile):
 			return JsonResponse({'msg':'Invalid Number !','status':400})
-		if not is_valid_phone(Home):
+		if not validation_function.is_valid_phone(Home):
 			return JsonResponse({'msg':'Invalid Number !','status':400})
-		if not is_valid_phone(MobilePhone):
+		if not validation_function.is_valid_phone(MobilePhone):
 			return JsonResponse({'msg':'Invalid Number !','status':400})
-		if not is_valid_phone(HousePhone):
+		if not validation_function.is_valid_phone(HousePhone):
 			return JsonResponse({'msg':'Invalid Number !','status':400})
-		if not is_valid_phone(OfficePhone):
+		if not validation_function.is_valid_phone(OfficePhone):
 			return JsonResponse({'msg':'Invalid Number !','status':400})
-		if not is_valid_email(Email):
+		if not validation_function.is_valid_email(Email):
 			return JsonResponse({'msg':'Invalid Number !','status':400})
 		Contact.objects.create(employeeForeignId=obj,email=Email,blogHomepage=BlogHomepage,office=Office,officeExtention=OfficeExtention,mobile=Mobile,home=Home,address1=Address1,address2=Address2,city=City,postCode=PostCode,state=State,country=Country,firstName=FirstName,lastName=LastName,middleName=MiddleName,relationship=Relationship,mobilePhone=MobilePhone,housePhone=HousePhone,officePhone=OfficePhone)
 		return JsonResponse({'msg':'success','status':200})

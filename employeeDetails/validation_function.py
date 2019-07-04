@@ -98,7 +98,7 @@ def calculate_join_date(joindate, birthdate):
 def calculate_Effective_date(effectivedate):
 	current_date=date.today()
 	last_month = now.month-1 if now.month > 1 else 12
+	if  effectivedate > current_date:
 	pass
-
 
 
