@@ -22,7 +22,7 @@ def isuserIdcorrect(request):
 	if user_obj:
 		return JsonResponse({'data':True})
 	elif checkUsername is None:
-			return JsonResponse({'data':'Invalid'})
+			return JsonResponse({'data':False})
 	else:
 		return JsonResponse({'data':False})
 
@@ -56,8 +56,7 @@ def home(request):
 	return render(request,'home.html')
 
  ## --------------------------------------------------------------------------------------------------------
-
- # after
+#persondetails validation 
 @csrf_exempt
 def personalAjaxRequest(request):
 	# if not request.user.is_authenticated:
@@ -103,21 +102,36 @@ def personalAjaxRequest(request):
 			return JsonResponse({'msg':' passport no is not valid !','status':400})
 		if not validation_function.is_valid_national(nationalId):
 			return JsonResponse({'msg':' National no is not valid !','status':400})
-		checkEmployee =employee.objects.filter(employeementId = employeementId,status='Pending').update(employeeFirstName=firstName,employeeMiddelName=middelName,employeeLastName=lastName,employeeGender=gender,employeeBirthDate=birthDate,employeeNationality=nationality,employeeNationalId=nationalId,employeePassport=passport,employeeEthnicity=ethnicity,employeeReligion=religion,employeePhoto=photo,status="Pending")
+		checkEmployee =employee.objects.get(employeementId = employeementId,status='Pending')
 		if checkEmployee:
+			checkEmployee.employeeFirstName=firstName
+			checkEmployee.employeeMiddelName=middelName
+			checkEmployee.employeeLastName=lastName
+			checkEmployee.employeeGender=gender
+			checkEmployee.employeeBirthDate=birthDate
+			checkEmployee.employeeNationalId=nationalId
+			checkEmployee.employeePassport=passport
+			checkEmployee.employeeEthnicity=ethnicity
+			checkEmployee.employeeReligion=religion
+			checkEmployee.employeePhoto=photo
+			checkEmployee.status="Pending"
+			checkEmployee.save()
+			print(type(checkEmployee))
 			return JsonResponse({'msg':'success','status':200})
 		employee.objects.create(employeementId=employeementId,employeeFirstName=firstName,employeeMiddelName=middelName,employeeLastName=lastName,employeeGender=gender,employeeBirthDate=birthDate,employeeNationality=nationality,employeeNationalId=nationalId,employeePassport=passport,employeeEthnicity=ethnicity,employeeReligion=religion,employeePhoto=photo,status="Pending")		
 		return JsonResponse({'msg':'success','status':200})
 
 #------------------------------------------------------
 @csrf_exempt
-def familyAjaxRequest(request,employeementId):
+def familyAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		obj =employee.objects.filter(employeementId = employeementId).first()
+		employeementId_obj=request.POST.get('employeementId',None)
+		obj =employee.objects.filter(employeementId = employeementId_obj).first()
 		maritalStatus=request.POST.get('maritalstatus',None)
 		numberOfChild=request.POST.get('numberofchild',None)
+		print('numberOfChild',numberOfChild,type(numberOfChild))
 		spouseWorking=request.POST.get('spouseworking',None)
 		spousefirstName= request.POST.get('spousefirstname',None)
 		spousemiddelName= request.POST.get('spousemiddlename',None)
@@ -128,32 +142,54 @@ def familyAjaxRequest(request,employeementId):
 		spousenationalId= request.POST.get('spousenationalid',None)
 		spouseethnicity= request.POST.get('spouseethnicity',None)
 		spousereligion= request.POST.get('spousereligion',None)
+		if spousenationality is None or spousenationality =="":
+			return JsonResponse({'msg':'Required fields empty !','status':400})
 		if not validation_function.check_is_valid_name(spousefirstName) :
+			print("error1")
 			return JsonResponse({'msg':'First name only takes alphabets !','status':400})
 		if not validation_function.check_is_valid_name(spousemiddelName):
+			print("error2")
 			return JsonResponse({'msg':'Middle Name name only takes alphabets !','status':400})
 		if not validation_function.check_is_valid_name(spouselastName):
+			print("error3")
 			return JsonResponse({'msg':'Last name only takes alphabets !','status':400})
-		if validation_function.calculateAge(date(spousebirthDate)) < 18:
-			return JsonResponse({'msg':'Your age is less then 18 years !','status':400})
+		if spousebirthDate is not None and spousebirthDate != '':
+			spousebirthDate=spousebirthDate
+		else:
+			spousebirthDate=None
 		if not validation_function.is_valid_passport(spousepassport):
+			print("error5")
 			return JsonResponse({'msg':' passport no is not valid !','status':400})
+		if spousepassport =="" or spousepassport is None:
+			spousepassport=None
 		if not validation_function.is_valid_national(spousenationalId):
-			return JsonResponse({'msg':' passport no is not valid !','status':400})
+			print("error6")
+			return JsonResponse({'msg':' national ID is not valid !','status':400})
+		print('maritalStatus',maritalStatus,'numberOfChild',numberOfChild,'spouseWorking',spouseWorking,'spousefirstName',spousefirstName,'spousemiddelName')
+		#if numberOfChild > 0 and maritalStatus == "Merried":
 		query_dict_childfirstname=request.POST.getlist('childfirstname')
 		query_dict_childmiddlename=request.POST.getlist('childmiddlename')
 		query_dict_childlastname=request.POST.getlist('childlastname')
 		query_dict_childbirthdate=request.POST.getlist('childbirthdate')
 		query_dict_childgender=request.POST.getlist('childgender')
 		query_dict_childmaritalstatus=request.POST.getlist('childmaritalstatus')
-		employeeFamily.objects.create(employeeForeignId=obj,employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousedob,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=spousenationalId ,employeeFamilySpousePassport=spousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
 		insert_list=[]
 		print("obj", obj)
 		for i in range(len(query_dict_childfirstname)):
 			newchildbirthdate = validation_function.checkForNone(query_dict_childbirthdate[i])
+			if not validation_function.check_is_valid_name(query_dict_childfirstname[i]) :
+				return JsonResponse({'msg':' child First name only takes alphabets !','status':400})
+			if not validation_function.check_is_valid_name(query_dict_childmiddlename[i]):
+				return JsonResponse({'msg':' childMiddle Name name only takes alphabets !','status':400})
+			if not validation_function.check_is_valid_name(query_dict_childlastname[i]):
+				return JsonResponse({'msg':'childLast name only takes alphabets !','status':400}) 
 			insert_list.append(employeeChildren(employeeForeignId=obj,employeeChildrenFirstName=query_dict_childfirstname[i],employeeChildrenMiddelName=query_dict_childmiddlename[i],employeeChildrenLastName=query_dict_childlastname[i],employeeChildrenBirthDate=newchildbirthdate,employeeChildrenGender=query_dict_childgender[i],employeeChildrenMaritalStatus=query_dict_childmaritalstatus[i]),)
 		employeeChildren.objects.bulk_create(insert_list)
+		checkEmployee =employeeFamily.objects.filter(employeementId = employeementId,status='Pending').update(employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousebirthDate,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=spousenationalId ,employeeFamilySpousePassport=spousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
+		if checkEmployee:
+			return JsonResponse({'msg':'success','status':200})
 		print('insert_list',insert_list)
+		employeeFamily.objects.create(employeeForeignId=obj,employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousebirthDate,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=spousenationalId ,employeeFamilySpousePassport=spousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
 		return JsonResponse({'msg':'success','status':200})
 #----------------------------------------------------------------
 @csrf_exempt
@@ -174,27 +210,36 @@ def jobAjaxRequest(request):
 		Level = request.POST.get('leveldd',None)
 		JobType = request.POST.get('jobtypedd',None)
 		EmploymentStatusEffectiveDate = request.POST.get('employmentstatuseffectivedate',None)
-		SpouseJobStatus = request.POST.get('jobstatusdd',None)
+		JobStatus = request.POST.get('jobstatusdd',None)
 		LeaveWorkflow = request.POST.get('leaveworkflowdd',None)
 		Workdays = request.POST.get('workdays',None)
 		Holidays = request.POST.get('holidaysdd',None)
 		TermStart = request.POST.get('termstartdd',None)
 		TermEnd = request.POST.get('termend',None)
+		print('EmploymentStatusEffectiveDate',EmploymentStatusEffectiveDate,'DateJoined',DateJoined,'Position',Position,'JobStatusEffectiveDate',JobStatusEffectiveDate)
 		if DateJoined is  None or DateJoined == "" and Position is None or Position == "" and JobStatusEffectiveDate is None or JobStatusEffectiveDate == "" and EmploymentStatusEffectiveDate is None or EmploymentStatusEffectiveDate == "":		    
 			return JsonResponse({'msg':'Required fields empty !','status':400})
 		if EndofProbation is not None and EndofProbation != '':
 			   		newendofProbation=EndofProbation
-		if not validation_function.check_join_date(datetime.strptime(DateJoined, '%Y-%m-%d'),obj.employeeBirthDate):
+		else:
+			newendofProbation=EndofProbation
+		if not validation_function.check_join_date(DateJoined,obj.employeeBirthDate):
 			return JsonResponse({'msg':'Invalid joining date','status':400})
+		# if not validation_function.calculate_Effective_date(JobStatusEffectiveDate):
+		# 	return JsonResponse({'msg':'Invalid Effective date','status':400})
+		checkJob =Job.objects.filter(employeementId = employeementId,status='Pending').update(dateJoined=DateJoined,endofProbation=newendofProbation,position=Position,jobStatusEffectiveDate=JobStatusEffectiveDate,lineManager=LineManager,department=Department,branch=Branch,level=Level,jobType=JobType,employmentStatusEffectiveDate=EmploymentStatusEffectiveDate,jobStatus=JobStatus,leaveWorkflow=LeaveWorkflow,workdays=Workdays,holidays=Holidays,termStart=TermStart,termEnd=TermEnd)
+		if checkJob:
+			return JsonResponse({'msg':'success','status':200})
 		Job.objects.create(employeeForeignId=obj,dateJoined=DateJoined,endofProbation=newendofProbation,position=Position,jobStatusEffectiveDate=JobStatusEffectiveDate,lineManager=LineManager,department=Department,branch=Branch,level=Level,jobType=JobType,employmentStatusEffectiveDate=EmploymentStatusEffectiveDate,jobStatus=JobStatus,leaveWorkflow=LeaveWorkflow,workdays=Workdays,holidays=Holidays,termStart=TermStart,termEnd=TermEnd)		
 		return JsonResponse({'msg':'success','status':200})
 #----------------------------------------------------------------------------
 @csrf_exempt
-def contactAjaxRequest(request,employeementId):
+def contactAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		obj =employee.objects.filter(employeementId = employeementId).first()
+		employeementId_obj=request.POST.get('employeementId',None)
+		obj =employee.objects.filter(employeementId = employeementId_obj).first()
 		Email = request.POST.get('email')
 		BlogHomepage = request.POST.get('bloghomepage')
 		Office = request.POST.get('office')
@@ -210,9 +255,9 @@ def contactAjaxRequest(request,employeementId):
 		print('PostCode',PostCode)
 		State = request.POST.get('state')
 		Country = request.POST.get('countrydd')
-		FirstName = request.POST.get('firstname')
-		LastName = request.POST.get('lastname')
-		MiddleName = request.POST.get('middlename')
+		contactFirstName = request.POST.get('coefirstname')
+		contactLastName = request.POST.get('coelastname')
+		conatctMiddleName = request.POST.get('coemiddlename')
 		Relationship = request.POST.get('coerelationship')
 		MobilePhone = request.POST.get('coemobile')
 		HousePhone = request.POST.get('coehousephone')
@@ -221,27 +266,39 @@ def contactAjaxRequest(request,employeementId):
 		if Country is None or Country == "" and str(Mobile).isalpha() or str(Mobile).isalnum() and str(PostCode).isalnum() and str(MobilePhone).isalnum() and str(HousePhone).isalnum() and str(OfficePhone).isalnum():                
 			return JsonResponse({'msg':'Required fields empty !','status':400})
 		if not validation_function.is_valid_phone(Office):
-			return JsonResponse({'msg':'Invalid Number !','status':400})
+			return JsonResponse({'msg':'Invalid office Number !','status':400})
 		if not validation_function.is_valid_phone(Mobile):
-			return JsonResponse({'msg':'Invalid Number !','status':400})
+			return JsonResponse({'msg':'Invalid Mobile Number !','status':400})
 		if not validation_function.is_valid_phone(Home):
-			return JsonResponse({'msg':'Invalid Number !','status':400})
+			return JsonResponse({'msg':'Invalid Home Number !','status':400})
 		if not validation_function.is_valid_phone(MobilePhone):
-			return JsonResponse({'msg':'Invalid Number !','status':400})
+			return JsonResponse({'msg':'Invalid MobilePhone Number !','status':400})
 		if not validation_function.is_valid_phone(HousePhone):
-			return JsonResponse({'msg':'Invalid Number !','status':400})
+			return JsonResponse({'msg':'Invalid HousePhone Number !','status':400})
 		if not validation_function.is_valid_phone(OfficePhone):
-			return JsonResponse({'msg':'Invalid Number !','status':400})
+			return JsonResponse({'msg':'Invalid OfficePhone Number !','status':400})
+		if not validation_function.is_valid_phone(OfficeExtention):
+			return JsonResponse({'msg':'Invalid OfficeExtention Number !','status':400})
 		if not validation_function.is_valid_email(Email):
-			return JsonResponse({'msg':'Invalid Number !','status':400})
+			return JsonResponse({'msg':'Invalid Email !','status':400})
+		if not validation_function.check_is_valid_name(contactFirstName) :
+			return JsonResponse({'msg':'First name only takes alphabets !','status':400})
+		if not validation_function.check_is_valid_name(contactLastName):
+			return JsonResponse({'msg':'LastName name only takes alphabets !','status':400})
+		if not validation_function.check_is_valid_name(conatctMiddleName):
+			return JsonResponse({'msg':'Middle  name only takes alphabets !','status':400})
+		checkContact =Contact.objects.filter(employeementId = employeementId,status='Pending').update(email=Email,blogHomepage=BlogHomepage,office=Office,officeExtention=OfficeExtention,mobile=Mobile,home=Home,address1=Address1,address2=Address2,city=City,postCode=PostCode,state=State,country=Country,firstName=FirstName,lastName=LastName,middleName=MiddleName,relationship=Relationship,mobilePhone=MobilePhone,housePhone=HousePhone,officePhone=OfficePhone)
+		if checkContact:
+			return JsonResponse({'msg':'success','status':200})
 		Contact.objects.create(employeeForeignId=obj,email=Email,blogHomepage=BlogHomepage,office=Office,officeExtention=OfficeExtention,mobile=Mobile,home=Home,address1=Address1,address2=Address2,city=City,postCode=PostCode,state=State,country=Country,firstName=FirstName,lastName=LastName,middleName=MiddleName,relationship=Relationship,mobilePhone=MobilePhone,housePhone=HousePhone,officePhone=OfficePhone)
 		return JsonResponse({'msg':'success','status':200})
 #------------------------------------------------------------------------
-def healthAjaxRequest(request,employeementId):
+def healthAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		obj =employee.objects.filter(employeementId = employeementId).first()
+		employeementId_obj=request.POST.get('employeementId',None)
+		obj =employee.objects.filter(employeementId = employeementId_obj).first()
 		height=	request.POST.get('height',None)
 		weight=request.POST.get('weight',None)
 		bloodGroup=	request.POST.get('bloodgroup',None)
@@ -446,7 +503,7 @@ def editHtmlForm(request,employeementId):
 		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal)
 		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal)
 		print("objEmployeeJob",objEmployeeJob)
-		return render(request,'form1edit.html',{"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
+		return render(request,'form.html',{"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
 ,'action':"/newapp/editFun",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
 	else:
 		return render(request,'error.html',{'error':'User not exist'})
@@ -455,21 +512,21 @@ def editHtmlForm(request,employeementId):
 def addFun(request,employeementId):
 	if not request.user.is_authenticated:
 		return redirect('/login')
+	employeementId_obj=request.POST.get('employeementId',None)
 	userCheck = employee.objects.filter(employeementId=employeementId,status="Pending")
 	if userCheck is None:
-		return JsonResponse({'msg':"Something is wrong", status:400 })	
+		return JsonResponse({'msg':"User Not Exist", status:400 })	
 	objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=userCheck)
 	objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=userCheck)
 	objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=userCheck)
 	objEmployeeJob=Job.objects.filter(employeeForeignId=userCheck)
 	objEmployeeContact=Contact.objects.filter(employeeForeignId=userCheck)	
 	if objEmployeeFamily is None and objEmployeeChildren is None and objEmployeeHealth is None and objEmployeeJob is None and objEmployeeContact is None :
-		return JsonResponse({'msg':"Something is wrong", status:400 })
+		return JsonResponse({'msg':"Data not save in the Database", status:400 })
 	userCheck['status'] ='Success'
 	userCheck.save()
 	return JsonResponse({'msg':"Employee Register Successfully", status:200 })
 
-		
 ## show list of all employee
 def employeeList(request):
 	if not request.user.is_authenticated:
@@ -510,5 +567,6 @@ def addEmployee(request):
 	return render(request,'form1edit.html' , {"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
 ,'action':"/newapp/addFun",})
 
-
+def personalDetailsUpdate(request):
+	
         

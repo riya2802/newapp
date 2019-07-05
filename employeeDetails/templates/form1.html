@@ -38,61 +38,86 @@
                   .required {
   					color: red;
 					}</style>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <!-- <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png"> -->
+<script>
+
+
+
 </script>
     </head>
+
     <body >
+
 		<!-- Top menu -->
+
         <!-- Top content -->
         <div class="top-content">
             <div class="container">
-                               <div class="row">
+                
+                <div class="row">
                     <div class=" form-box">
-                      <form role="form" id="fullform" action="" method="post" class="f1">
-                        {% csrf_token %}
+                    	<form role="form" id="fullform" action="{{ action }}" method="post" class="f1">
 
-                        <div class="f1-steps">
-                          <div class="f1-progress">
-                              <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="8" style="width: 16.66%;"></div>
-                          </div>
-                          <div class="f1-step active">
-                            <div class="f1-step-icon" style="font-size: 15px; color: white"><p>Personal</p></div>
-                            <p></p>
-                          </div>
+                    		<div class="f1-steps">
+                    			<div class="f1-progress">
+                    			    <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="8" style="width: 16.66%;"></div>
+                    			</div>
+                    			<div class="f1-step active">
+                    				<div class="f1-step-icon">Personal</div>
+                    				<p></p>
+                    			</div>
+
+
                                 <div class="f1-step">
-                                    <div class="f1-step-icon" style="font-size: 15px; color: white"><p>Job</p></div>
+                                    <div class="f1-step-icon">Job</div>
                                     
                                 </div>
 
                                 <div class="f1-step">
-                                    <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Family</p></div>
+                                    <div class="f1-step-icon">Family</div>
                                     
                                 </div>
 
                                 <div class="f1-step">
-                                    <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Contact</p></div>
+                                    <div class="f1-step-icon">Contact</div>
                                     
                                 </div>   
 
                                 <div class="f1-step">
-                                    <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Health</p></div>
+                                    <div class="f1-step-icon">Health</div>
                                     
                                 </div>
 
 
                                 <div class="f1-step">
-                                    <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Preview</p></div>
+                                    <div class="f1-step-icon">Preview</div>
                                     
                                 </div>
-                          <div class="f1-step">
-                            <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Account</p></div>
-                          </div>
-                            <div class="f1-step">
-                            <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Social</p></div>
-                            
-                          </div>
-                        </div>
+
+                    			<div class="f1-step">
+                    				<div class="f1-step-icon">account</div>
+                    				
+                    			</div>
+                    		    <div class="f1-step">
+                    				<div class="f1-step-icon">social</div>
+                    				
+                    			</div>
+                    		</div>
                     		
-                    		<fieldset>
+                    		<fieldset class="Personal">
                     		    <h4>Personal:</h4>
                                 <div style="font-size: 20px; background-color: blue; color: white ">Personal Details</div><br>
                                     <div class="row">
@@ -100,7 +125,7 @@
                                         <div class="col-sm-6" ><input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
                                         </div>
                                         <div id="wrapper" >
-                       <input type="file" accept="image/*" onchange="preview_image(event)">
+                       <input type="file" accept="image/*"  name = "image" onchange="preview_image(event)" id= "image">
                        <img id="output_image"/ height="70" width="100">
                       </div>
                                         
@@ -108,19 +133,19 @@
                                     <br>
                                      <div class="row">
                                       <div class="col-sm-2" ><b>First Name <span class="required">*</span>: </b></div>
-                                      <div class="col-sm-6" ><b><input type="text" name="firstname" class="alph" id ="firstname" ><span style="color:red;"></span> </b></div>
+                                      <div class="col-sm-6" ><b><input type="text" name="firstname" id ="firstname" ><span style="color:red;"></span> </b></div>
                                       <div class= "col-sm-4" ></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                       <div class="col-sm-2" ><b>Middle Name:</b></div>
-                                      <div class="col-sm-2" ><b><input type="text" name="middlename" class="alph" id="middlename"> </b></div>
+                                      <div class="col-sm-2" ><b><input type="text" name="middlename" id="middlename"> </b></div>
                                       <div class= "col-sm-2" ></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                       <div class="col-sm-2" ><b>Last Name <span class="required">*</span>:</b></div>
-                                      <div class="col-sm-6" ><b><input type="text" name="lastname" class="alph" id="lastname"> <span style="color:red;"></span></b></div>
+                                      <div class="col-sm-6" ><b><input type="text" name="lastname" id="lastname"> <span style="color:red;"></span></b></div>
                                       <div class= "col-sm-4"> </div>
                                     </div>
                                     <br>
@@ -155,14 +180,14 @@
                                     
 
                                     <div class="col-sm-2" ><b>National ID <span class="required">*</span>:</b></div>
-                                    <div class="col-sm-4"><input type="text" class="num" name="nationalid" id ="nationalid"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>
+                                    <div class="col-sm-4"><input type="text" name="nationalid" id ="nationalid"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>
                                     
                                   </div>   
                                         
                                         <br>
                                   <div class="row">
                                     <div class="col-sm-2" ><b>Passport:</b></div>
-                                    <div class="col-sm-6" ><input type="text"  class="num" name="passport" id="passport" ><span style="color:red;">{{ passmsg}}</span></div>
+                                    <div class="col-sm-6" ><input type="text" name="passport" id="passport" ><span style="color:red;">{{ passmsg}}</span></div>
                                     <div class= "col-sm-4" ></div>   
                                         </div><br>
                                          <div style="font-size: 20px; background-color: blue; color: white ">Additional Details</div><br>
@@ -187,6 +212,20 @@
                                           </select></b></div>   
                                       <div class= "col-sm-2" ></div>
                                       </div><br>
+                                
+<!--                     			 <div class="form-group">
+                    			    <label class="sr-only" for="f1-first-name">First name</label>
+                                    <input type="text" name="f1-first-name" placeholder="First name..." class="f1-first-name form-control" id="f1-first-name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-last-name">Last name</label>
+                                    <input type="text" name="f1-last-name" placeholder="Last name..." class="f1-last-name form-control" id="f1-last-name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-about-yourself">About yourself</label>
+                                    <textarea name="f1-about-yourself" placeholder="About yourself..." 
+                                    	                 class="f1-about-yourself form-control" id="f1-about-yourself"></textarea>
+                                </div>-->
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-next">Next</button>
                                 </div>  
@@ -198,7 +237,7 @@
                                  <div style="font-size: 15px; background-color: blue; color: white; ">Employment Information</div><br>
                                     <div class="row">
                                         <div class="col-sm-2" ><b>Date Joined <span class="required">*</span>:</b></div>
-                                        <div class="col-sm-4" ><b><input type="Date" name="datejoin"  id="datejoin"></b></div>
+                                        <div class="col-sm-4" ><b><input type="Date"  name="datejoin"  id="datejoin"></b></div>
                                         <div class="col-sm-2"><b>End of Probation:</b></div>
                                         <div class="col-sm-4"><b> <input type="Date" name="endofprobation" id="endofprobation"></b></div>
                                     </div>
@@ -360,7 +399,7 @@
                                             <option value="Single">Single</option>
                                             </select></b>
                                         </div>
-                                        <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
+                                        <div class="col-sm-6"><b>Spouse:<input type="checkbox" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
                                     </div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Number of Children:</b></div>
@@ -383,14 +422,14 @@
                                 <div style="font-size: 20px; background-color: blue; color: white ">Spouse Details</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>First Name:</b></div> 
-                                        <div class="col-sm-3" ><b><input type="text" class="alph" name="spousefirstname" id="spousefirstname"></b></div>
+                                        <div class="col-sm-3" ><b><input type="text" name="spousefirstname" id="spousefirstname"></b></div>
                                         <div class="col-sm-3"><b>Last Name:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" class="alph" name="spouselastname" id ="spouselastname"></b></div>
+                                        <div class="col-sm-3"><b><input type="text" name="spouselastname" id ="spouselastname"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Middle Name:</b></div>
-                                        <div class="col-sm-3" ><b><input type="text" class="alph" name="spousemiddlename" id="spousemiddlename"></b></div>
+                                        <div class="col-sm-3" ><b><input type="text" name="spousemiddlename" id="spousemiddlename"></b></div>
                                         <div class="col-sm-3"></div>
                                         <div class="col-sm-3"></div>
                                     </div><br>
@@ -405,7 +444,7 @@
                                             </select></b>
                                         </div>
                                         <div class="col-sm-3" ><b>National ID </b></div>
-                                        <div class="col-sm-3"><b><input type="text" class="num" name="spousenationalid" id="spousenationalid" ></b>{{nationalmsg}}</div>   
+                                        <div class="col-sm-3"><b><input type="text" name="spousenationalid" id="spousenationalid" ></b>{{nationalmsg}}</div>   
                                     </div>
                                     <br>
                                     <div class="row">
@@ -452,6 +491,19 @@
                                                 </thead>
 
                                         </table>
+<!--                                 <div class="form-group">
+                                    <label class="sr-only" for="f1-first-name">First name</label>
+                                    <input type="text" name="f1-first-name" placeholder="First name..." class="f1-first-name form-control" id="f1-first-name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-last-name">Last name</label>
+                                    <input type="text" name="f1-last-name" placeholder="Last name..." class="f1-last-name form-control" id="f1-last-name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-about-yourself">About yourself</label>
+                                    <textarea name="f1-about-yourself" placeholder="About yourself..." 
+                                                         class="f1-about-yourself form-control" id="f1-about-yourself"></textarea>
+                                </div> -->
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="button" class="btn btn-next">Next</button>
@@ -471,17 +523,17 @@
                                 <div style="font-size: 15px; background-color: blue; color: white ">Phone</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Office:</b></div> 
-                                        <div class="col-sm-3" ><b><input class="num" type="text" name="office" id="office"></b>{{mobileerror}}</div>
+                                        <div class="col-sm-3" ><b><input type="text" name="office" id="office"></b>{{mobileerror}}</div>
                                         <div class="col-sm-3"><b>Office Extension:</b></div>
                                         <div class="col-sm-3"><b><input type="text" name="officeextention"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Mobile:</b></div>
-                                        <div class="col-sm-3" ><b><input class="num" type="text" name="mobile" id="mobile">{{mobileerror}}</b>    
+                                        <div class="col-sm-3" ><b><input type="text" name="mobile" id="mobile">{{mobileerror}}</b>    
                                         </div>
                                         <div class="col-sm-3"><b>Home:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" class="num" name="home" id="home">
+                                        <div class="col-sm-3"><b><input type="text" name="home" id="home">
                                         </b>
                                         </div><br>
                                     </div>
@@ -499,15 +551,15 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>City:</b></div>
-                                        <div class="col-sm-3" ><b><input  class="alph" type="text" name="city"  id="city"></b></div>
+                                        <div class="col-sm-3" ><b><input type="text" name="city"  id="city"></b></div>
                                         <div class="col-sm-3"><b>Postcode:</b></div>    
-                                        <div class="col-sm-3"><b>   <input type="text" class="num" name="postcode" id="postcode"></b>
+                                        <div class="col-sm-3"><b>   <input type="text" name="postcode" id="postcode"></b>
                                         </div>
                                     </div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>State:</b></div>
                                         <div class="col-sm-3" ><b>
-                                        <input type="text" class="alph" name="state"  id="state">
+                                        <input type="text" name="state"  id="state">
                                         </b></div>
                                         <div class="col-sm-3"><b>Country <span class="required">*</span>:</b></div>
                                         <div class="col-sm-3"><b>
@@ -525,15 +577,15 @@
                                 <div style="font-size: 15px; background-color: blue; color: white">In Case of Emergency</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>First Name:</b></div>
-                                        <div class="col-sm-3"><b><input class="alph" type="text" name="coefirstname"  id="coefirstname" ></b></div>
+                                        <div class="col-sm-3"><b><input type="text" name="coefirstname"  id="coefirstname" ></b></div>
                                         <div class="col-sm-3" ><b>Last Name:</b></div>
-                                        <div class="col-sm-3"><b><input  class="alph" type="text" name="coelastname" id="coelastname"></b></div>
+                                        <div class="col-sm-3"><b><input type="text" name="coelastname" id="coelastname"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Middle Name:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="alph" name="coemiddlename" id="coemiddlename">
+                                        <input type="text" name="coemiddlename" id="coemiddlename">
                                         </b></div>
                                         <div class="col-sm-3" ></div>
                                         <div class="col-sm-3"></div>
@@ -542,25 +594,38 @@
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Relationship:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="alph" n class="alph"ame="coerelationship" id="coerelationship">
+                                        <input type="text" name="coerelationship" id="coerelationship">
                                         </b></div>
                                         <div class="col-sm-3" ><b>Mobile Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="num" name="coemobile" id="coemobile">
+                                        <input type="text" name="coemobile" id="coemobile">
                                         </b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>House Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="num" name="coehousephone" id="coehousephone">
+                                        <input type="text" name="coehousephone" id="coehousephone">
                                         </b></div>
                                         <div class="col-sm-3" ><b>Office Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="num" name="officephone"  id="officephone">
+                                        <input type="text" name="officephone"  id="officephone">
                                         </b></div>
                                     </div>
                                     <br>                             
+                                <!-- <div class="form-group">
+                                    <label class="sr-only" for="f1-first-name">First name</label>
+                                    <input type="text" name="f1-first-name" placeholder="First name..." class="f1-first-name form-control" id="f1-first-name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-last-name">Last name</label>
+                                    <input type="text" name="f1-last-name" placeholder="Last name..." class="f1-last-name form-control" id="f1-last-name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-about-yourself">About yourself</label>
+                                    <textarea name="f1-about-yourself" placeholder="About yourself..." 
+                                                         class="f1-about-yourself form-control" id="f1-about-yourself"></textarea>
+                                </div> -->
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="button" class="btn btn-next">Next</button>
@@ -571,12 +636,12 @@
                                 <h4>Health:</h4>
                                  <div style="font-size: 20px; background-color: blue; color: white">Health Details</div><br>
                                     <div class="row">
-                                        <div class="col-sm-3" ><b>Height (cm)</b></div>
+                                        <div class="col-sm-3" ><b>Height</b></div>
                                         <div class="col-sm-3"><b>
-                                            <input min="4" type= "number" name="height" id="height"></b>
+                                            <input type= "number" name="height" id="height"></b>
                                         </div>
-                                        <div class="col-sm-3"><b>Weight (kg)</b></div>
-                                        <div class="col-sm-3"><b><input min="25" type="number" name = "weight" id = "weight"></b></div>
+                                        <div class="col-sm-3"><b>Weight:</b></div>
+                                        <div class="col-sm-3"><b><input type="number" name = "weight" id = "weight"></b></div>
 
                                     </div><br>
                                     <div class="row">
@@ -598,7 +663,20 @@
                                         <div class="col-sm-3"><b></b></div>
                                     </div>
                                 <br>
-                                  <div class="f1-buttons">
+                                <!--                                 <div class="form-group">
+                                    <label class="sr-only" for="f1-email">Email</label>
+                                    <input type="text" name="f1-email" placeholder="Email..." class="f1-email form-control" id="f1-email">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-password">Password</label>
+                                    <input type="password" name="f1-password" placeholder="Password..." class="f1-password form-control" id="f1-password">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-repeat-password">Repeat password</label>
+                                    <input type="password" name="f1-repeat-password" placeholder="Repeat password..." 
+                                                        class="f1-repeat-password form-control" id="f1-repeat-password">
+                                </div>
+ -->                                <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button id ="preview" type="button" class="btn btn-next">Next</button>
                                 </div>
@@ -611,6 +689,10 @@
                                         <div class="col-sm-6" ><b>ID:</b></div>
                                         <div class="col-sm-6"  id= "employeeid_p" ></div>
                                 </div>
+                                <!-- <div class="row">
+                                        <div class="col-sm-6" ><b>First Name:</b></div>
+                                        <div class="col-sm-6"  id= "FirstName_p" ></div>
+                                </div> -->
                                 <div class="row">
                                         <div class="col-sm-6" ><b>First Name:</b></div>
                                         <div class="col-sm-6"  id= "firstname_p" ></div>
@@ -866,6 +948,33 @@
                                         <div class="col-sm-6" ><b>Blood Type:</b></div>
                                         <div class="col-sm-6"  id= "bloodgroup_p" ></div>
                                 </div>
+
+                                <!-- <div class="row">
+                                        <div class="col-sm-6" ><b>Position:</b></div>
+                                        <div class="col-sm-6" ><b>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Effective Data:</b></div>
+                                        <div class="col-sm-6" ><b>
+                                </div>
+                                        -->
+                                       
+                               <!--  <div id= "results" style="font-size: 20px"></div>
+                                <div></div> -->
+
+                               <!--  <div class="form-group">
+                                    <label class="sr-only" for="f1-facebook">Facebook</label>
+                                    <input type="text" name="f1-facebook" placeholder="Facebook..." class="f1-facebook form-control" id="f1-facebook">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-twitter">Twitter</label>
+                                    <input type="text" name="f1-twitter" placeholder="Twitter..." class="f1-twitter form-control" id="f1-twitter">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-google-plus">Google plus</label>
+                                    <input type="text" name="f1-google-plus" placeholder="Google plus..." class="f1-google-plus form-control" id="f1-google-plus">
+                                </div> -->
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
                                      <button type="button" class="btn btn-next">Next</button>
@@ -874,7 +983,18 @@
                             </fieldset>
                              <fieldset>
                                 <h4>Directory:</h4>
-                              
+                               <!--  <div class="form-group">
+                                    <label class="sr-only" for="f1-facebook">Facebook</label>
+                                    <input type="text" name="f1-facebook" placeholder="Facebook..." class="f1-facebook form-control" id="f1-facebook">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-twitter">Twitter</label>
+                                    <input type="text" name="f1-twitter" placeholder="Twitter..." class="f1-twitter form-control" id="f1-twitter">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-google-plus">Google plus</label>
+                                    <input type="text" name="f1-google-plus" placeholder="Google plus..." class="f1-google-plus form-control" id="f1-google-plus">
+                                </div> -->
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="button" class="btn btn-next">Next</button>
@@ -882,13 +1002,24 @@
                             </fieldset>
                              <fieldset>
                                 <h4>Remark:</h4>
-                               
+                               <!--  <div class="form-group">
+                                    <label class="sr-only" for="f1-facebook">Facebook</label>
+                                    <input type="text" name="f1-facebook" placeholder="Facebook..." class="f1-facebook form-control" id="f1-facebook">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-twitter">Twitter</label>
+                                    <input type="text" name="f1-twitter" placeholder="Twitter..." class="f1-twitter form-control" id="f1-twitter">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-google-plus">Google plus</label>
+                                    <input type="text" name="f1-google-plus" placeholder="Google plus..." class="f1-google-plus form-control" id="f1-google-plus">
+                                </div> -->
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="submit" class="btn btn-submit">Submit</button>
                                 </div>
                             </fieldset>
-                    	
+                    	</div>
                     	</form>
                     </div>
                 </div>
@@ -905,73 +1036,6 @@
         <script src="{% static 'assets/js/scripts.js' %}"></script>
         <script>
 $(document).ready(function(){
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth()+1; //January is 0!
-  var effdatemm = today.getMonth();
-  console.log(effdatemm,"this is the month");
-  var yyyy = today.getFullYear();
-
- if(dd<10){
-        dd='0'+dd
-    } 
-    if(mm<10){
-        mm='0'+mm
-    } 
-    if(effdatemm<10){
-        effdatemm='0'+effdatemm
-    } 
-
-today = yyyy+'-'+mm+'-'+dd;
-var effdatemin = yyyy+'-'+effdatemm+'-'+dd;
-console.log(effdatemin,"this is the effdatemin");
-$("#birthdate").attr("max", today);
-// $("#childbirthdate").attr("max", today);
-
-$("#jobstatuseffectivedate").attr("max", today);
-$("#jobstatuseffectivedate").attr("min",effdatemin);
-$("#employmentstatuseffectivedate").attr("max", today);
-$("#employmentstatuseffectivedate").attr("min",effdatemin);
-
-console.log(today);
-
-    
-
-    $("#birthdate").on('change',function(){
-    var joinmindate = $('#birthdate').val();
-
-     $("#datejoin").attr("min",joinmindate);
-     $("#datejoin").attr("max", today);
-  });
-
-
-    $("#datejoin").on('change',function(){
-      console.log("we are in joindate")
-    var mindate = $('#datejoin').val();
-    console.log(mindate);
-     $("#endofprobation").attr("min",mindate);
-     
-var eopdate = new Date(mindate);
-var dd = eopdate.getDate();
-var mm = eopdate.getMonth()+4; //January is 0!
- //January is 0!
-console.log(mm);
-var yyyy = eopdate.getFullYear();
- if(dd<10){
-        dd='0'+dd
-    } 
-    if(mm<10){
-        mm='0'+mm
-    } 
-
-var eopdatemax = yyyy+'-'+mm+'-'+dd;
-
-
-$("#endofprobation").attr("max", eopdatemax);
-  });
-
-
-
     $("#addchildren").attr("disabled", true);
     $("#deletechildren").attr("disabled", true);
     $('#numberofchild').change(function(){
@@ -1014,57 +1078,19 @@ $("#endofprobation").attr("max", eopdatemax);
   });
 });
 </script>
-
-<script type="text/javascript">
-
-
-  $("#maritalstatus").on('change',function(){
-    console.log("in")
-   if($(this).find('option:selected').text()=="Single")
-   {
-    $("#spouseworking").attr('disabled',true);
-    $("#numberofchild").attr('disabled',true);
-    $("#spousefirstname").attr('disabled',true);
-    $("#spouselastname").attr('disabled',true);
-    $("#spousemiddlename").attr('disabled',true);
-    $("#spousenationality").attr('disabled',true);
-    $("#spousenationalid").attr('disabled',true);
-    $("#spousebirthdate").attr('disabled',true);
-    $("#spousepassport").attr('disabled',true);
-    $("#spouseethnicity").attr('disabled',true);
-    $("#spouserelegion").attr('disabled',true);
-   }
-   else
-   {
-    $("#spouseworking").attr('disabled',false);
-    $("#numberofchild").attr('disabled',false);
-    $("#spousefirstname").attr('disabled',false);
-    $("#spouselastname").attr('disabled',false);
-    $("#spousemiddlename").attr('disabled',false);
-    $("#spousenationality").attr('disabled',false);
-    $("#spousenationalid").attr('disabled',false);
-    $("#spousebirthdate").attr('disabled',false);
-    $("#spousepassport").attr('disabled',false);
-    $("#spouseethnicity").attr('disabled',false);
-    $("#spouserelegion").attr('disabled',false);
-    }
-  });
-</script>
-
-<script>
+<script >
         function displayResult()
         {
-            document.getElementById("myTable").insertRow(-1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname" class="alph"></td> <td><input type = "text" name="childmiddlename" class="alph"></td> <td><input type = "text" name="childlastname" class="alph"></td> <td><input type = "Date" name="childbirthdate" id="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
+            document.getElementById("myTable").insertRow(-1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname"></td> <td><input type = "text" name="childmiddlename"></td> <td><input type = "text" name="childlastname"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
         }
 
                 function deleterow()
         {
-            document.getElementById("myTable").deleteRow(1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname"></td> <td><input type = "text" name="childmiddlename"></td> <td><input type = "text" name="childlastname"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
+            document.getElementById("myTable").deleteRow(-1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname"></td> <td><input type = "text" name="childmiddlename"></td> <td><input type = "text" name="childlastname"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
         }
 
  </script>
  <script type='text/javascript'>
-
 function preview_image(event) 
 {
  var reader = new FileReader();

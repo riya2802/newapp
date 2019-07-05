@@ -93,16 +93,18 @@ def is_valid_national(nationaid):
 
 def check_join_date(joindate, birthdate):
 	current_date=datetime.today()
-	print('joindate',type(joindate),'birthdate',type(birthdate),'current_date',type(current_date))
-	if joindate < birthdate and joindate > current_date :
+	#minimumdate= birthdate.year+18
+	#print('minimumdate',minimumdate)
+	if date_to_string(joindate) < birthdate or date_to_string(joindate) > current_date.date() :
+		print('correct')
 		return False
 	return True 
 
-def calculate_Effective_date(effectivedate):
-	current_date=date.today()
-	last_month = now.month-1 if now.month > 1 else 12
-	if  effectivedate > current_date:
-		pass
+# def calculate_Effective_date(effectivedate):
+# 	current_date=date.today()
+# 	#last_month = now.month-1 if now.month > 1 else 12
+# 	if  date_to_string(effectivedate) < current_date or date_to_string(effectivedate) > current_date - (datetime.date.timedelta(1*365/12)).isofornat():
+# 		print(date_to_string(effectivedate) > current_date - (datetime.timedelta(1*365/12)).isofornat())
 
 def check_employeeId(employeeid):
 	if employeeid.isalpha():
@@ -111,3 +113,13 @@ def check_employeeId(employeeid):
 		return True
 	else:
 		return False
+
+def date_to_string(date1):
+	date_obj = datetime.strptime(date1, '%Y-%m-%d').date()
+	print('date_obj',date_obj,type(date_obj))
+	return date_obj
+
+def is_valid_health(health):
+	if str(height).isalpha():
+		return False
+	if 

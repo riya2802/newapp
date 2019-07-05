@@ -247,7 +247,7 @@ class employeeFamily(models.Model):
 	employeeFamilySpouseFirstName= models.CharField(max_length=255,blank=True,null=True)
 	employeeFamilySpouseMiddelName=models.CharField(max_length=255,null=True,blank=True)
 	employeeFamilySpouseLastName=models.CharField( max_length=255,blank=True,null=True)
-	employeeFamilySpouseBirthDate=models.DateField(null=True)
+	employeeFamilySpouseBirthDate=models.DateField(null=True,blank = True)
 	employeeFamilySpouseNationality=models.CharField(max_length=15, choices=Nationality, default='India',blank=False,null=False)
 	employeeFamilySpouseNationalId=models.IntegerField(null=True,blank=True)
 	employeeFamilySpousePassport=models.IntegerField(null=True,blank=True)
