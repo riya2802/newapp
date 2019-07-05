@@ -121,7 +121,7 @@
                                 <div style="font-size: 20px; background-color: blue; color: white ">Personal Details</div><br>
                                     <div class="row">
                                         <div class="col-sm-2" ><b>ID <span class="required">*</span></b></div> 
-                                        <div class="col-sm-6" ><input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" value="{{ objEmployeePersonal.employeementId }}">  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
+                                        <div class="col-sm-6" ><input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" ">  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
                                         </div>
                                         <div id="wrapper" >
                                             <input type="file" accept="image/*" onchange="preview_image(event)">
@@ -161,7 +161,7 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-2" ><b>Birth Date<span class="required">*</span>:</b></div>
-                                        <div class="col-sm-6"><b><input type="Date" name="birthdate" id="birthdate" value="{{ objEmployeePersonal.employeeBirthDate|date:'Y-m-d' }}"><span style="color:red;"></span></b> </div>
+                                        <div class="col-sm-6"><b><input type="Date" name="birthdate" id="birthdate" ><span style="color:red;"></span></b> </div>
                                         <div class= "col-sm-4" > </div>
                                     </div>
                                     <br>
@@ -235,7 +235,7 @@
                             </fieldset>
                                 
                             <fieldset>
-                              <!-- {% for i in objEmployeeJob %} -->
+                              {% for i in objEmployeeJob %} 
                                  <h4>Job:</h4>
 
                                  <div style="font-size: 15px; background-color: blue; color: white; ">Employment Information</div><br>

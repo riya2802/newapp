@@ -155,14 +155,14 @@
                                     
 
                                     <div class="col-sm-2" ><b>National ID <span class="required">*</span>:</b></div>
-                                    <div class="col-sm-4"><input type="text" class="num" name="nationalid" id ="nationalid"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>
+                                    <div class="col-sm-4"><input type="text" class="num" name="nationalid" id ="nationalid" value="{{ objEmployeePersonal.employeeNationalId }}"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>
                                     
                                   </div>   
                                         
                                         <br>
                                   <div class="row">
                                     <div class="col-sm-2" ><b>Passport:</b></div>
-                                    <div class="col-sm-6" ><input type="text"  class="num" name="passport" id="passport" ><span style="color:red;">{{ passmsg}}</span></div>
+                                    <div class="col-sm-6" ><input type="text"  class="num" name="passport" id="passport" value="{{ objEmployeePersonal.employeePassport }}"><span style="color:red;">{{ passmsg}}</span></div>
                                     <div class= "col-sm-4" ></div>   
                                         </div><br>
                                          <div style="font-size: 20px; background-color: blue; color: white ">Additional Details</div><br>
@@ -170,7 +170,7 @@
                                       <div class="col-sm-2" ><b>Ethnicity:</b></div>
                                       <div class="col-sm-2" ><b>
                                           <select name= "ethnicity" id= "ethnicity">
-                                            <option value="noethnicity">No Ethnicity</option>
+                                            <option value="{{objEmployeePersonal.employeeEthnicity}}"hidden  selected>{{objEmployeePersonal.employeeEthnicity}}</option>
                                             <option value="ethnicityasyouwant">As you want</option>
                                             <option value="ethnicityasyouwant">As you want</option>
                                             <option value="ethnicityasyouwant">As you want</option>
@@ -180,7 +180,7 @@
                                       <div class="col-sm-2" ><b>Religion:</b></div>
                                       <div class="col-sm-2" ><b>
                                           <select name = "religion"  id = "religion">
-                                            <option value="noreligion">No Religion</option>
+                                            <option value="{{objEmployeePersonal.employeeReligion}}"hidden  selected>{{objEmployeePersonal.employeeReligion}}</option>
                                             <option value="religionasyouwant">As you want</option>
                                             <option value="religionasyouwant">As you want</option>
                                             <option value="religionasyouwant">As you want</option>
@@ -191,16 +191,16 @@
                                     <button type="button" class="btn btn-next">Next</button>
                                 </div>  
                             </fieldset>
-
+                                  {% for i in objEmployeeJob %} 
                             <fieldset>
                                  <h4>Job:</h4>
 
                                  <div style="font-size: 15px; background-color: blue; color: white; ">Employment Information</div><br>
                                     <div class="row">
                                         <div class="col-sm-2" ><b>Date Joined <span class="required">*</span>:</b></div>
-                                        <div class="col-sm-4" ><b><input type="Date" name="datejoin"  id="datejoin"></b></div>
+                                        <div class="col-sm-4" ><b><input type="Date" name="datejoin"  id="datejoin"  value="{{i.dateJoined|date:'Y-m-d' }}"></b></div>
                                         <div class="col-sm-2"><b>End of Probation:</b></div>
-                                        <div class="col-sm-4"><b> <input type="Date" name="endofprobation" id="endofprobation"></b></div>
+                                        <div class="col-sm-4"><b> <input type="Date" name="endofprobation" id="endofprobation" value="{{ i.endofProbation|date:'Y-m-d' }}"></b></div>
                                     </div>
                                     <br>
                                 <div style="font-size: 15px; background-color: blue; color: white ">Job Status</div><br>
@@ -208,21 +208,22 @@
                                         <div class="col-sm-2" ><b>Position <span class="required">*</span>:</b></div> 
                                         <div class="col-sm-4" ><b> 
                                             <select name="positiondd"  id="positiondd" >
-                                            <option value ="">Not Assigned</option>
+                                            select name="positiondd"  id="positiondd" >
+                                            <option value="{{i.position}}"hidden  selected>{{i.position}}</option>
                                             <option value="positionasyouwant">As you want</option>
                                             <option value="positionasyouwant">As you want</option>
                                             <option value="positionasyouwant">As you want</option>
                                             </select></b>
                                         </div>
                                         <div class="col-sm-2"><b>Effective Date <span class="required">*</span>:</b></div>
-                                        <div class="col-sm-4"><b><input type="Date" name="jobstatuseffectivedate" id= "jobstatuseffectivedate">{{ error6 }}</b></div>
+                                        <div class="col-sm-4"><b><input type="Date" name="jobstatuseffectivedate" id= "jobstatuseffectivedate" value="{{ i.jobStatusEffectiveDate|date:'Y-m-d' }}">{{ error6 }}</b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-2" ><b>Line Manager:</b></div>
                                         <div class="col-sm-4" ><b>
                                             <select name="linemanagedd" id="linemanagedd">
-                                            <option value="">Not Assigned</option>
+                                              <option value="{{i.lineManager}}"hidden  selected>{{i.lineManager}}</option>
                                             <option value="linemangaerasyouwant">As you want</option>
                                             <option value="linemangaerasyouwant">As you want</option>
                                             <option value="linemangaerasyouwant">As you want</option>
@@ -232,7 +233,7 @@
                                         <div class="col-sm-2"><b>Department:</b></div>
                                         <div class="col-sm-4"><b>   
                                             <select name="departmentdd"id="departmentdd">
-                                            <option value="">Not Assigned</option>
+                                            <option value="{{i.department}}"hidden  selected>{{i.department}}</option>
                                             <option value="departmentasyouwant">As you want</option>
                                             <option value="departmentasyouwant">As you want</option>
                                             <option value="departmentasyouwant">As you want</option>
@@ -244,7 +245,7 @@
                                         <div class="col-sm-2" ><b>Branch:</b></div>
                                         <div class="col-sm-4" ><b>
                                             <select name="branchdd"  id="branchdd">
-                                            <option value="">Not Assigned</option>
+                                            <option value="{{i.branch}}"hidden  selected>{{i.branch}}</option>
                                             <option value="branchasyouwant">As you want</option>
                                             <option value="branchasyouwant">As you want</option>
                                             <option value="branchasyouwant">As you want</option>
@@ -254,7 +255,7 @@
                                         <div class="col-sm-2"><b>Level:</b></div>
                                         <div class="col-sm-4"><b>
                                             <select name="leveldd" id="leveldd">
-                                            <option value="">Not Assigned</option>
+                                            <option value="{{i.level}}"hidden  selected>{{i.level}}</option>
                                             <option value="branchasyouwant">As you want</option>
                                             <option value="branchasyouwant">As you want</option>
                                             <option value="branchasyouwant">As you want</option>
@@ -267,21 +268,21 @@
                                         <div class="col-sm-2" ><b>Job Type:</b></div>
                                         <div class="col-sm-4" ><b>
                                         <select name="jobtypedd" id="jobtypedd">
-                                            <option value="">Not Assigned</option>
+                                            <option value="{{i.jobType}}"hidden  selected>{{i.jobType}}</option>
                                             <option value="jobtypeasyouwant">As you want</option>
                                             <option value="jobtypeasyouwant">As you want</option>
                                             <option value="jobtypeasyouwant">As you want</option>
                                             </select></b>
                                         </div>
                                         <div class="col-sm-2"><b>Effective Date <span class="required">*</span>:</b></div>
-                                        <div class="col-sm-4"><b><input type="Date" name="employmentstatuseffectivedate" id="employmentstatuseffectivedate"></b></div>
+                                        <div class="col-sm-4"><b><input type="Date" name="employmentstatuseffectivedate" id="employmentstatuseffectivedate" value="{{ i.employmentStatusEffectiveDate|date:'Y-m-d' }}"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-2" ><b>Job Status:</b></div>
                                         <div class="col-sm-4" ><b>
                                             <select name="jobstatusdd" id="jobstatusdd">
-                                            <option value="">Not Assigned</option>
+                                            <option value="{{i.jobStatus}}"hidden  selected>{{i.jobStatus}}</option>
                                             <option value="jobstatusasyouwant">As you want</option>
                                             <option value="jobstatusasyouwant">As you want</option>
                                             <option value="jobstatusasyouwant">As you want</option>

@@ -1,5 +1,5 @@
 import re
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from django.contrib.auth.models import User
 
 
@@ -90,21 +90,28 @@ def is_valid_national(nationaid):
 		return False
 	if str(nationaid).isdigit():
 		return True
-
+	return True
 def check_join_date(joindate, birthdate):
 	current_date=datetime.today()
-	#minimumdate= birthdate.year+18
-	#print('minimumdate',minimumdate)
-	if date_to_string(joindate) < birthdate or date_to_string(joindate) > current_date.date() :
+	mindate =data = add_years(birthdate,18)
+	print('mindate',mindate,type(mindate))
+	if date_to_string(joindate) < mindate or date_to_string(joindate) > current_date.date() :
 		print('correct')
 		return False
 	return True 
 
-# def calculate_Effective_date(effectivedate):
-# 	current_date=date.today()
-# 	#last_month = now.month-1 if now.month > 1 else 12
-# 	if  date_to_string(effectivedate) < current_date or date_to_string(effectivedate) > current_date - (datetime.date.timedelta(1*365/12)).isofornat():
-# 		print(date_to_string(effectivedate) > current_date - (datetime.timedelta(1*365/12)).isofornat())
+def calculate_Effective_date(effectivedate):
+	c_date = datetime.date(datetime.today())
+	month = c_date-timedelta(days=30)
+	print('c_date',c_date,type(c_date))
+	print('month',month,type(month))
+	#print('effectivedate',date_to_string(effectivedate),type(date_to_string(effectivedate)))
+	edate = date_to_string(effectivedate)
+	print(edate)
+	if date_to_string(effectivedate) < month or date_to_string(effectivedate) > c_date :
+		#print(date_to_string(effectivedate) > current_date - (datetime.timedelta(1*365/12)).isofornat())
+		return False
+	return True
 
 def check_employeeId(employeeid):
 	if employeeid.isalpha():
@@ -117,9 +124,37 @@ def check_employeeId(employeeid):
 def date_to_string(date1):
 	date_obj = datetime.strptime(date1, '%Y-%m-%d').date()
 	print('date_obj',date_obj,type(date_obj))
+	print()
 	return date_obj
 
 def is_valid_health(health):
 	if str(height).isalpha():
 		return False
-	if 
+	pass
+
+
+def add_years(d, years):
+    """Return a date that's `years` years after the date (or datetime)
+    object `d`. Return the same calendar date (month and day) in the
+    destination year, if it exists, otherwise use the following day
+    (thus changing February 29 to March 1).
+
+    """
+    try:
+        return d.replace(year = d.year + years)
+    except ValueError:
+        return d + (date(d.year + years, 1, 1) - date(d.year, 1, 1))
+    
+def end_of_probation(probationdate,joindate):
+	print('probationdatedata',probationdate)
+	days1 = 30*3+2 ## probation date is b/w  joining date and from 3 months later
+	print('date_to_string(probationdate)',date_to_string(probationdate))
+
+	newprobationdate=date_to_string(probationdate)
+	joinDate = date_to_string(joindate)
+	print(type(joinDate),type(newprobationdate))
+	afterdate = joinDate+timedelta(days=days1)
+	print('afterdate',afterdate, type(afterdate))
+	if newprobationdate < joindate or newprobationdate > afterdate.date():
+		return False
+	return True

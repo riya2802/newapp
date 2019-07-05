@@ -102,24 +102,52 @@ def personalAjaxRequest(request):
 			return JsonResponse({'msg':' passport no is not valid !','status':400})
 		if not validation_function.is_valid_national(nationalId):
 			return JsonResponse({'msg':' National no is not valid !','status':400})
-		checkEmployee =employee.objects.get(employeementId = employeementId,status='Pending')
-		if checkEmployee:
-			checkEmployee.employeeFirstName=firstName
-			checkEmployee.employeeMiddelName=middelName
-			checkEmployee.employeeLastName=lastName
-			checkEmployee.employeeGender=gender
-			checkEmployee.employeeBirthDate=birthDate
-			checkEmployee.employeeNationalId=nationalId
-			checkEmployee.employeePassport=passport
-			checkEmployee.employeeEthnicity=ethnicity
-			checkEmployee.employeeReligion=religion
-			checkEmployee.employeePhoto=photo
-			checkEmployee.status="Pending"
-			checkEmployee.save()
-			print(type(checkEmployee))
-			return JsonResponse({'msg':'success','status':200})
-		employee.objects.create(employeementId=employeementId,employeeFirstName=firstName,employeeMiddelName=middelName,employeeLastName=lastName,employeeGender=gender,employeeBirthDate=birthDate,employeeNationality=nationality,employeeNationalId=nationalId,employeePassport=passport,employeeEthnicity=ethnicity,employeeReligion=religion,employeePhoto=photo,status="Pending")		
-		return JsonResponse({'msg':'success','status':200})
+		try:
+			print("in")
+			filterobj = employee.objects.filter(employeementId = employeementId,status='Pending').first()
+		except:
+			print("in1")
+			if filterobj:
+				print("in2")
+				filterobj.employeeFirstName=firstName
+				filterobj.employeeMiddelName=middelName
+				filterobj.employeeLastName=lastName
+				filterobj.employeeGender=gender
+				filterobj.employeeBirthDate=birthDate
+				filterobj.employeeNationalId=nationalId
+				filterobj.employeePassport=passport
+				filterobj.employeeEthnicity=ethnicity
+				filterobj.employeeReligion=religion
+				filterobj.employeePhoto=photo
+				filterobj.status="Pending"
+				filterobj.save()
+				print('filterobj.employeeFirstName',filterobj.employeeId)
+				print(type(filterobj))
+				print("filterobj.employeeId",filterobj.employeeId)
+				return JsonResponse({'msg':'success','status':200,'empID':filterobj.employeeId})
+		else:
+			print("in1else")
+			if filterobj:
+				print("in2else")
+				filterobj.employeeFirstName=firstName
+				filterobj.employeeMiddelName=middelName
+				filterobj.employeeLastName=lastName
+				filterobj.employeeGender=gender
+				filterobj.employeeBirthDate=birthDate
+				filterobj.employeeNationalId=nationalId
+				filterobj.employeePassport=passport
+				filterobj.employeeEthnicity=ethnicity
+				filterobj.employeeReligion=religion
+				filterobj.employeePhoto=photo
+				filterobj.status="Pending"
+				filterobj.save()
+				print(filterobj.employeeFirstName)
+				print(type(filterobj))
+				print('filterobj.employeeId',filterobj.employeeId)
+				return JsonResponse({'msg':'success','status':200,'empID':filterobj.employeeId})
+		obj_E = employee.objects.create(employeementId=employeementId,employeeFirstName=firstName,employeeMiddelName=middelName,employeeLastName=lastName,employeeGender=gender,employeeBirthDate=birthDate,employeeNationality=nationality,employeeNationalId=nationalId,employeePassport=passport,employeeEthnicity=ethnicity,employeeReligion=religion,employeePhoto=photo,status="Pending")		
+		print('empID',obj_E.employeeId)
+		return JsonResponse({'msg':'success','status':200,'empID':obj_E.employeeId})
 
 #------------------------------------------------------
 @csrf_exempt
@@ -127,8 +155,9 @@ def familyAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		employeementId_obj=request.POST.get('employeementId',None)
-		obj =employee.objects.filter(employeementId = employeementId_obj).first()
+		employeementId_obj=request.POST.get('empid',None)
+		print('employeementId_obj',employeementId_obj)
+		obj =employee.objects.filter(employeeId = employeementId_obj).first()
 		maritalStatus=request.POST.get('maritalstatus',None)
 		numberOfChild=request.POST.get('numberofchild',None)
 		print('numberOfChild',numberOfChild,type(numberOfChild))
@@ -140,6 +169,7 @@ def familyAjaxRequest(request):
 		spousenationality= request.POST.get('spousenationality',None)
 		spousepassport= request.POST.get('spousepassport',None)
 		spousenationalId= request.POST.get('spousenationalid',None)
+		print('spousenationalId',spousenationalId, type(spousenationalId),len(spousenationalId))
 		spouseethnicity= request.POST.get('spouseethnicity',None)
 		spousereligion= request.POST.get('spousereligion',None)
 		if spousenationality is None or spousenationality =="":
@@ -185,31 +215,37 @@ def familyAjaxRequest(request):
 				return JsonResponse({'msg':'childLast name only takes alphabets !','status':400}) 
 			insert_list.append(employeeChildren(employeeForeignId=obj,employeeChildrenFirstName=query_dict_childfirstname[i],employeeChildrenMiddelName=query_dict_childmiddlename[i],employeeChildrenLastName=query_dict_childlastname[i],employeeChildrenBirthDate=newchildbirthdate,employeeChildrenGender=query_dict_childgender[i],employeeChildrenMaritalStatus=query_dict_childmaritalstatus[i]),)
 		employeeChildren.objects.bulk_create(insert_list)
-		checkEmployee =employeeFamily.objects.filter(employeementId = employeementId,status='Pending').update(employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousebirthDate,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=spousenationalId ,employeeFamilySpousePassport=spousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
+		checkEmployee =employeeFamily.objects.filter(employeeForeignId = obj).update(employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousebirthDate,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=spousenationalId ,employeeFamilySpousePassport=spousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
 		if checkEmployee:
-			return JsonResponse({'msg':'success','status':200})
+			return JsonResponse({'msg':'success','status':200,'empID':employeementId_obj})
 		print('insert_list',insert_list)
-		employeeFamily.objects.create(employeeForeignId=obj,employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousebirthDate,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=spousenationalId ,employeeFamilySpousePassport=spousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
-		return JsonResponse({'msg':'success','status':200})
+		employeeFamily.objects.create(employeeForeignId=obj, employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousebirthDate,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=spousenationalId ,employeeFamilySpousePassport=spousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
+		return JsonResponse({'msg':'success','status':200,'empID':employeementId_obj})
 #----------------------------------------------------------------
 @csrf_exempt
 def jobAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		employeementId_obj=request.POST.get('employeementId',None)
-		obj =employee.objects.filter(employeementId = employeementId_obj).first()
-		print(obj.employeeBirthDate ,obj.employeementId)
+		employeementId_obj=request.POST.get('empid')
+		print('employeementId_obj',employeementId_obj)
+		obj =employee.objects.filter(employeeId = employeementId_obj).first()
+		# print(obj.employeeBirthDate)
+		#print(obj.employeeBirthDate ,obj.employeementId)
+		print('request.POST',request.POST)
 		DateJoined = request.POST.get('datejoin',None)
 		EndofProbation = request.POST.get('endofprobation',None)
+		print('EndofProbation',EndofProbation,type(EndofProbation))
 		Position = request.POST.get('positiondd',None)
 		JobStatusEffectiveDate = request.POST.get('jobstatuseffectivedate',None)
+		print('JobStatusEffectiveDate',JobStatusEffectiveDate,type(JobStatusEffectiveDate))
 		LineManager = request.POST.get('linemanagedd',None)
 		Department = request.POST.get('departmentdd',None)
 		Branch = request.POST.get('branchdd',None)
 		Level = request.POST.get('leveldd',None)
 		JobType = request.POST.get('jobtypedd',None)
 		EmploymentStatusEffectiveDate = request.POST.get('employmentstatuseffectivedate',None)
+		print('EmploymentStatusEffectiveDate',EmploymentStatusEffectiveDate, type(EmploymentStatusEffectiveDate))
 		JobStatus = request.POST.get('jobstatusdd',None)
 		LeaveWorkflow = request.POST.get('leaveworkflowdd',None)
 		Workdays = request.POST.get('workdays',None)
@@ -220,25 +256,30 @@ def jobAjaxRequest(request):
 		if DateJoined is  None or DateJoined == "" and Position is None or Position == "" and JobStatusEffectiveDate is None or JobStatusEffectiveDate == "" and EmploymentStatusEffectiveDate is None or EmploymentStatusEffectiveDate == "":		    
 			return JsonResponse({'msg':'Required fields empty !','status':400})
 		if EndofProbation is not None and EndofProbation != '':
-			   		newendofProbation=EndofProbation
+			# if not validation_function.end_of_probation(EndofProbation,DateJoined):
+			# 	return JsonResponse({'msg':'Invalid probation date','status':400})
+			# else:
+				newendofProbation =	EndofProbation
 		else:
-			newendofProbation=EndofProbation
+			newendofProbation=None
 		if not validation_function.check_join_date(DateJoined,obj.employeeBirthDate):
 			return JsonResponse({'msg':'Invalid joining date','status':400})
-		# if not validation_function.calculate_Effective_date(JobStatusEffectiveDate):
-		# 	return JsonResponse({'msg':'Invalid Effective date','status':400})
-		checkJob =Job.objects.filter(employeementId = employeementId,status='Pending').update(dateJoined=DateJoined,endofProbation=newendofProbation,position=Position,jobStatusEffectiveDate=JobStatusEffectiveDate,lineManager=LineManager,department=Department,branch=Branch,level=Level,jobType=JobType,employmentStatusEffectiveDate=EmploymentStatusEffectiveDate,jobStatus=JobStatus,leaveWorkflow=LeaveWorkflow,workdays=Workdays,holidays=Holidays,termStart=TermStart,termEnd=TermEnd)
+		if not validation_function.calculate_Effective_date(JobStatusEffectiveDate):
+			return JsonResponse({'msg':'Invalid Effective date','status':400})
+		if not validation_function.calculate_Effective_date(EmploymentStatusEffectiveDate):
+			return JsonResponse({'msg':'Invalid Effective date','status':400})
+		checkJob =Job.objects.filter(employeeForeignId = obj).update(dateJoined=DateJoined,endofProbation=newendofProbation,position=Position,jobStatusEffectiveDate=JobStatusEffectiveDate,lineManager=LineManager,department=Department,branch=Branch,level=Level,jobType=JobType,employmentStatusEffectiveDate=EmploymentStatusEffectiveDate,jobStatus=JobStatus,leaveWorkflow=LeaveWorkflow,workdays=Workdays,holidays=Holidays,termStart=TermStart,termEnd=TermEnd)
 		if checkJob:
-			return JsonResponse({'msg':'success','status':200})
+			return JsonResponse({'msg':'success','status':200,'empID':employeementId_obj})
 		Job.objects.create(employeeForeignId=obj,dateJoined=DateJoined,endofProbation=newendofProbation,position=Position,jobStatusEffectiveDate=JobStatusEffectiveDate,lineManager=LineManager,department=Department,branch=Branch,level=Level,jobType=JobType,employmentStatusEffectiveDate=EmploymentStatusEffectiveDate,jobStatus=JobStatus,leaveWorkflow=LeaveWorkflow,workdays=Workdays,holidays=Holidays,termStart=TermStart,termEnd=TermEnd)		
-		return JsonResponse({'msg':'success','status':200})
+		return JsonResponse({'msg':'success','status':200,'empID':employeementId_obj})
 #----------------------------------------------------------------------------
 @csrf_exempt
 def contactAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		employeementId_obj=request.POST.get('employeementId',None)
+		employeementId_obj=request.POST.get('empID',None)
 		obj =employee.objects.filter(employeementId = employeementId_obj).first()
 		Email = request.POST.get('email')
 		BlogHomepage = request.POST.get('bloghomepage')
@@ -297,7 +338,7 @@ def healthAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		employeementId_obj=request.POST.get('employeementId',None)
+		employeementId_obj=request.POST.get('empID',None)
 		obj =employee.objects.filter(employeementId = employeementId_obj).first()
 		height=	request.POST.get('height',None)
 		weight=request.POST.get('weight',None)
@@ -568,5 +609,4 @@ def addEmployee(request):
 ,'action':"/newapp/addFun",})
 
 def personalDetailsUpdate(request):
-	
-        
+	pass
