@@ -146,10 +146,8 @@ def add_years(d, years):
         return d + (date(d.year + years, 1, 1) - date(d.year, 1, 1))
     
 def end_of_probation(probationdate,joindate):
-	print('probationdatedata',probationdate)
 	days1 = 30*3+2 ## probation date is b/w  joining date and from 3 months later
 	print('date_to_string(probationdate)',date_to_string(probationdate))
-
 	newprobationdate=date_to_string(probationdate)
 	joinDate = date_to_string(joindate)
 	print(type(joinDate),type(newprobationdate))
