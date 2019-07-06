@@ -19,14 +19,14 @@ def is_valid_email(email):
 	else :
 		if re.search(r'\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b', email, re.I):
 			print('kkkk')
-			return Truei
+			return True
 		else:
 			return False
 		
 
 			#return bool(re.se("^.+@(\[?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?)$", email))
 def is_valid_phone(phone):
-	if phone == "":
+	if phone == "" or phone == None:
 		print("blank")
 		return True
 	else:
@@ -154,5 +154,32 @@ def end_of_probation(probationdate,joindate):
 	afterdate = joinDate+timedelta(days=days1)
 	print('afterdate',afterdate, type(afterdate))
 	if newprobationdate < joindate or newprobationdate > afterdate.date():
+		return False
+	return True
+
+def is_valid_postcode(postcode):
+	if postcode == "" or postcode is None :
+		return True
+	if postcode.isalpha():
+		return False
+	if len(postcode) != 6 :
+		return False
+	return True
+
+def is_valid_height(height):
+	if height =="" or height is None:
+		return True
+	if height.isalpha():
+		return False
+	if float(height) < 4 :
+		return False
+	return True
+
+def is_valid_weight(weight):
+	if weight =="" or weight is None:
+		return True
+	if weight.isalpha():
+		return False
+	if float(weight) < 25 :
 		return False
 	return True

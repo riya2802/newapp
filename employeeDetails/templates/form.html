@@ -97,7 +97,7 @@
                                 <div style="font-size: 20px; background-color: blue; color: white ">Personal Details</div><br>
                                     <div class="row">
                                         <div class="col-sm-2" ><b>ID <span class="required">*</span></b></div> 
-                                        <div class="col-sm-6" ><input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
+                                        <div class="col-sm-6" ><input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" value="{{ objEmployeePersonal.employeementId }}" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
                                         </div>
                                         <div id="wrapper" >
                        <input type="file" accept="image/*" onchange="preview_image(event)">
@@ -108,19 +108,19 @@
                                     <br>
                                      <div class="row">
                                       <div class="col-sm-2" ><b>First Name <span class="required">*</span>: </b></div>
-                                      <div class="col-sm-6" ><b><input type="text" name="firstname" class="alph" id ="firstname" ><span style="color:red;"></span> </b></div>
+                                      <div class="col-sm-6" ><b><input type="text" name="firstname" class="alph" id ="firstname" value="{{ objEmployeePersonal.employeeFirstName }}"><span style="color:red;"></span> </b></div>
                                       <div class= "col-sm-4" ></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                       <div class="col-sm-2" ><b>Middle Name:</b></div>
-                                      <div class="col-sm-2" ><b><input type="text" name="middlename" class="alph" id="middlename"> </b></div>
+                                      <div class="col-sm-2" ><b><input type="text" name="middlename" class="alph" id="middlename" value="{{ objEmployeePersonal.employeeMiddelName }}"> </b></div>
                                       <div class= "col-sm-2" ></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                       <div class="col-sm-2" ><b>Last Name <span class="required">*</span>:</b></div>
-                                      <div class="col-sm-6" ><b><input type="text" name="lastname" class="alph" id="lastname"> <span style="color:red;"></span></b></div>
+                                      <div class="col-sm-6" ><b><input type="text" name="lastname" class="alph" id="lastname" value="{{ objEmployeePersonal.employeeLastName }}"> <span style="color:red;"></span></b></div>
                                       <div class= "col-sm-4"> </div>
                                     </div>
                                     <br>
@@ -136,7 +136,7 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-2" ><b>Birth Date<span class="required">*</span>:</b></div>
-                                        <div class="col-sm-6"><b><input type="Date" name="birthdate" id="birthdate"><span style="color:red;"></span></b> </div>
+                                        <div class="col-sm-6"><b><input type="Date" name="birthdate" id="birthdate" value="{{ objEmployeePersonal.employeeBirthDate|date:'Y-m-d' }}"><span style="color:red;"></span></b> </div>
                                         <div class= "col-sm-4" > </div>
                                     </div>
                                     <br>
@@ -146,10 +146,12 @@
                                     <div class="col-sm-2" ><b>Nationality  <span class="required">*</span>:</b></div>
                                     <div class="col-sm-4" ><b>
                                           <select name="nationalitydd" id="nationalitydd">
-                                          <option value="India">India</option>
-                                          <option value="Canada">Canada</option>
-                                          <option value="nationalityasyouwant">As you want</option>
-                                          <option value="nationalityasyouwant">As you want</option>
+                                          
+                                         <option value="{{objEmployeePersonal.employeeNationality}}"hidden  selected>{{objEmployeePersonal.employeeNationality}}</option>
+                                            {% for option in nationalityList %}
+                                         <option value="{{ option.nationalityName }}">{{ option.nationalityName }}</option>
+                                             {% endfor %}
+                                        </select>
                                           </select><span style="color:red;"></span> </b>
                                     </div>
                                     
@@ -171,9 +173,9 @@
                                       <div class="col-sm-2" ><b>
                                           <select name= "ethnicity" id= "ethnicity">
                                             <option value="{{objEmployeePersonal.employeeEthnicity}}"hidden  selected>{{objEmployeePersonal.employeeEthnicity}}</option>
-                                            <option value="ethnicityasyouwant">As you want</option>
-                                            <option value="ethnicityasyouwant">As you want</option>
-                                            <option value="ethnicityasyouwant">As you want</option>
+                                            {% for option in ethnicityList %}
+                                         <option value="{{ option.ethnicityName }}">{{ option.ethnicityName }}</option>
+                                             {% endfor %}
                                           </select></b>
                                       </div>
                                       <div class= "col-sm-2" ></div>
@@ -181,9 +183,9 @@
                                       <div class="col-sm-2" ><b>
                                           <select name = "religion"  id = "religion">
                                             <option value="{{objEmployeePersonal.employeeReligion}}"hidden  selected>{{objEmployeePersonal.employeeReligion}}</option>
-                                            <option value="religionasyouwant">As you want</option>
-                                            <option value="religionasyouwant">As you want</option>
-                                            <option value="religionasyouwant">As you want</option>
+                                            {% for option in religionList %}
+                                         <option value="{{ option.ethnicityName }}">{{ option.ethnicityName }}</option>
+                                             {% endfor %}
                                           </select></b></div>   
                                       <div class= "col-sm-2" ></div>
                                       </div><br>
@@ -191,6 +193,7 @@
                                     <button type="button" class="btn btn-next">Next</button>
                                 </div>  
                             </fieldset>
+
                                   {% for i in objEmployeeJob %} 
                             <fieldset>
                                  <h4>Job:</h4>
@@ -210,9 +213,9 @@
                                             <select name="positiondd"  id="positiondd" >
                                             select name="positiondd"  id="positiondd" >
                                             <option value="{{i.position}}"hidden  selected>{{i.position}}</option>
-                                            <option value="positionasyouwant">As you want</option>
-                                            <option value="positionasyouwant">As you want</option>
-                                            <option value="positionasyouwant">As you want</option>
+                                            {% for option in positionList %}
+                                            <option value="{{ option.position }}">{{ option.position }}</option>
+                                            {% endfor %}
                                             </select></b>
                                         </div>
                                         <div class="col-sm-2"><b>Effective Date <span class="required">*</span>:</b></div>
@@ -224,9 +227,9 @@
                                         <div class="col-sm-4" ><b>
                                             <select name="linemanagedd" id="linemanagedd">
                                               <option value="{{i.lineManager}}"hidden  selected>{{i.lineManager}}</option>
-                                            <option value="linemangaerasyouwant">As you want</option>
-                                            <option value="linemangaerasyouwant">As you want</option>
-                                            <option value="linemangaerasyouwant">As you want</option>
+                                              {% for option in lineManagerList %}
+                                              <option value="{{ option.lineManager }}">{{ option.lineManager }}</option>
+                                              {% endfor %}
                                             </select></b>
                                         </div>
 
@@ -234,9 +237,9 @@
                                         <div class="col-sm-4"><b>   
                                             <select name="departmentdd"id="departmentdd">
                                             <option value="{{i.department}}"hidden  selected>{{i.department}}</option>
-                                            <option value="departmentasyouwant">As you want</option>
-                                            <option value="departmentasyouwant">As you want</option>
-                                            <option value="departmentasyouwant">As you want</option>
+                                            {% for option in departmentList %}
+                                            <option value="{{ option.department }}">{{ option.department }}</option>
+                                              {% endfor %}
                                             </select></b>
                                         </div>
 
@@ -246,9 +249,9 @@
                                         <div class="col-sm-4" ><b>
                                             <select name="branchdd"  id="branchdd">
                                             <option value="{{i.branch}}"hidden  selected>{{i.branch}}</option>
-                                            <option value="branchasyouwant">As you want</option>
-                                            <option value="branchasyouwant">As you want</option>
-                                            <option value="branchasyouwant">As you want</option>
+                                            {% for option in branchList %}
+                                            <option value="{{ option.branchName }}">{{ option.branchName }}</option>
+                                              {% endfor %}
                                             </select></b>
                                         </div>
 
@@ -256,9 +259,9 @@
                                         <div class="col-sm-4"><b>
                                             <select name="leveldd" id="leveldd">
                                             <option value="{{i.level}}"hidden  selected>{{i.level}}</option>
-                                            <option value="branchasyouwant">As you want</option>
-                                            <option value="branchasyouwant">As you want</option>
-                                            <option value="branchasyouwant">As you want</option>
+                                            {% for option in branchList %}
+                                            <option value="{{ option.joblevel }}">{{ option.joblevel }}</option>
+                                              {% endfor %}
                                             </select></b>
                                         </div>
                                     </div>
@@ -269,9 +272,9 @@
                                         <div class="col-sm-4" ><b>
                                         <select name="jobtypedd" id="jobtypedd">
                                             <option value="{{i.jobType}}"hidden  selected>{{i.jobType}}</option>
-                                            <option value="jobtypeasyouwant">As you want</option>
-                                            <option value="jobtypeasyouwant">As you want</option>
-                                            <option value="jobtypeasyouwant">As you want</option>
+                                            {% for option in jobTypeList %}
+                                            <option value="{{ option.jobType }}">{{ option.jobType }}</option>
+                                              {% endfor %}
                                             </select></b>
                                         </div>
                                         <div class="col-sm-2"><b>Effective Date <span class="required">*</span>:</b></div>
@@ -283,18 +286,18 @@
                                         <div class="col-sm-4" ><b>
                                             <select name="jobstatusdd" id="jobstatusdd">
                                             <option value="{{i.jobStatus}}"hidden  selected>{{i.jobStatus}}</option>
-                                            <option value="jobstatusasyouwant">As you want</option>
-                                            <option value="jobstatusasyouwant">As you want</option>
-                                            <option value="jobstatusasyouwant">As you want</option>
+                                            {% for option in jobStatusList %}
+                                            <option value="{{ option.jobStatus }}">{{ option.jobStatus }}</option>
+                                              {% endfor %}
                                             </select></b>
                                         </div>
                                         <div class="col-sm-2"><b>Leave Workflow:</b></div>  
                                         <div class="col-sm-4"><b>   
                                             <select name="leaveworkflowdd" id="leaveworkflowdd">
-                                            <option value="">Default</option>
-                                            <option value="leaveworkflowasyouwant">As you want</option>
-                                            <option value="leaveworkflowasyouwant">As you want</option>
-                                            <option value="leaveworkflowasyouwant">As you want</option>
+                                            <option value="{{i.leaveWorkflow}}"hidden  selected>{{i.leaveWorkflow}}</option>
+                                            {% for option in leaveWorkFlowList %}
+                                            <option value="{{ option.leaveworkflow }}">{{ option.leaveworkflow }}</option>
+                                              {% endfor %}
                                             </select></b>
                                         </div>
                                     </div>
@@ -303,20 +306,20 @@
                                         <div class="col-sm-2" ><b>Workdays:</b></div>
                                         <div class="col-sm-4" ><b>
                                             <select name="workdays" id="workdays">
-                                            <option value="">Default</option>
-                                            <option value="workdaysasyouwant">As you want</option>
-                                            <option value="workdaysasyouwant">As you want</option>
-                                            <option value="workdaysasyouwant">As you want</option>
+                                            <option value="{{i.workdays}}"hidden  selected>{{i.workdays}}</option>
+                                            {% for option in workDaysList %}
+                                            <option value="{{ option.workdays }}">{{ option.workdays }}</option>
+                                              {% endfor %}
                                             </select></b>
                                         </div>
 
                                         <div class="col-sm-2"><b>Holidays:</b></div>
                                         <div class="col-sm-4"><b>
                                             <select name="holidaysdd" id="holidaysdd">
-                                            <option value="">Default</option>
-                                            <option value="holidaysasyouwant">As you want</option>
-                                            <option value="holidaysasyouwant">As you want</option>
-                                            <option value="holidaysasyouwant">As you want</option>
+                                            <option value="{{i.holidays}}"hidden  selected>{{i.holidays}}</option>
+                                            {% for option in holiDaysList %}
+                                            <option value="{{ option.holidays }}">{{ option.holidays }}</option>
+                                              {% endfor %}
                                             </select></b>
                                         </div>
                                     </div>
@@ -325,7 +328,7 @@
                                         <div class="col-sm-2" ><b style="color: lightgrey">Term Start:</b></div>
                                         <div class="col-sm-4"><b style="color: lightgrey">
                                             <select disabled name="termstartdd" id="termstartdd">
-                                            <option value="">Not Assigned</option>
+                                            <option value="{{i.termStart}}"hidden  selected>{{i.termStart}}</option>
                                             <option value="termstartasyouwant">As you want</option>
                                             <option value="termstartasyouwant">As you want</option>
                                             <option value="termstartasyouwant">As you want</option>
@@ -334,7 +337,7 @@
                                         <div class="col-sm-2" ><b style="color: lightgrey">Term End:</b></div>
                                         <div class="col-sm-4"><b style="color: lightgrey">
                                             <select  disabled name="termend" id="termend">
-                                            <option value="">Not Assigned</option>
+                                            <option value="{{i.termEnd}}"hidden  selected>{{i.termEnd}}</option>
                                             <option value="termendasyouwant">As you want</option>
                                             <option value="termstartasyouwant">As you want</option>
                                             <option value="termstartasyouwant">As you want</option>
@@ -347,16 +350,18 @@
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="button" class="btn btn-next">Next</button>
-                                </div>  
+                                </div>
+                                {% endfor %}  
                             </fieldset>
-                              {% endfor %}
+                              
+                                      {% for i in objEmployeeFamily %}
                              <fieldset>
                                 <h4>Family:</h4>
                                 <div style="font-size: 20px; background-color: blue; color: white">Family Details</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Maritial Status:</b></div>
                                         <div class="col-sm-3"><b>
-                                            <select name="maritalstatus" id="maritalstatus">
+                                            <option value="{{i.employeeFamilyMaritalStatus}}"hidden  selected>{{i.employeeFamilyMaritalStatus}}</option>
                                             <option value="Married">Married</option>
                                             <option value="Single">Single</option>
                                             </select></b>
@@ -367,7 +372,7 @@
                                         <div class="col-sm-3" ><b>Number of Children:</b></div>
                                         <div class="col-sm-3"><b>
                                             <select name="numberofchild" id="numberofchild">
-                                            <option value="">Select</option>
+                                            <option value="{{i.employeeFamilyNumberOfChild}}"hidden  selected>{{i.employeeFamilyNumberOfChild}}</option>
                                             <option value="0">0</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -384,14 +389,14 @@
                                 <div style="font-size: 20px; background-color: blue; color: white ">Spouse Details</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>First Name:</b></div> 
-                                        <div class="col-sm-3" ><b><input type="text" class="alph" name="spousefirstname" id="spousefirstname"></b></div>
+                                        <div class="col-sm-3" ><b><input type="text" class="alph" name="spousefirstname" id="spousefirstname" value="{{ i.employeeFamilySpouseFirstName }}"></b></div>
                                         <div class="col-sm-3"><b>Last Name:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" class="alph" name="spouselastname" id ="spouselastname"></b></div>
+                                        <div class="col-sm-3"><b><input type="text" class="alph" name="spouselastname" id ="spouselastname" value="{{ i.employeeFamilySpouseLastName }}"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Middle Name:</b></div>
-                                        <div class="col-sm-3" ><b><input type="text" class="alph" name="spousemiddlename" id="spousemiddlename"></b></div>
+                                        <div class="col-sm-3" ><b><input type="text" class="alph" name="spousemiddlename" id="spousemiddlename" value="{{ i.employeeFamilySpouseMiddelName }}"></b></div>
                                         <div class="col-sm-3"></div>
                                         <div class="col-sm-3"></div>
                                     </div><br>
@@ -399,28 +404,28 @@
                                         <div class="col-sm-3" ><b>Nationality <span class="required">*</span>:</b></div>
                                         <div class="col-sm-3" ><b>
                                             <select name="spousenationality" id ="spousenationality">
-                                            <option value="India">India</option>
-                                            <option value="Canada">Canada</option>
-                                            <option value="nationalityasyouwant">As you want</option>
-                                            <option value="nationalityasyouwant">As you want</option>
+                                            <option value="{{i.employeeFamilySpouseNationality}}"hidden  selected>{{i.employeeFamilySpouseNationality}}</option>
+                                            {% for j in nationalityList %}
+                                            <option value="{{j.nationalityName}}">{{j.nationalityName}}</option>
+                                            {% endfor %}
                                             </select></b>
                                         </div>
                                         <div class="col-sm-3" ><b>National ID </b></div>
-                                        <div class="col-sm-3"><b><input type="text" class="num" name="spousenationalid" id="spousenationalid" ></b>{{nationalmsg}}</div>   
+                                        <div class="col-sm-3"><b><input type="text" class="num" name="spousenationalid" id="spousenationalid"  value="{{ i.employeeFamilySpouseNationalId }}" ></b>{{nationalmsg}}</div>   
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Birthdate: </b></div>
-                                        <div class="col-sm-3" ><input type="Date" name="spousebirthdate" id="spousebirthdate"></div>
+                                        <div class="col-sm-3" ><input type="Date" name="spousebirthdate" id="spousebirthdate" value="{{  i.employeeFamilySpouseBirthDate|date:'Y-m-d' }}"></div>
                                         <div class="col-sm-3" ><b>Passport:</b></div>
-                                        <div class="col-sm-3" ><input type="text" name="spousepassport"   id="spousepassport" >{{passmsg}}</div>
+                                        <div class="col-sm-3" ><input type="text" name="spousepassport"   id="spousepassport"  value="{{ i.employeeFamilySpousePassport }}">{{passmsg}}</div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Ethnicity:</b></div>
                                         <div class="col-sm-3" ><b>
                                             <select name="spouseethnicity" id ="spouseethnicity">
-                                            <option value="NA">No Ethnicity</option>
+                                            <option value="{{i.employeeFamilySpouseEthnicity}}"hidden  selected>{{i.employeeFamilySpouseEthnicity}}</option>
                                             <option value="NA">Not Available</option>
                                             <option value="NA">Not Available</option>
                                             <option value="NA">Not Available</option>
@@ -429,7 +434,7 @@
                                         <div class="col-sm-3" ><b>Religion:</b></div>
                                         <div class="col-sm-3" ><b>
                                             <select name="spouserelegion"id="spouserelegion">
-                                            <option value="NA">Not Available</option>
+                                            <option value="{{i.employeeFamilySpouseReligion}}"hidden  selected>{{i.employeeNationalityobjEmployeeFamily.employeeFamilySpouseReligion}}</option>   
                                             <option value="NA">Not Available</option>
                                             <option value="NA">Not Available</option>
                                             <option value="NA">Not Available</option>
@@ -459,31 +464,32 @@
                                 </div>
                               }
                             </fieldset>
-
+                                  {% endfor %}
+                                  {% for i in objEmployeeContact %}
                             <fieldset>
                                 <h4>Contact:</h4>
                                 <div style="font-size: 15px; background-color: blue; color: white">Web</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Email:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" name="email"  id="email"></b>{{emailerror}}</div>
+                                        <div class="col-sm-3"><b><input type="text" name="email"  id="email" value="{{ i.email }}"></b>{{emailerror}}</div>
                                         <div class="col-sm-3"><b>Blog/Homepage:</b></div>
-                                        <div class="col-sm-3"><b> <input type="text" name="bloghomepage"  id="bloghomepage"></b></div>
+                                        <div class="col-sm-3"><b> <input type="text" name="bloghomepage"  id="bloghomepage"  value="{{ i.blogHomepage }}"></b></div>
                                     </div>
                                     <br>
                                 <div style="font-size: 15px; background-color: blue; color: white ">Phone</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Office:</b></div> 
-                                        <div class="col-sm-3" ><b><input class="num" type="text" name="office" id="office"></b>{{mobileerror}}</div>
+                                        <div class="col-sm-3" ><b><input class="num" type="text" name="office" id="office" value="{{ i.office }}"></b>{{mobileerror}}></b></div>
                                         <div class="col-sm-3"><b>Office Extension:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" name="officeextention"></b></div>
+                                        <div class="col-sm-3"><b><input type="text" name="officeextention" value="{{ i.officeExtention }}"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Mobile:</b></div>
-                                        <div class="col-sm-3" ><b><input class="num" type="text" name="mobile" id="mobile">{{mobileerror}}</b>    
+                                        <div class="col-sm-3" ><b><input class="num" type="text" name="mobile" id="mobile" value="{{ i.mobile }}">{{mobileerror}}</b>    
                                         </div>
                                         <div class="col-sm-3"><b>Home:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" class="num" name="home" id="home">
+                                        <div class="col-sm-3"><b><input type="text" class="num" name="home" id="home" value="{{ i.home }}">
                                         </b>
                                         </div><br>
                                     </div>
@@ -491,34 +497,33 @@
                                 <div style="font-size: 15px; background-color: blue; color: white">Address</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Address 1:</b></div>
-                                        <div class="col-sm-3" ><b><input type="text" name="address1" id="address1">
+                                        <div class="col-sm-3" ><b><input type="text" name="address1" id="address1" value="{{ i.address1 }}">
                                         </b>
                                         </div>
 
                                         <div class="col-sm-3"><b>Address 2:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" name="address2" id="address2"></b></div>
+                                        <div class="col-sm-3"><b><input type="text" name="address2" id="address2" value="{{ i.address2 }}"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>City:</b></div>
-                                        <div class="col-sm-3" ><b><input  class="alph" type="text" name="city"  id="city"></b></div>
+                                        <div class="col-sm-3" ><b><input  class="alph" type="text" name="city"  id="city" value="{{ i.city }}"></b></div>
                                         <div class="col-sm-3"><b>Postcode:</b></div>    
-                                        <div class="col-sm-3"><b>   <input type="text" class="num" name="postcode" id="postcode"></b>
+                                        <div class="col-sm-3"><b>   <input type="text" class="num" name="postcode" id="postcode" value="{{ i.postCode }}"></b>
                                         </div>
                                     </div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>State:</b></div>
                                         <div class="col-sm-3" ><b>
-                                        <input type="text" class="alph" name="state"  id="state">
+                                        <input type="text" class="alph" name="state"  id="state"value="{{ i.state }}">
                                         </b></div>
                                         <div class="col-sm-3"><b>Country <span class="required">*</span>:</b></div>
                                         <div class="col-sm-3"><b>
                                         <select name="countrydd"  id="countrydd">
-                                        <option value="">Select</option>
-                                        <option value="India">India</option>
-                                        <option value="countryasyouwant">As you want</option>
-                                        <option value="countryasyouwant">As you want</option>
-                                        <option value="countryasyouwant">As you want</option>
+                                        <option value="{{ i.country }}"hidden  selected>{{ i.country }}
+                                        {% for j in countryListList %}
+                                            <option value="{{j.countryName}}">{{j.countryName}}</option>
+                                            {% endfor %}
                                         </select>
                                         </b>
                                         </div>
@@ -527,15 +532,15 @@
                                 <div style="font-size: 15px; background-color: blue; color: white">In Case of Emergency</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>First Name:</b></div>
-                                        <div class="col-sm-3"><b><input class="alph" type="text" name="coefirstname"  id="coefirstname" ></b></div>
+                                        <div class="col-sm-3"><b><input class="alph" type="text" name="coefirstname"  id="coefirstname" value="{{ i.firstName }}" ></b></div>
                                         <div class="col-sm-3" ><b>Last Name:</b></div>
-                                        <div class="col-sm-3"><b><input  class="alph" type="text" name="coelastname" id="coelastname"></b></div>
+                                        <div class="col-sm-3"><b><input  class="alph" type="text" name="coelastname" id="coelastname"  value="{{ i.lastName }}"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Middle Name:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="alph" name="coemiddlename" id="coemiddlename">
+                                        <input type="text" class="alph" name="coemiddlename" id="coemiddlename" value="{{ i.middleName }}">
                                         </b></div>
                                         <div class="col-sm-3" ></div>
                                         <div class="col-sm-3"></div>
@@ -544,22 +549,22 @@
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Relationship:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="alph" n class="alph"ame="coerelationship" id="coerelationship">
+                                        <input type="text" class="alph" n class="alph"ame="coerelationship" id="coerelationship" value="{{ i.relationship }}">
                                         </b></div>
                                         <div class="col-sm-3" ><b>Mobile Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="num" name="coemobile" id="coemobile">
+                                        <input type="text" class="num" name="coemobile" id="coemobile" value="{{ i.mobilePhone }}">
                                         </b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>House Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="num" name="coehousephone" id="coehousephone">
+                                        <input type="text" class="num" name="coehousephone" id="coehousephone" value="{{ i.housePhone }}">
                                         </b></div>
                                         <div class="col-sm-3" ><b>Office Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="num" name="officephone"  id="officephone">
+                                        <input type="text" class="num" name="coeofficephone"  id="officephone" value="{{ i.officePhone }}">
                                         </b></div>
                                     </div>
                                     <br>                             
@@ -568,32 +573,28 @@
                                     <button type="button" class="btn btn-next">Next</button>
                                 </div>
                             </fieldset>
-
+                                  {% endfor %}
+                                  {% for i in objEmployeeHealth %}
                             <fieldset>
                                 <h4>Health:</h4>
                                  <div style="font-size: 20px; background-color: blue; color: white">Health Details</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Height (cm)</b></div>
                                         <div class="col-sm-3"><b>
-                                            <input min="4" type= "number" name="height" id="height"></b>
+                                            <input min="4" type= "number" name="height" id="height" value="{{ i.employeeHealthHeight }}"></b>
                                         </div>
                                         <div class="col-sm-3"><b>Weight (kg)</b></div>
-                                        <div class="col-sm-3"><b><input min="25" type="number" name = "weight" id = "weight"></b></div>
+                                        <div class="col-sm-3"><b><input min="25" type="number" name = "weight" id = "weight"  value="{{ i.employeeHealthWeight }}"></b></div>
 
                                     </div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Blood Type:</b></div>
                                         <div class="col-sm-3"><b>
                                             <select name="bloodgroup" id="bloodgroup">
-                                            <option value="AN">AN</option>
-                                            <option value="AP">AP</option>
-                                            <option value="B">B</option>
-                                            <option value="BP">BP</option>
-                                            <option value="ABN">ABN</option>
-                                            <option value="ABP">ABP</option>
-                                            <option value="OP">OP</option>
-                                            <option value="ON">ON</option>
-                                            <option value="Don/'t know">Don't know</option>
+                                            <option value="{{i.employeeHealthBloodGroup}}"hidden  selected>{{i.employeeHealthBloodGroup}}</option>
+                                            {% for option in bloodGroupList %}
+                                            <option value="{{ option.bloodgroup }}">{{ option.bloodgroup }}</option>
+                                              {% endfor %}
                                             </select></b>
                                         </div>
                                         <div class="col-sm-3"><b></b></div>
@@ -605,7 +606,7 @@
                                     <button id ="preview" type="button" class="btn btn-next">Next</button>
                                 </div>
                             </fieldset>
-
+                                  {% endfor %}
                             <fieldset>
                                 <h4>Preview:</h4>
 

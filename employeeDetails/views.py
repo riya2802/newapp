@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import department, branch, position,level,lineManager, holiDays,leaveWorkFlow,workDays,jobStatus, jobType, religion, ethnicity, country, employee,employeeFamily,employeeChildren,employeeHealth,Contact,Job,nationality
+from .models import bloodGroup,department, branch, position,level,lineManager, holiDays,leaveWorkFlow,workDays,jobStatus, jobType, religion, ethnicity, country, employee,employeeFamily,employeeChildren,employeeHealth,Contact,Job,nationality
 from . import personaldetails
 from django.shortcuts import render, redirect
 from . import validation_function
@@ -17,6 +17,7 @@ import json
 def isuserIdcorrect(request):
 	strdata= request.POST.get('request_data')
 	print('strdata',strdata)
+	print("requestcome")
 	user_obj = employee.objects.filter(employeementId = strdata).first()
 	checkUsername= validation_function.is_valid_username(strdata)
 	if user_obj:
@@ -273,71 +274,93 @@ def contactAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		employeementId_obj=request.POST.get('empID',None)
-		obj =employee.objects.filter(employeementId = employeementId_obj).first()
+		employeementId_obj=request.POST.get('empid',None)
+		print('employeementId_obj',employeementId_obj)
+		obj =employee.objects.filter(employeeId = employeementId_obj).first()
+		print('obj',obj)
 		Email = request.POST.get('email')
+		print('Email',Email)
 		BlogHomepage = request.POST.get('bloghomepage')
+		print('BlogHomepage',BlogHomepage,type(BlogHomepage))
 		Office = request.POST.get('office')
+		print('Office',Office,type(Office))
 		OfficeExtention = request.POST.get('officeextention')
+		print('OfficeExtention',OfficeExtention,type(OfficeExtention))
 		Mobile = request.POST.get('mobile')
-		print('Mobile',Mobile)
+		print('Mobile',Mobile,type(Mobile))
 		Home = request.POST.get('home')
 		print('Home',Home)
+
 		Address1 = request.POST.get('address1')
 		Address2 = request.POST.get('address2')
 		City = request.POST.get('city')
 		PostCode = request.POST.get('postcode')
-		print('PostCode',PostCode)
+		print('PostCode',PostCode,type(PostCode))
 		State = request.POST.get('state')
 		Country = request.POST.get('countrydd')
+		print('Country',Country)
 		contactFirstName = request.POST.get('coefirstname')
 		contactLastName = request.POST.get('coelastname')
 		conatctMiddleName = request.POST.get('coemiddlename')
 		Relationship = request.POST.get('coerelationship')
 		MobilePhone = request.POST.get('coemobile')
 		HousePhone = request.POST.get('coehousephone')
-		OfficePhone = request.POST.get('officephone')
+		OfficePhone = request.POST.get('coeofficephone')
+		print('OfficePhone',OfficePhone)
 		print(Email,"OfficePhone->", type(OfficePhone),OfficePhone,"HousePhone",HousePhone, type(HousePhone),MobilePhone,type(MobilePhone),PostCode,type(PostCode),Mobile,type(Mobile))
-		if Country is None or Country == "" and str(Mobile).isalpha() or str(Mobile).isalnum() and str(PostCode).isalnum() and str(MobilePhone).isalnum() and str(HousePhone).isalnum() and str(OfficePhone).isalnum():                
+		if Country is None or Country == ""  :                 
 			return JsonResponse({'msg':'Required fields empty !','status':400})
-		if not validation_function.is_valid_phone(Office):
+		if not validation_function.is_valid_phone(str(Office)):
 			return JsonResponse({'msg':'Invalid office Number !','status':400})
-		if not validation_function.is_valid_phone(Mobile):
+		if not validation_function.is_valid_phone(str(Mobile)):
 			return JsonResponse({'msg':'Invalid Mobile Number !','status':400})
-		if not validation_function.is_valid_phone(Home):
+		if not validation_function.is_valid_phone(str(Home)):
 			return JsonResponse({'msg':'Invalid Home Number !','status':400})
-		if not validation_function.is_valid_phone(MobilePhone):
+		if not validation_function.is_valid_phone(str(MobilePhone)):
 			return JsonResponse({'msg':'Invalid MobilePhone Number !','status':400})
-		if not validation_function.is_valid_phone(HousePhone):
+		if not validation_function.is_valid_phone(str(HousePhone)):
 			return JsonResponse({'msg':'Invalid HousePhone Number !','status':400})
-		if not validation_function.is_valid_phone(OfficePhone):
+		if not validation_function.is_valid_phone(str(OfficePhone)):
 			return JsonResponse({'msg':'Invalid OfficePhone Number !','status':400})
-		if not validation_function.is_valid_phone(OfficeExtention):
+		if not validation_function.is_valid_phone(str(OfficeExtention)):
 			return JsonResponse({'msg':'Invalid OfficeExtention Number !','status':400})
-		if not validation_function.is_valid_email(Email):
-			return JsonResponse({'msg':'Invalid Email !','status':400})
+		if not validation_function.is_valid_postcode(PostCode):
+			return JsonResponse({'msg':'Invalid Postcode !','status':400})
+		if Email == "" or Email == None :
+			Email = Email
+		else:
+			if not validation_function.is_valid_email(Email):
+				return JsonResponse({'msg':'Invalid Email !','status':400})
+			checkDuplicateEmail=Contact.objects.filter(email=Email).first()
+			if checkDuplicateEmail:
+				return JsonResponse({'msg':'Email already exist !','status':400})
 		if not validation_function.check_is_valid_name(contactFirstName) :
 			return JsonResponse({'msg':'First name only takes alphabets !','status':400})
 		if not validation_function.check_is_valid_name(contactLastName):
 			return JsonResponse({'msg':'LastName name only takes alphabets !','status':400})
 		if not validation_function.check_is_valid_name(conatctMiddleName):
 			return JsonResponse({'msg':'Middle  name only takes alphabets !','status':400})
-		checkContact =Contact.objects.filter(employeeForeignId = employeementId_obj).update(email=Email,blogHomepage=BlogHomepage,office=Office,officeExtention=OfficeExtention,mobile=Mobile,home=Home,address1=Address1,address2=Address2,city=City,postCode=PostCode,state=State,country=Country,firstName=FirstName,lastName=LastName,middleName=MiddleName,relationship=Relationship,mobilePhone=MobilePhone,housePhone=HousePhone,officePhone=OfficePhone)
+		checkContact =Contact.objects.filter(employeeForeignId = obj).update(email=Email,blogHomepage=BlogHomepage,office=Office,officeExtention=OfficeExtention,mobile=Mobile,home=Home,address1=Address1,address2=Address2,city=City,postCode=PostCode,state=State,country=Country,firstName=contactFirstName,lastName=contactLastName,middleName=conatctMiddleName,relationship=Relationship,mobilePhone=MobilePhone,housePhone=HousePhone,officePhone=OfficePhone)
 		if checkContact:
 			return JsonResponse({'msg':'success','status':200})
-		Contact.objects.create(employeeForeignId=obj,email=Email,blogHomepage=BlogHomepage,office=Office,officeExtention=OfficeExtention,mobile=Mobile,home=Home,address1=Address1,address2=Address2,city=City,postCode=PostCode,state=State,country=Country,firstName=FirstName,lastName=LastName,middleName=MiddleName,relationship=Relationship,mobilePhone=MobilePhone,housePhone=HousePhone,officePhone=OfficePhone)
+		Contact.objects.create(employeeForeignId=obj,email=Email,blogHomepage=BlogHomepage,office=Office,officeExtention=OfficeExtention,mobile=Mobile,home=Home,address1=Address1,address2=Address2,city=City,postCode=PostCode,state=State,country=Country,firstName=contactFirstName,lastName=contactLastName,middleName=conatctMiddleName,relationship=Relationship,mobilePhone=MobilePhone,housePhone=HousePhone,officePhone=OfficePhone)
 		return JsonResponse({'msg':'success','status':200})
 #------------------------------------------------------------------------
+@csrf_exempt
 def healthAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		employeementId_obj=request.POST.get('empID',None)
-		obj =employee.objects.filter(employeementId = employeementId_obj).first()
+		employeementId_obj=request.POST.get('empid',None)
+		obj =employee.objects.filter(employeeId = employeementId_obj).first()
 		height=	request.POST.get('height',None)
 		weight=request.POST.get('weight',None)
 		bloodGroup=	request.POST.get('bloodgroup',None)
-		checkhealth = employeeHealth.objects.filter(employeeForeignId = employeementId_obj).update(employeeHealthHeight=height,employeeHealthWeight=weight,employeeHealthBloodGroup=bloodGroup)
+		if not validation_function.is_valid_height(height):
+			return JsonResponse({'msg':' Height Minimum should be 4 !','status':400})
+		if not validation_function.is_valid_weight(weight):
+			return JsonResponse({'msg':' Weight Minimum should be 25 !','status':400})
+		checkhealth = employeeHealth.objects.filter(employeeForeignId = obj).update(employeeHealthHeight=height,employeeHealthWeight=weight,employeeHealthBloodGroup=bloodGroup)
 		if checkhealth :
 			return JsonResponse({'msg':'success','status':200})
 		employeeHealth.objects.create(employeeForeignId=obj,employeeHealthHeight=height,employeeHealthWeight=weight,employeeHealthBloodGroup=bloodGroup)	
@@ -363,6 +386,7 @@ def editHtmlForm(request,employeementId):
 	positionList=position.objects.all()
 	branchList=branch.objects.all()
 	departmentList=department.objects.all()
+	bloodGroupList = bloodGroup.objects.all()
 	print('nationality ',objEmployeePersonal.employeeNationality)
 	if objEmployeePersonal:
 		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal)
@@ -371,29 +395,36 @@ def editHtmlForm(request,employeementId):
 		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal)
 		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal)
 		print("objEmployeeJob",objEmployeeJob)
-		return render(request,'form.html',{"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
-,'action':"/newapp/editFun",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
+		return render(request,'form.html',{'bloodGroupList':bloodGroupList,"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
+,'action':"/newapp/submit",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
 	else:
 		return render(request,'error.html',{'error':'User not exist'})
 
+
 ##add new employee
-def addFun(request,employeementId):
-	if not request.user.is_authenticated:
-		return redirect('/login')
-	employeementId_obj=request.POST.get('employeementId',None)
-	userCheck = employee.objects.filter(employeementId=employeementId,status="Pending")
-	if userCheck is None:
-		return JsonResponse({'msg':"User Not Exist", status:400 })	
+@csrf_exempt
+def submit(request):
+	# if not request.user.is_authenticated:
+	# 	return redirect('/login')
+	print("submit")
+	employeementId_obj=request.POST.get('empid',None)
+	print(employeementId_obj,employeementId_obj)
+	userCheck = employee.objects.filter(employeeId = employeementId_obj,status='Pending').first()
+	#print('userCheck',userCheck,userCheck.status,userCheck.employeeId)
+	if not userCheck:
+		print('userCheck',userCheck)
+		return JsonResponse({'msg':"User Not Exist", 'status':400 })	
 	objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=userCheck)
 	objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=userCheck)
 	objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=userCheck)
 	objEmployeeJob=Job.objects.filter(employeeForeignId=userCheck)
 	objEmployeeContact=Contact.objects.filter(employeeForeignId=userCheck)	
 	if objEmployeeFamily is None and objEmployeeChildren is None and objEmployeeHealth is None and objEmployeeJob is None and objEmployeeContact is None :
-		return JsonResponse({'msg':"Data not save in the Database", status:400 })
-	userCheck['status'] ='Success'
+		return JsonResponse({'msg':"Data not save in the Database", 'status':400 })
+	userCheck.status='Success'
 	userCheck.save()
-	return JsonResponse({'msg':"Employee Register Successfully", status:200 })
+	print('Success')
+	return JsonResponse({'msg':"Employee Register Successfully", 'status':200 })
 
 ## show list of all employee
 def employeeList(request):
@@ -404,6 +435,7 @@ def employeeList(request):
 		return render(request, 'Employee.html',{'form':form})
 	return render(request, 'list.html',{'employeeObj':employeeObj})
 
+@csrf_exempt
 def emplyeeDelete(request,employeementId ):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
@@ -435,3 +467,18 @@ def addEmployee(request):
 	return render(request,'form1edit.html' , {"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
 ,'action':"/newapp/addFun",})
 
+@csrf_exempt
+def preview(request):
+	employeementId_obj=request.POST.get('empid',None)
+	obj =employee.objects.filter(employeeId = employeementId_obj).first()
+	return JsonResponse({'msg':'success','status':200})
+@csrf_exempt
+def directory(request):
+	employeementId_obj=request.POST.get('empid',None)
+	obj =employee.objects.filter(employeeId = employeementId_obj).first()
+	return JsonResponse({'msg':'success','status':200})
+# @csrf_exempt
+# def remark(request):
+# 	employeementId_obj=request.POST.get('empid',None)
+# 	obj =employee.objects.filter(employeeId = employeementId_obj).first()
+# 	return JsonResponse({'msg':'success','status':200})

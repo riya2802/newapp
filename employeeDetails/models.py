@@ -208,7 +208,7 @@ class holiDays (models.Model):
 	holidays= models.CharField(max_length=20)
 
 class lineManager(models.Model):
-	lineManagerList= models.CharField(max_length=20)
+	lineManager= models.CharField(max_length=20)
 
 class level (models.Model):
 	joblevel= models.CharField(max_length=20)
@@ -221,8 +221,10 @@ class branch(models.Model):
 
 class department(models.Model):
 	branchObj = models.ForeignKey(branch,models.CASCADE)
-	department =  models.CharField(max_length=20)	
+	department =  models.CharField(max_length=20)		
 
+class bloodGroup(models.Model):
+	bloodgroup=  models.CharField(max_length=30)
 class employee(models.Model):
 	employeeId= models.AutoField(primary_key=True)
 	employeementId =models.IntegerField(max_length=255,null=False,blank=False,unique=True)
@@ -237,7 +239,7 @@ class employee(models.Model):
 	employeeEthnicity=models.CharField(max_length=15,choices=Ethnicity, default='NA',null=True,blank=True)
 	employeeReligion=models.CharField(max_length=15,choices=Religion, default='NA',null=True,blank=True)
 	employeePhoto=models.ImageField(upload_to='photo', blank=True,)
-	status=models.CharField(max_length=30, choices=employeeStatus, default="notactive" )
+	status=models.CharField(max_length=30, choices=employeeStatus, default="Pending" )
 
 class employeeFamily(models.Model):
 	employeeForeignId =models.ForeignKey(employee,models.CASCADE,unique=True)
@@ -249,8 +251,8 @@ class employeeFamily(models.Model):
 	employeeFamilySpouseLastName=models.CharField( max_length=255,blank=True,null=True)
 	employeeFamilySpouseBirthDate=models.DateField(null=True,blank = True)
 	employeeFamilySpouseNationality=models.CharField(max_length=15, choices=Nationality, default='India',blank=False,null=False)
-	employeeFamilySpouseNationalId=models.IntegerField(null=True,blank=True)
-	employeeFamilySpousePassport=models.IntegerField(null=True,blank=True)
+	employeeFamilySpouseNationalId=models.CharField(max_length=8, null=True,blank=True)
+	employeeFamilySpousePassport=models.CharField(max_length=12,null=True,blank=True)
 	employeeFamilySpouseEthnicity=models.CharField(max_length=15,choices=Ethnicity, default='NA',null=True,blank=True)
 	employeeFamilySpouseReligion=models.CharField(max_length=15,choices=Religion, default='NA',null=True,blank=True)
 
@@ -291,10 +293,10 @@ class Job(models.Model):
 
 class Contact(models.Model):
 	employeeForeignId =models.ForeignKey(employee,models.CASCADE, unique = True)
-	email= models.EmailField(max_length=55, unique=True, null=True	)
+	email= models.EmailField(max_length=55,null=True,blank=True	)
 	blogHomepage=models.CharField(max_length=60,null=True)
 	office=models.CharField(max_length=30,null=True)
-	officeExtention=models.CharField(max_length=30,null=True)
+	officeExtention=models.CharField(max_length=30,null=True,blank=True )
 	mobile=models.CharField(max_length=12,null=True,blank=True)
 	home=models.CharField(max_length=60,null=True)
 	address1=models.CharField(max_length=160,null=True)
