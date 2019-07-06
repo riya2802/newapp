@@ -1,33 +1,63 @@
-function apiService(data) 
+
+function apiServiceData(apiUrl,data) 
 {
-    var apiUrl = 'http://192.168.0.191:8000/newapp/persoanldetails';
+    console.log("we are in the job details function");
+    console.log("this is the data",data)
+   console.log(apiUrl,"this is the url");
+    var res=''
     $.ajax({
         url : apiUrl,
-        method: 'POST',
-        type: 'jsonp',
+        type: 'POST',
         data: data,
-    }).success(function(response) {
-        console.log(response);
+        async: false,
+    }).success(function(response){
+
+        res=JSON.parse(JSON.stringify(response))
     });
+    return res
 }
+      function checkId(str){
+          if (str){
+            $.ajax({
+              url: "http://192.168.0.191:8000/newapp/isuseridcorrect",
+              type:"POST",
+              data : { request_data:$('#employeeid').val()},
+              success: function(response_data) { 
+                console.log(response_data);
+
+                if (response_data['data']){
+                    document.getElementById("txtHint").innerHTML =" Already Exist ";
+                }
+                else if (response_data['data'] == "Invalid"){
+                    document.getElementById("txtHint").innerHTML =" Invalid Username ";
+
+                }
+                else{
+                    document.getElementById("txtHint").innerHTML ="Available";
+                }
+            },
+            });
+          }
+      }
+
 function apiServiceForFormData(form) 
 {
-    var response={}
     var apiUrl = 'http://192.168.0.191:8000/newapp/persoanldetails';
+    var res=''
     $.ajax({
         url : apiUrl,
         type: 'POST',
         data: form,
+        async: false,
         cache:false,
         contentType: false,
         processData: false,
         mimeType: "multipart/form-data",
     }).success(function(response) {
-        response =response
-        console.log('call')
+        res=JSON.parse(response)      
+
     });
-    console.log('call2')
-    return response
+    return res
 }
 
 function scroll_to_class(element_class, removed_height) {
@@ -52,12 +82,15 @@ function bar_progress(progress_line_object, direction) {
 
 jQuery(document).ready(function() {
 
+
     $(document).on('input','.num', function (event) {
    this.value = this.value.replace(/[^0-9]/g, '');
 });
     $(document).on('input','.alph', function (event) {
    this.value = this.value.replace(/[^a-zA-Z]+$/g, '');
 });
+
+
     $.backstretch("assets/img/backgrounds/1.jpg");
     
     $('#top-navbar-1').on('shown.bs.collapse', function(){
@@ -71,6 +104,8 @@ jQuery(document).ready(function() {
     $('#datejoin,#positiondd,#jobstatuseffectivedate,#employmentstatuseffectivedate,#countrydd,#employeeid,#firstname,#lastname,#birthdate,#nationalid').on('focus', function() {
     	$(this).removeClass('input-error');
     });
+
+    
 
     // next step
     $('.f1 .btn-next').on('click', function() {
@@ -95,7 +130,6 @@ jQuery(document).ready(function() {
 
         });
                 next_step = false;
-                var data = {};
                 var i =0
                 if (selectedid =='personalfield'){
                     var form = new FormData();
@@ -108,36 +142,25 @@ jQuery(document).ready(function() {
                     form.append("nationalitydd",$('#nationalitydd').val());
                     form.append("nationalid", $('#nationalid').val());
                     form.append("image", $('#image').prop('files')[0]);
-                    var response={}
-                    var apiUrl = 'http://192.168.0.191:8000/newapp/persoanldetails';
-                    $.ajax({
-                        url : apiUrl,
-                        type: 'POST',
-                        data: form,
-                        async: false,
-                        cache:false,
-                        contentType: false,
-                        processData: false,
-                        mimeType: "multipart/form-data",
-                    }).success(function(response) {
-                        res=JSON.parse(response)
-                        console.log(res,res['status'])                        
-                        if(res['status']==200){
-                            next_step =true
-                            $('.action').show()
-                            $('.action').addClass('alert-success');
-                            $('.action').removeClass('alert-danger');
-                            $('.action').text(res['msg'])
-                        }else{
-                            $('.action').show()
-                            $('.action').removeClass('alert-success');
-                            $('.action').addClass('alert-danger');
-                            $('.action').text(res['msg'])
-                        }
-                         // $('.action').show()
-                    });
+                    res = apiServiceForFormData(form)                    
+                    if(res['status']==200){
+                        $('.empid').val(res['empID']);
+                        next_step =true
+                        $('.action').show().delay(5000).fadeOut();
+                        $('.action').addClass('alert-success');
+                        $('.action').removeClass('alert-danger');
+                        $('.action').text(res['msg'])
+                    }else{
+                        $('.action').show()
+                        $('.action').removeClass('alert-success');
+                        $('.action').addClass('alert-danger');
+                        $('.action').text(res['msg'])
+                    }
                    }
+
                 else if (selectedid =='jobfield'){
+                    var data = {};
+                    data[$('.empid').attr('name')] = $('.empid').val();
                     data[$('#datejoin').attr('name')] = $('#datejoin').val();
                     data[$('#endofprobation').attr('name')] = $('#endofprobation').val();
                     data[$('#positiondd').attr('name')] = $('#positiondd').val();
@@ -153,25 +176,70 @@ jQuery(document).ready(function() {
                     data[$('#holidaysdd').attr('name')] = $('#holidaysdd').val(); 
                     data[$('#termstartdd').attr('name')] = $('#termstartdd').val(); 
                     data[$('#termend').attr('name')] = $('#termend').val(); 
-                    apiService(data);
+                     var apiUrl = "http://192.168.0.191:8000/newapp/jobdetails";
+                    // console.log(apiUrl)
+                    res = apiServiceData(apiUrl,data)                   
+                        if(res['status']==200){
+                            next_step =true
+                            console.log('we are in a if condition');
+                            console.log('next_step',next_step);
+                            $('.action').show().delay(5000).fadeOut();
+                            $('.action').addClass('alert-success');
+                            $('.action').removeClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }else{
+                            console.log('we are in a else condition');
+                            $('.action').show()
+                            $('.action').removeClass('alert-success');
+                            $('.action').addClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }
+                         // $('.action').show()
+                    
                     }
 
                 else if (selectedid =='familyfield'){
+                    var data = {};
+                    data[$('.empid').attr('name')] = $('.empid').val();
                     data[$('#maritalstatus').attr('name')] = $('#maritalstatus').val();
                     data[$('#spouseworking').attr('name')] = $('#spouseworking').val();
                     data[$('#numberofchild').attr('name')] = $('#numberofchild').val();
                     data[$('#spousefirstname').attr('name')] = $('#spousefirstname').val();
                     data[$('#spousemiddlename').attr('name')] = $('#spousemiddlename').val();
                     data[$('#spousenationality').attr('name')] = $('#spousenationality').val();
+                    data[$('#spousenationalid').attr('name')] = $('#spousenationalid').val();
                     data[$('#spousebirthdate').attr('name')] = $('#spousebirthdate').val();
                     data[$('#spousepassport').attr('name')] = $('#spousepassport').val();
                     data[$('#spouseethnicity').attr('name')] = $('#spouseethnicity').val();
                     data[$('#spouserelegion').attr('name')] = $('#spouserelegion').val();
-                    apiService(data);
+                     var apiUrl = 'http://192.168.0.191:8000/newapp/familydetails';
+                    // console.log(apiUrl)
+                    res = apiServiceData('http://192.168.0.191:8000/newapp/familydetails',data)                    
+                        if(res['status']==200){
+                            next_step =true
+                            console.log('we are in a if condition');
+                            console.log('next_step',next_step);
+                            $('.action').show().delay(5000).fadeOut();
+                            $('.action').addClass('alert-success');
+                            $('.action').removeClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }else{
+                            console.log('we are in a else condition');
+                            $('.action').show()
+                            $('.action').removeClass('alert-success');
+                            $('.action').addClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }
+                         // $('.action').show()
+                    
                 }
                 else if (selectedid =='contactfield'){
+                     var data = {};
+                    data[$('.empid').attr('name')] = $('.empid').val();
                     data[$('#email').attr('name')] = $('#email').val();
                     data[$('#bloghomepage').attr('name')] = $('#bloghomepage').val();
+                    data[$('#officeextention').attr('name')] = $('#officeextention').val();
+                    data[$('#postcode').attr('name')] = $('#postcode').val();
                     data[$('#office').attr('name')] = $('#office').val();
                     data[$('#mobile').attr('name')] = $('#mobile').val();
                     data[$('#home').attr('name')] = $('#home').val();
@@ -186,18 +254,88 @@ jQuery(document).ready(function() {
                     data[$('#coerelationship').attr('name')] = $('#coerelationship').val();
                     data[$('#coemobile').attr('name')] = $('#coemobile').val();
                     data[$('#coehousephone').attr('name')] = $('#coehousephone').val();
-                    data[$('#officephone').attr('name')] = $('#officephone').val();
-                    apiService(data);
+                    data[$('#coeofficephone').attr('name')] = $('#coeofficephone').val();
+                     res = apiServiceData('http://192.168.0.191:8000/newapp/contactdetails',data)                    
+                        if(res['status']==200){
+                            next_step =true
+                            console.log('we are in a if condition');
+                            console.log('next_step',next_step);
+                            $('.action').show().delay(5000).fadeOut();
+                            $('.action').addClass('alert-success');
+                            $('.action').removeClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }else{
+                            console.log('we are in a else condition');
+                            $('.action').show()
+                            $('.action').removeClass('alert-success');
+                            $('.action').addClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }
                 }
                 else if (selectedid =='healthfield'){
+                     var data = {};
+                    data[$('.empid').attr('name')] = $('.empid').val();
                     data[$('#height').attr('name')] = $('#height').val();
                     data[$('#weight').attr('name')] = $('#weight').val();
                     data[$('#bloodgroup').attr('name')] = $('#bloodgroup').val();
-                    apiService(data);
+                    res = apiServiceData('http://192.168.0.191:8000/newapp/healthdetails',data) 
+                        if(res['status']==200){
+                            next_step =true
+                            console.log('we are in a if condition');
+                            console.log('next_step',next_step);
+                            $('.action').show().delay(5000).fadeOut();
+                            $('.action').addClass('alert-success');
+                            $('.action').removeClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }else{
+                            console.log('we are in a else condition');
+                            $('.action').show()
+                            $('.action').removeClass('alert-success');
+                            $('.action').addClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }
                 }
+                else if (selectedid =='previewfield'){
+                     var data = {};
+                    data[$('.empid').attr('name')] = $('.empid').val();
+                    res = apiServiceData('http://192.168.0.191:8000/newapp/preview',data)
+                    if(res['status']==200){
+                            next_step =true
+                            $('.action').show().delay(5000).fadeOut();
+                            $('.action').addClass('alert-success');
+                            $('.action').removeClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }else{
+                            next_step =false
+                            console.log('we are in a else condition');
+                            $('.action').show()
+                            $('.action').removeClass('alert-success');
+                            $('.action').addClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }
+                }
+                else if (selectedid =='directoryfield'){
+                    var data = {};
+                    data[$('.empid').attr('name')] = $('.empid').val();
+                    res = apiServiceData('http://192.168.0.191:8000/newapp/directory',data)
+                    if(res['status']==200){
+                            next_step =true
+                            $('.action').show().delay(5000).fadeOut();
+                            $('.action').addClass('alert-success');
+                            $('.action').removeClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }else{
+                            next_step =false
+                            console.log('we are in a else condition');
+                            $('.action').show()
+                            $('.action').removeClass('alert-success');
+                            $('.action').addClass('alert-danger');
+                            $('.action').text(res['msg'])
+                        }
+                }
+                
                    console.log(next_step,'console.log(next_step)')
-                  
-   
+    
 
             
 
@@ -232,7 +370,7 @@ jQuery(document).ready(function() {
     	}
     	
     });
-    
+   
     // previous step
     $('.f1 .btn-previous').on('click', function() {
     	// navigation steps / progress steps
@@ -253,6 +391,27 @@ jQuery(document).ready(function() {
     
     //submit
     $('.f1').on('submit', function(e) {
+        e.preventDefault();            
+        var data = {};
+        data[$('.empid').attr('name')] = $('.empid').val();
+        res = apiServiceData('http://192.168.0.191:8000/newapp/submit',data)
+        if(res['status']==200){
+            next_step =true
+            $('.action').show().delay(5000).fadeOut();
+            $('.action').addClass('alert-success');
+            $('.action').removeClass('alert-danger');
+            $('.action').text(res['msg']);
+             window.location.href = 'http://192.168.0.191:8000/newapp/employeeList';
+        }else{
+            next_step =false
+            console.log('we are in a else condition');
+            $('.action').show()
+            $('.action').removeClass('alert-success');
+            $('.action').addClass('alert-danger');
+            $('.action').text(res['msg'])
+            
+        }
+        return false   
     	
     	// fields validation
     	$(this).find('#datejoin,#positiondd,#jobstatuseffectivedate,#employmentstatuseffectivedate,#countrydd,#employeeid,#firstname,#lastname,#birthdate,#nationalid').each(function() {

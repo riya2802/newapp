@@ -51,6 +51,7 @@
                     <div class=" form-box">
 
                       <form role="form" id="fullform" action="" method="post" class="f1">
+                        <input type="hidden" class="empid" name="empid">
                         {% csrf_token %}
                             <div class="alert  action  action1">
                               
@@ -89,10 +90,10 @@
                                     
                                 </div>
                           <div class="f1-step">
-                            <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Account</p></div>
+                            <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Directory</p></div>
                           </div>
                             <div class="f1-step">
-                            <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Social</p></div>
+                            <div class="f1-step-icon"style="font-size: 15px; color: white"><p>Remark</p></div>
                             
                           </div>
                         </div>
@@ -103,7 +104,7 @@
                             <div class="row">
                                 <div class="col-sm-2" ><b>ID <span class="required">*</span></b></div> 
                                 <div class="col-sm-6" >
-                                    <input type="text" name="employeeid" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
+                                    <input type="text" name="employeeid" class="num" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
                                 </div>
                                 <div id="wrapper" >
                                      <input type="file" accept="image/*" id="image" name="image" onchange="preview_image(event)">
@@ -158,7 +159,7 @@
                                   </select><span style="color:red;"></span> </b>
                                 </div>
                                 <div class="col-sm-2" ><b>National ID <span class="required">*</span>:</b></div>
-                                <div class="col-sm-4"><input type="text" class="num" maxlength="8" minlength="8" name="nationalid" id ="nationalid"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>    
+                                <div class="col-sm-4"><input type="text" class="num"  name="nationalid" id ="nationalid"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>    
                             </div>   
                                     <br>
                             <div class="row">
@@ -196,7 +197,7 @@
                                 </div>  
                         </fieldset>
 
-                            <fieldset id="jobfield">
+                        <fieldset id="jobfield">
                                  <h4>Job:</h4>
 
                                  <div style="font-size: 15px; background-color: blue; color: white; ">Employment Information</div><br>
@@ -312,7 +313,6 @@
                                             <option value="workdaysasyouwant">As you want</option>
                                             </select></b>
                                         </div>
-
                                         <div class="col-sm-2"><b>Holidays:</b></div>
                                         <div class="col-sm-4"><b>
                                             <select name="holidaysdd" id="holidaysdd">
@@ -351,7 +351,7 @@
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="button" class="btn btn-next">Next</button>
                                 </div>  
-                            </fieldset>
+                        </fieldset>
 
                              <fieldset id = "familyfield">
                                 <h4>Family:</h4>
@@ -409,14 +409,14 @@
                                             </select></b>
                                         </div>
                                         <div class="col-sm-3" ><b>National ID </b></div>
-                                        <div class="col-sm-3"><b><input type="text" class="num" name="spousenationalid" id="spousenationalid" ></b>{{nationalmsg}}</div>   
+                                        <div class="col-sm-3"><b><input type="text" class="num" minlength="8" maxlength="8" name="spousenationalid" id="spousenationalid" ></b>{{nationalmsg}}</div>   
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Birthdate: </b></div>
                                         <div class="col-sm-3" ><input type="Date" name="spousebirthdate" id="spousebirthdate"></div>
                                         <div class="col-sm-3" ><b>Passport:</b></div>
-                                        <div class="col-sm-3" ><input type="text" name="spousepassport"   id="spousepassport" >{{passmsg}}</div>
+                                        <div class="col-sm-3" ><input type="text" name="spousepassport" class="num" minlength="12" maxlength="12"  id="spousepassport" >{{passmsg}}</div>
                                     </div>
                                     <br>
                                     <div class="row">
@@ -467,25 +467,25 @@
                                 <div style="font-size: 15px; background-color: blue; color: white">Web</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Email:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" name="email"  id="email"></b>{{emailerror}}</div>
+                                        <div class="col-sm-3"><b><input type="email" name="email"  id="email"></b>{{emailerror}}</div>
                                         <div class="col-sm-3"><b>Blog/Homepage:</b></div>
-                                        <div class="col-sm-3"><b> <input type="text" name="bloghomepage"  id="bloghomepage"></b></div>
+                                        <div class="col-sm-3"><b> <input type="text" name="bloghomepage" id="bloghomepage"></b></div>
                                     </div>
                                     <br>
                                 <div style="font-size: 15px; background-color: blue; color: white ">Phone</div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Office:</b></div> 
-                                        <div class="col-sm-3" ><b><input class="num" type="text" name="office" id="office"></b>{{mobileerror}}</div>
+                                        <div class="col-sm-3" ><b><input class="num" minlength="10" maxlength="10" type="text" name="office" id="office"></b>{{mobileerror}}</div>
                                         <div class="col-sm-3"><b>Office Extension:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" name="officeextention"></b></div>
+                                        <div class="col-sm-3"><b><input type="text" minlength="10" maxlength="10" class="num"name="officeextention" id="officeextention"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Mobile:</b></div>
-                                        <div class="col-sm-3" ><b><input class="num" type="text" name="mobile" id="mobile">{{mobileerror}}</b>    
+                                        <div class="col-sm-3" ><b><input class="num" type="text" minlength="10" maxlength="10" name="mobile" id="mobile">{{mobileerror}}</b>    
                                         </div>
                                         <div class="col-sm-3"><b>Home:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" class="num" name="home" id="home">
+                                        <div class="col-sm-3"><b><input type="text" class="num"  maxlength="10" name="home" id="home">
                                         </b>
                                         </div><br>
                                     </div>
@@ -546,22 +546,22 @@
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Relationship:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="alph" n class="alph"ame="coerelationship" id="coerelationship">
+                                        <input type="text" class="alph" class="alph"ame="coerelationship" id="coerelationship">
                                         </b></div>
                                         <div class="col-sm-3" ><b>Mobile Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="num" name="coemobile" id="coemobile">
+                                        <input type="text" class="num" minlength="10" maxlength="10" name="coemobile" id="coemobile">
                                         </b></div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>House Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="num" name="coehousephone" id="coehousephone">
+                                        <input type="text" class="num" minlength="10" maxlength="10" name="coehousephone" id="coehousephone">
                                         </b></div>
                                         <div class="col-sm-3" ><b>Office Phone:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="num" name="officephone"  id="officephone">
+                                        <input type="text" class="num"  minlength="10" maxlength="10" name="coeofficephone"  id="coeofficephone">
                                         </b></div>
                                     </div>
                                     <br>                             
@@ -577,10 +577,10 @@
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Height (cm)</b></div>
                                         <div class="col-sm-3"><b>
-                                            <input min="4" type= "number" name="height" id="height"></b>
+                                            <input min="4" type= "number" class="num" name="height" id="height"></b>
                                         </div>
                                         <div class="col-sm-3"><b>Weight (kg)</b></div>
-                                        <div class="col-sm-3"><b><input min="25" type="number" name = "weight" id = "weight"></b></div>
+                                        <div class="col-sm-3"><b><input min="25" type="number" class="num" name = "weight" id = "weight"></b></div>
 
                                     </div><br>
                                     <div class="row">
@@ -608,7 +608,7 @@
                                 </div>
                             </fieldset>
 
-                            <fieldset>
+                            <fieldset id="previewfield">
                                 <h4>Preview:</h4>
 
                                 <div class="row">
@@ -792,6 +792,12 @@
                                         <div class="col-sm-6" ><b>Office:</b></div>
                                         <div class="col-sm-6"  id= "office_p" ></div>
                                 </div>
+
+                                 <div class="row">
+                                        <div class="col-sm-6" ><b>Office Extention:</b></div>
+                                        <div class="col-sm-6"  id= "officeextention_p" ></div>
+                                </div>
+
                                 <div class="row">
                                         <div class="col-sm-6" ><b>Mobile:</b></div>
                                         <div class="col-sm-6"  id= "mobile_p" ></div>
@@ -851,7 +857,7 @@
                                 </div>
                                 <div class="row">
                                         <div class="col-sm-6" ><b>COE Office Phone:</b></div>
-                                        <div class="col-sm-6"  id= "officephone_p" ></div>
+                                        <div class="col-sm-6"  id= "ceoofficephone_p" ></div>
                                 </div>
 
                                 <hr>
@@ -876,7 +882,7 @@
                                     
                                 </div>
                             </fieldset>
-                             <fieldset>
+                             <fieldset id="directoryfield">
                                 <h4>Directory:</h4>
                               
                                 <div class="f1-buttons">
@@ -884,7 +890,7 @@
                                     <button type="button" class="btn btn-next">Next</button>
                                 </div>
                             </fieldset>
-                             <fieldset>
+                             <fieldset id="remarkfield">
                                 <h4>Remark:</h4>
                                
                                 <div class="f1-buttons">
@@ -905,37 +911,18 @@
         <script src="{% static 'assets/js/jquery-1.11.1.min.js' %}"></script>
         <!-- <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script> -->
         <script src="{% static 'assets/js/jquery.backstretch.min.js' %}"></script>
+         <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
         <script src="{% static 'assets/js/retina-1.1.0.min.js' %}"></script>
         <script src="{% static 'assets/js/scripts.js' %}"></script>
         <script>
 $(document).ready(function(){
-
-        $('#nationalid').onkeyup(function(){
-
-        console.log($(this).val())
-        var y=$(this).val()
-
-        if(y==8){
-        next_step =true
-        $('.action').show()
-        $('.action').addClass('alert-success');
-        $('.action').removeClass('alert-danger');
-        $('.action').text('')
-        }else{
-        next_step=false
-        $('.action').show()
-        $('.action').removeClass('alert-success');
-        $('.action').addClass('alert-danger');
-        $('.action').text('enter 8 digits')
-        }
-    });
 
   var today = new Date();
   var dd = today.getDate();
   var mm = today.getMonth()+1; //January is 0!
   var effdatemm = today.getMonth();
   var yyyy = today.getFullYear();
-
+  var yyyyb = today.getFullYear()-18;
  if(dd<10){
         dd='0'+dd
     } 
@@ -947,8 +934,12 @@ $(document).ready(function(){
     } 
 
 today = yyyy+'-'+mm+'-'+dd;
+
+$("#spousebirthdate").attr("max", today);
+
+todayb = yyyyb+'-'+mm+'-'+dd;
 var effdatemin = yyyy+'-'+effdatemm+'-'+dd;
-$("#birthdate").attr("max", today);
+$("#birthdate").attr("max", todayb);
 // $("#childbirthdate").attr("max", today);
 
 $("#jobstatuseffectivedate").attr("max", today);
@@ -959,15 +950,34 @@ $("#employmentstatuseffectivedate").attr("min",effdatemin);
 
     
 
-    $("#birthdate").on('change',function(){
-    var joinmindate = $('#birthdate').val();
 
-     $("#datejoin").attr("min",joinmindate);
-     $("#datejoin").attr("max", today);
-  });
+        var joinmindate = new Date($('#birthdate').val())
+        var dd = joinmindate.getDate();
+        var mm = joinmindate.getMonth()+1; //January is 0!
+        var yyyy = joinmindate.getFullYear();
+        var c = new Date(yyyy + 18, mm, dd)
+        var dd = c.getDate();
+        var mm = c.getMonth()+1; //January is 0!
+        var yyyy = c.getFullYear();
+        
+     if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+    joinmindate = yyyy+'-'+mm+'-'+dd;
+    $("#datejoin").attr("min", joinmindate);
+    $("#datejoin").attr("max", today);
+   
+
+    //  $("#datejoin").attr("min",joinmindate);
+    //  
 
 
-    $("#datejoin").on('change',function(){
+
+
+    
 
     var mindate = $('#datejoin').val();
 
@@ -990,8 +1000,6 @@ var eopdatemax = yyyy+'-'+mm+'-'+dd;
 
 
 $("#endofprobation").attr("max", eopdatemax);
-  });
-
 
 
     $("#addchildren").attr("disabled", true);
@@ -1102,31 +1110,71 @@ function preview_image(event)
 </script>
  <script>
 
-      function checkId(str){
-          if (str){
-            $.ajax({
-              url: "/newapp/isuseridcorrect",
-              type:"POST",
-              data : { request_data:$('#employeeid').val()},
-              success: function(response_data) { 
-                console.log(response_data);
 
-                if (response_data['data']){
-                    document.getElementById("txtHint").innerHTML =" Already Exist ";
-                }
-                else if (response_data['data'] == "Invalid"){
-                    document.getElementById("txtHint").innerHTML =" Invalid Username ";
 
-                }
-                else{
-                    document.getElementById("txtHint").innerHTML ="Available";
-                }
-            },
-            });
-          }
-      }
-      
+ </script>
 
+ <script>
+ $(document).ready(function(){             
+    $("#fullform").validate({
+
+        rules: {
+        employeeid: 'required',
+        firstname: 'required',
+        lastname: 'required',
+        gendern: 'required',
+        birthdate: 'required',
+        nationalitydd: 'required',
+        nationalid: {
+        rangelength: [8, 8]
+        },
+        spousenationalid: {
+        rangelength: [8, 8]
+        },
+        passport: {
+        rangelength: [12, 12]
+        },
+        office: {
+        rangelength: [10, 10]
+        },
+        officeextention: {
+        rangelength: [10, 10]
+        },
+        home: {
+        rangelength: [10, 10]
+        },
+        mobile: {
+        rangelength: [10, 10]
+        },
+        postcode: {
+        rangelength: [6, 6]
+        },
+        coehousephone: {
+        rangelength: [10, 10]
+        },
+        ceoofficephone: {
+        rangelength: [10, 10]
+        },
+
+        datejoin: 'required',
+        positiondd:'required',
+        jobstatuseffectivedate:'required',
+        employmentstatuseffectivedate:'required',
+        countrydd:'required',
+        spousenationality:'required',
+        },
+        // messages: {
+        //   datejoin: 'This field is required',
+        //   positiondd: 'This field is required',
+        //   jobstatuseffectivedate: 'Enter a valid email',
+        //   employmentstatuseffectivedate: 'Enter a valid email' 
+        // },
+        // submitHandler: function(form) {
+        //    form.submit();
+        // }
+
+        });
+});
  </script>
         
         <!--[if lt IE 10]>
