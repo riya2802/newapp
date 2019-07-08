@@ -1,7 +1,7 @@
 import re
 from datetime import date, datetime, timedelta
 from django.contrib.auth.models import User
-
+from dateutil.parser import parse
 
 def checkForNone(fieldvalue):
 	if fieldvalue is not None and fieldvalue !="":
@@ -11,7 +11,6 @@ def checkForNone(fieldvalue):
 	else:
 		data = None
 		return (data)
-
 
 def is_valid_email(email):
 	if email == "":
@@ -51,6 +50,19 @@ def check_is_valid_name(name):
 		return False
 	return False
 
+def date_to_string(date1):
+	date_obj = datetime.strptime(date1, '%Y-%m-%d').date()
+	print('date_obj',date_obj,type(date_obj))
+	print()
+	return date_obj
+
+def is_date(string, fuzzy=False):
+    try: 
+        parse(string, fuzzy=fuzzy)
+        return True
+
+    except ValueError:
+        return False
 
 def calculateAge(born): 
 	if born == "":
@@ -91,7 +103,10 @@ def is_valid_national(nationaid):
 	if str(nationaid).isdigit():
 		return True
 	return True
+
 def check_join_date(joindate, birthdate):
+	if not is_date(joindate):
+		return False
 	current_date=datetime.today()
 	mindate =data = add_years(birthdate,18)
 	print('mindate',mindate,type(mindate))
@@ -101,6 +116,8 @@ def check_join_date(joindate, birthdate):
 	return True 
 
 def calculate_Effective_date(effectivedate):
+	if not is_date(effectivedate):
+		return False
 	c_date = datetime.date(datetime.today())
 	month = c_date-timedelta(days=30)
 	print('c_date',c_date,type(c_date))
@@ -121,11 +138,7 @@ def check_employeeId(employeeid):
 	else:
 		return False
 
-def date_to_string(date1):
-	date_obj = datetime.strptime(date1, '%Y-%m-%d').date()
-	print('date_obj',date_obj,type(date_obj))
-	print()
-	return date_obj
+
 
 def is_valid_health(health):
 	if str(height).isalpha():
@@ -146,6 +159,8 @@ def add_years(d, years):
         return d + (date(d.year + years, 1, 1) - date(d.year, 1, 1))
     
 def end_of_probation(probationdate,joindate):
+	if not is_date(probationdate):
+		return False
 	days1 = 30*3+2 ## probation date is b/w  joining date and from 3 months later
 	print('date_to_string(probationdate)',date_to_string(probationdate))
 	newprobationdate=date_to_string(probationdate)
@@ -153,7 +168,7 @@ def end_of_probation(probationdate,joindate):
 	print(type(joinDate),type(newprobationdate))
 	afterdate = joinDate+timedelta(days=days1)
 	print('afterdate',afterdate, type(afterdate))
-	if newprobationdate < joindate or newprobationdate > afterdate.date():
+	if newprobationdate < joinDate or newprobationdate > afterdate:
 		return False
 	return True
 
@@ -171,15 +186,15 @@ def is_valid_height(height):
 		return True
 	if height.isalpha():
 		return False
-	if float(height) < 4 :
-		return False
-	return True
+	if float(height) > 120  and float(height) <= 325:
+		return True
+	return False
 
 def is_valid_weight(weight):
 	if weight =="" or weight is None:
 		return True
 	if weight.isalpha():
 		return False
-	if float(weight) < 25 :
-		return False
-	return True
+	if float(weight) > 25 and float(weight) <=120 :
+		return True
+	return False

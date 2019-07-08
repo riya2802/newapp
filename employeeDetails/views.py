@@ -10,7 +10,12 @@ import base64
 from datetime import date,datetime
 from django.contrib.auth import authenticate, login, logout
 import json
-
+from django.core.paginator import Paginator
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from django.shortcuts import render
+import reportlab
 # Create your views here.
 # accept ajax request to check username is valid
 @csrf_exempt
@@ -40,9 +45,9 @@ def loginFun(request):
 		if not user:
 			return render(request, 'login.html',)
 		login(request,user)
-		#return redirect('/newapp/home')
-		print(request.user.username)
-		return JsonResponse({'msg':'login user','status':200})
+		return redirect('/newapp/home')
+		# print(request.user.username)
+		# return JsonResponse({'msg':'login user','status':200})
 	else:
 		error="Method is not allow"
 		return render(request,'login.html')
@@ -88,11 +93,13 @@ def personalAjaxRequest(request):
 		if not validation_function.check_employeeId(employeementId):
 			return JsonResponse({'msg':'Invalid Id , Id should be numeric ','status':400})
 		if not validation_function.check_is_valid_name(firstName) :
-			return JsonResponse({'msg':'First name only takes alphabets !','status':400})
+			return JsonResponse({'msg':'Invalid First name !','status':400})
 		if not validation_function.check_is_valid_name(middelName):
-			return JsonResponse({'msg':'Middle Name name only takes alphabets !','status':400})
+			return JsonResponse({'msg':'Invalid Middle Name !','status':400})
 		if not validation_function.check_is_valid_name(lastName):
-			return JsonResponse({'msg':'Last name only takes alphabets !','status':400})
+			return JsonResponse({'msg':'Invalid Last Name !','status':400})
+		if not validation_function.is_date(birthDate):
+			return JsonResponse({'msg':'Invalid Date Format !','status':400})
 		if validation_function.calculateAge(datetime.strptime(birthDate, '%Y-%m-%d')) < 18 :
 		#if validation_function.calculateAge(date(birthDate)) < 18:
 			return JsonResponse({'msg':'Your age is less then 18 years !','status':400})
@@ -150,8 +157,12 @@ def familyAjaxRequest(request):
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
 		employeementId_obj=request.POST.get('empid',None)
+		if not employeementId_obj:
+			return JsonResponse({'msg':' Emplaoyee Id field Empty!','status':400})
 		print('employeementId_obj',employeementId_obj)
 		obj =employee.objects.filter(employeeId = employeementId_obj).first()
+		if not obj:
+				return JsonResponse({'msg':'Id not exist!','status':400}) 
 		maritalStatus=request.POST.get('maritalstatus',None)
 		numberOfChild=request.POST.get('numberofchild',None)
 		print('numberOfChild',numberOfChild,type(numberOfChild))
@@ -166,8 +177,8 @@ def familyAjaxRequest(request):
 		print('spousenationalId',spousenationalId, type(spousenationalId),len(spousenationalId))
 		spouseethnicity= request.POST.get('spouseethnicity',None)
 		spousereligion= request.POST.get('spousereligion',None)
-		if spousenationality is None or spousenationality =="":
-			return JsonResponse({'msg':' spouse Nationality number is Required field !','status':400})
+		# if spousenationality is None or spousenationality =="":
+		# 	return JsonResponse({'msg':' spouse Nationality number is Required field !','status':400})
 		if not validation_function.check_is_valid_name(spousefirstName) :
 			print("error1")
 			return JsonResponse({'msg':'First name only takes alphabets !','status':400})
@@ -200,6 +211,9 @@ def familyAjaxRequest(request):
 		query_dict_childmaritalstatus=request.POST.getlist('childmaritalstatus')
 		insert_list=[]
 		print("obj", obj)
+		# isemployee = employee.objects.filter(employeeId = obj).first()
+		# if not isemployee:
+		# 		return JsonResponse({'msg':'Id not exist!','status':400}) 
 		for i in range(len(query_dict_childfirstname)):
 			newchildbirthdate = validation_function.checkForNone(query_dict_childbirthdate[i])
 			if not validation_function.check_is_valid_name(query_dict_childfirstname[i]) :
@@ -224,9 +238,11 @@ def jobAjaxRequest(request):
 	if request.method == "POST":
 		employeementId_obj=request.POST.get('empid')
 		print('employeementId_obj',employeementId_obj)
+		if not employeementId_obj:
+			return JsonResponse({'msg':' emplaoyee Id field Empty!','status':400})
 		obj =employee.objects.filter(employeeId = employeementId_obj).first()
-		# print(obj.employeeBirthDate)
-		#print(obj.employeeBirthDate ,obj.employeementId)
+		if not obj:
+				return JsonResponse({'msg':'Id not exist!','status':400}) 
 		print('request.POST',request.POST)
 		DateJoined = request.POST.get('datejoin',None)
 		EndofProbation = request.POST.get('endofprobation',None)
@@ -248,21 +264,23 @@ def jobAjaxRequest(request):
 		TermStart = request.POST.get('termstartdd',None)
 		TermEnd = request.POST.get('termend',None)
 		print('EmploymentStatusEffectiveDate',EmploymentStatusEffectiveDate,'DateJoined',DateJoined,'Position',Position,'JobStatusEffectiveDate',JobStatusEffectiveDate)
-		if DateJoined is  None or DateJoined == "" and Position is None or Position == "" and JobStatusEffectiveDate is None or JobStatusEffectiveDate == "" and EmploymentStatusEffectiveDate is None or EmploymentStatusEffectiveDate == "":		    
+		if employeementId_obj is None or employeementId_obj=="" and DateJoined is  None or DateJoined == "" and Position is None or Position == "" and JobStatusEffectiveDate is None or JobStatusEffectiveDate == "" and EmploymentStatusEffectiveDate is None or EmploymentStatusEffectiveDate == "":		    
 			return JsonResponse({'msg':'Required fields empty !','status':400})
 		if EndofProbation is not None and EndofProbation != '':
-			# if not validation_function.end_of_probation(EndofProbation,DateJoined):
-			# 	return JsonResponse({'msg':'Invalid probation date','status':400})
-			# else:
-			newendofProbation =	EndofProbation
+			if not validation_function.end_of_probation(EndofProbation,DateJoined):
+				return JsonResponse({'msg':'Invalid probation date','status':400})
+			else:
+				newendofProbation =	EndofProbation
 		else:
 			newendofProbation=None
 		if not validation_function.check_join_date(DateJoined,obj.employeeBirthDate):
 			return JsonResponse({'msg':'Invalid joining date','status':400})
 		if not validation_function.calculate_Effective_date(JobStatusEffectiveDate):
-			return JsonResponse({'msg':'Invalid Effective date','status':400})
+			print("job status effective date")
+			return JsonResponse({'msg':'Invalid Job  Effective date','status':400})
 		if not validation_function.calculate_Effective_date(EmploymentStatusEffectiveDate):
-			return JsonResponse({'msg':'Invalid Effective date','status':400})
+			print("employee effective date ")
+			return JsonResponse({'msg':'Invalid emplaoyee Effective date','status':400})
 		checkJob =Job.objects.filter(employeeForeignId = obj).update(dateJoined=DateJoined,endofProbation=newendofProbation,position=Position,jobStatusEffectiveDate=JobStatusEffectiveDate,lineManager=LineManager,department=Department,branch=Branch,level=Level,jobType=JobType,employmentStatusEffectiveDate=EmploymentStatusEffectiveDate,jobStatus=JobStatus,leaveWorkflow=LeaveWorkflow,workdays=Workdays,holidays=Holidays,termStart=TermStart,termEnd=TermEnd)
 		if checkJob:
 			return JsonResponse({'msg':'success','status':200,'empID':employeementId_obj})
@@ -275,6 +293,8 @@ def contactAjaxRequest(request):
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
 		employeementId_obj=request.POST.get('empid',None)
+		if not employeementId_obj:
+			return JsonResponse({'msg':' emplaoyee Id field Empty!','status':400})
 		print('employeementId_obj',employeementId_obj)
 		obj =employee.objects.filter(employeeId = employeementId_obj).first()
 		print('obj',obj)
@@ -331,9 +351,11 @@ def contactAjaxRequest(request):
 		else:
 			if not validation_function.is_valid_email(Email):
 				return JsonResponse({'msg':'Invalid Email !','status':400})
-			checkDuplicateEmail=Contact.objects.filter(email=Email).first()
-			if checkDuplicateEmail:
-				return JsonResponse({'msg':'Email already exist !','status':400})
+			currentuseremail = Contact.objects.filter(email=Email,employeeForeignId=employeementId_obj).first()
+			if not currentuseremail:
+				checkDuplicateEmail=Contact.objects.filter(email=Email).first()
+				if checkDuplicateEmail:
+					return JsonResponse({'msg':'Email already exist !','status':400})
 		if not validation_function.check_is_valid_name(contactFirstName) :
 			return JsonResponse({'msg':'First name only takes alphabets !','status':400})
 		if not validation_function.check_is_valid_name(contactLastName):
@@ -352,14 +374,16 @@ def healthAjaxRequest(request):
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
 		employeementId_obj=request.POST.get('empid',None)
+		if not employeementId_obj:
+			return JsonResponse({'msg':' emplaoyee Id field Empty!','status':400})
 		obj =employee.objects.filter(employeeId = employeementId_obj).first()
 		height=	request.POST.get('height',None)
 		weight=request.POST.get('weight',None)
 		bloodGroup=	request.POST.get('bloodgroup',None)
 		if not validation_function.is_valid_height(height):
-			return JsonResponse({'msg':' Height Minimum should be 4 !','status':400})
+			return JsonResponse({'msg':'Minimum Height should be 120 in cm !','status':400})
 		if not validation_function.is_valid_weight(weight):
-			return JsonResponse({'msg':' Weight Minimum should be 25 !','status':400})
+			return JsonResponse({'msg':' Minimum Weight should be 25 !','status':400})
 		checkhealth = employeeHealth.objects.filter(employeeForeignId = obj).update(employeeHealthHeight=height,employeeHealthWeight=weight,employeeHealthBloodGroup=bloodGroup)
 		if checkhealth :
 			return JsonResponse({'msg':'success','status':200})
@@ -368,10 +392,10 @@ def healthAjaxRequest(request):
 #---------------------------------------------------------------------------
 
 ##function for calling edit html form with data in text box 
-def editHtmlForm(request,employeementId):
+def editHtmlForm(request,employeeId):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
-	objEmployeePersonal=employee.objects.filter(employeementId = employeementId).first()
+	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
 	nationalityList = nationality.objects.filter(status="isactive")
 	countryListList = country.objects.filter(status="isactive")
 	ethnicityList=ethnicity.objects.filter(status="isactive")
@@ -395,7 +419,7 @@ def editHtmlForm(request,employeementId):
 		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal)
 		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal)
 		print("objEmployeeJob",objEmployeeJob)
-		return render(request,'form.html',{'bloodGroupList':bloodGroupList,"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
+		return render(request,'form2.html',{'bloodGroupList':bloodGroupList,"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
 ,'action':"/newapp/submit",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
 	else:
 		return render(request,'error.html',{'error':'User not exist'})
@@ -430,10 +454,13 @@ def submit(request):
 def employeeList(request):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
-	employeeObj= employee.objects.all()
+	employeeObj= employee.objects.filter(status='Success')
 	if employeeObj is None:## if no employee is addedd
 		return render(request, 'Employee.html',{'form':form})
-	return render(request, 'list.html',{'employeeObj':employeeObj})
+	paginator = Paginator(employeeObj, 5) # Show 25 contacts per page
+	page = request.GET.get('page')
+	employee_page = paginator.get_page(page)
+	return render(request, 'Listcopy.html',{'employeeObj':employee_page})
 
 @csrf_exempt
 def emplyeeDelete(request,employeementId ):
@@ -464,14 +491,17 @@ def addEmployee(request):
 	positionList=position.objects.all()
 	branchList=branch.objects.all()
 	departmentList=department.objects.all()
-	return render(request,'form1edit.html' , {"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
+	return render(request,'form.html' , {"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
 ,'action':"/newapp/addFun",})
+
 
 @csrf_exempt
 def preview(request):
 	employeementId_obj=request.POST.get('empid',None)
 	obj =employee.objects.filter(employeeId = employeementId_obj).first()
 	return JsonResponse({'msg':'success','status':200})
+
+
 @csrf_exempt
 def directory(request):
 	employeementId_obj=request.POST.get('empid',None)
@@ -482,3 +512,76 @@ def directory(request):
 # 	employeementId_obj=request.POST.get('empid',None)
 # 	obj =employee.objects.filter(employeeId = employeementId_obj).first()
 # 	return JsonResponse({'msg':'success','status':200})
+
+def createPdf(request,employeeId):
+	if not request.user.is_authenticated:
+		return redirect('/newapp/login')
+	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
+	if objEmployeePersonal:
+		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal)
+		print('objEmployeeFamily',objEmployeeFamily)
+		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal)
+		print('objEmployeeChildren',objEmployeeChildren)
+		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal)
+		print('objEmployeeHealth',objEmployeeHealth)
+		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal)
+		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal)
+		print("objEmployeeJob",objEmployeeJob)
+		print('objEmployeeContact',objEmployeeContact.email)
+		response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'inline; filename="mypdf.pdf"'
+    # Create a file-like buffer to receive PDF data.
+	buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+	p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+	# dic = {"employee Id":objEmployeePersonal.employeementId,"Name":objEmployeePersonal.employeeFirstName}
+
+	# keyList=['Emplaoyee Id', 'Name']
+	# #valuelist=['employeementId','employeeBirthDate']
+	# row = 750
+	# keycolumn = 50
+	# valuecolumn=300
+	# for key in range(len(keyList)):
+	# 	# 	print(valuelist[key])
+	# 	# for i in range(len(valuelist)):
+	# 	#print(key)
+	# 	p.drawString(keycolumn,row,keyList[key]+":" )
+	# 	p.drawString(valuecolumn,row,"hhcxc")
+	# 	row=row-30
+	p.drawString(50,750, "Employee Id ")
+	p.drawString(300,750, employeeId)
+	p.drawString(50,720, "Name ")
+	p.drawString(300,720,objEmployeePersonal.employeeFirstName+' '+objEmployeePersonal.employeeLastName )
+	p.drawString(50,690, "DOB ")
+	p.drawString(300,690,str(objEmployeePersonal.employeeBirthDate))
+	p.drawString(50,660,  "Gender")
+	p.drawString(300,660,objEmployeePersonal.employeeGender )
+	p.drawString(50,630, "Nationality ")
+	p.drawString(300,630, objEmployeePersonal.employeeNationality)
+	p.drawString(50,600,  "National Id")
+	p.drawString(300,600,str(objEmployeePersonal.employeeNationalId))
+	p.drawString(50,570, "Joining Date")
+	p.drawString(300,570, str(objEmployeeJob.dateJoined))
+	p.drawString(50,540,  "Email")
+	p.drawString(300,540,str(objEmployeeContact.email ))
+	p.drawString(50,510, "Mobile")
+	p.drawString(300,510,str( objEmployeeContact.mobile))
+	p.drawString(50,480,  "Country")
+	p.drawString(300,480,str(objEmployeeContact.country))
+
+
+
+    # Close the PDF object cleanly, and we're done.
+	p.showPage()
+	p.save()
+	pdf = buffer.getvalue()
+	buffer.close()
+	response.write(pdf)
+	return response
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    #return FileResponse(buffer, as_attachment=True, filename='hello.pdf')

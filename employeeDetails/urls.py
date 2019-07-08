@@ -9,7 +9,7 @@ urlpatterns = [
     path('logout',views.logoutFun),
     path('submit',views.submit),# add new employee
     path('addemployee',views.addEmployee),#show html 
-    path('editemployee/<employeementId>',views.editHtmlForm),#call edit form with data 
+    path('editemployee/<employeeId>',views.editHtmlForm),#call edit form with data 
    # path('editFun/<employeementId>',views.editFun),#save edit form data in database , update data in database 
     path('employeeList',views.employeeList),
     path('emplyeeDelete/<employeementId>',views.emplyeeDelete),
@@ -21,6 +21,7 @@ urlpatterns = [
     path('healthdetails',views.healthAjaxRequest),
     path('preview',views.preview),
     path('directory',views.directory),
+    path('pdf/<employeeId>',views.createPdf),#create pdf files
     # path('remark',views.remark),
 
 
