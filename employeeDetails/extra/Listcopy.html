@@ -10,21 +10,40 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
     <style type="text/css">
-     
-        body{
-          line-height: 2.42857143;
-        }
-        .table>tbody>tr>td{
-          line-height: 2.42857143;
-        }
+      .button {
+  background-color: #80aaff; /* Green */
+  border: none;
+  color: white;
+  padding: 7px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.1s; /* Safari */
+  transition-duration: 0.2s;
+}
+.button2:hover {
+  border-radius: 50%;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+body{
+  font-size: 18px;
+  line-height: 2.42857143;
+}
+.table>tbody>tr>td{
+  line-height: 2.42857143;
+}
     </style>
   </head>
-  <body style="background-color: lightgrey; font-size: 14px" >
-    <div style="padding-top: 100px"></div>
-    <div class="container" style="background-color: white; border-radius: 8px ">
-      <h4 align="centre"><b>Employees</b></h4>
-      <br>
-    <table class="table" style="padding-top: 55px">
+  <body style="background-color: #e6ecff;">
+
+    <div class="container">
+      <div class="jumbotron"   style="background-color: #398ad0;">
+        <h2 align="centre"><b>Employees</b></h2>
+      </div>  
+    <table class="table">
   <thead>
     <tr>
       <th scope="col">S.No</th>
@@ -39,13 +58,13 @@
   <tbody>
     {% for i in employeeObj %}
     <tr>
-      <td scope="row">{{ forloop.counter }}</td>
+      <th scope="row">{{ forloop.counter }}</th>
       <td>{{ i.employeementId }}</td>
       <td>{{i.employeeFirstName}}</td>
       <td>{{i.employeeLastName}}</td>
       <td>{{i.employeeBirthDate}}</td>
-      <td><a href='editemployee/{{i.employeeId}}'><button type="button" class="btn btn-primary btn-sm">EDIT</button></a> </td>
-      <td><a href='pdf/{{i.employeeId}}'><button type="button" class="btn btn-primary btn-sm">PDF</button></a></td>
+      <td><a href='editemployee/{{i.employeeId}}'><button class="button button2" >Edit</button></a> </td>
+      <td><a href='pdf/{{i.employeeId}}'><button class="button button2" >PDF</button></a></td>
       <!-- <td></td> -->
     </tr>
     {% endfor %}
@@ -68,10 +87,7 @@
         {% endif %}
     </span>
 </div>
-</div>
 </body>
-
-
 </html>
 
             

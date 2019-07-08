@@ -140,10 +140,10 @@ def check_employeeId(employeeid):
 
 
 
-def is_valid_health(health):
-	if str(height).isalpha():
-		return False
-	pass
+# def is_valid_health(health):
+# 	if str(height).isalpha():
+# 		return False
+# 	pass
 
 
 def add_years(d, years):
@@ -186,7 +186,7 @@ def is_valid_height(height):
 		return True
 	if height.isalpha():
 		return False
-	if float(height) > 120  and float(height) <= 325:
+	if float(height) > 122  and float(height) <= 325:
 		return True
 	return False
 
