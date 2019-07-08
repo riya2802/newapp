@@ -116,15 +116,15 @@ ul.navbar-nav {
 	-moz-border: 50%; -webkit-border: 50%; border: 50%;
 }
 .f1-step.activated .f1-step-icon {
-	background: #fff; border: 1px solid #398ad0; color: #f35b3f; line-height: 38px;
+	background: #fff; border: 1px solid #f35b3f; color: #f35b3f; line-height: 38px;
 }
 .f1-step.active .f1-step-icon {
-	width: 70px; height: 40px; margin-top: 0; background: #398ad0; font-size: 22px; line-height: 48px;
+	width: 70px; height: 40px; margin-top: 0; background: #f35b3f; font-size: 22px; line-height: 48px;
 }
 
-.f1-step p { color: #000; }
-.f1-step.activated p { color: #000; }
-.f1-step.active p { color: #fff; }
+.f1-step p { color: #ccc; }
+.f1-step.activated p { color: #f35b3f; }
+.f1-step.active p { color: #000099; }
 
 .f1 fieldset { display: none; text-align: left; }
 
@@ -173,8 +173,8 @@ only screen and (                min-resolution: 192dpi),
 only screen and (                min-resolution: 2dppx) {
 	
 	/* logo */
-    /*.navbar-brand {
+    .navbar-brand {
     	background-image: url(../img/logo@2x.png) !important; background-repeat: no-repeat !important; background-size: 162px 36px !important;
-    }*/
+    }
 	
 }

@@ -226,7 +226,7 @@ class department(models.Model):
 class bloodGroup(models.Model):
 	bloodgroup=  models.CharField(max_length=30)
 class employee(models.Model):
-	employeeId= models.AutoField(primary_key=True)
+	employeeId= models.AutoField(primary_key=True)#primary key
 	employeementId =models.IntegerField(max_length=255,null=False,blank=False,unique=True)
 	employeeFirstName= models.CharField(max_length=255,blank=False,null=False)
 	employeeMiddelName=models.CharField(max_length=255,null=True,blank=True)
@@ -250,7 +250,7 @@ class employeeFamily(models.Model):
 	employeeFamilySpouseMiddelName=models.CharField(max_length=255,null=True,blank=True)
 	employeeFamilySpouseLastName=models.CharField( max_length=255,blank=True,null=True)
 	employeeFamilySpouseBirthDate=models.DateField(null=True,blank = True)
-	employeeFamilySpouseNationality=models.CharField(max_length=15, choices=Nationality, default='India',blank=False,null=False)
+	employeeFamilySpouseNationality=models.CharField(max_length=15, default='India',blank=False,null=False)
 	employeeFamilySpouseNationalId=models.CharField(max_length=8, null=True,blank=True)
 	employeeFamilySpousePassport=models.CharField(max_length=12,null=True,blank=True)
 	employeeFamilySpouseEthnicity=models.CharField(max_length=15,choices=Ethnicity, default='NA',null=True,blank=True)
