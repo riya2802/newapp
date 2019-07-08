@@ -1,4 +1,5 @@
 
+
 function apiServiceData(apiUrl,data) 
 {
     console.log("we are in the job details function");
@@ -212,6 +213,13 @@ jQuery(document).ready(function() {
                     data[$('#spousepassport').attr('name')] = $('#spousepassport').val();
                     data[$('#spouseethnicity').attr('name')] = $('#spouseethnicity').val();
                     data[$('#spouserelegion').attr('name')] = $('#spouserelegion').val();
+                    data[$('.childfirstname').attr('name')] = $('#childfirstname').val();
+                    data[$('.childlastname').attr('name')] = $('#childlastname').val();
+                    data[$('.childmiddlename').attr('name')] = $('#childmiddlename').val();
+                    data[$('.childgender').attr('name')] = $('#childgender').val();
+                    data[$('.childbirthdate').attr('name')] = $('#childbirthdate').val();
+                    data[$('.childmaritalstatus').attr('name')] = $('#childmaritalstatus').val();
+
                      var apiUrl = 'http://192.168.0.191:8000/newapp/familydetails';
                     // console.log(apiUrl)
                     res = apiServiceData('http://192.168.0.191:8000/newapp/familydetails',data)                    
@@ -255,6 +263,8 @@ jQuery(document).ready(function() {
                     data[$('#coemobile').attr('name')] = $('#coemobile').val();
                     data[$('#coehousephone').attr('name')] = $('#coehousephone').val();
                     data[$('#coeofficephone').attr('name')] = $('#coeofficephone').val();
+
+
                      res = apiServiceData('http://192.168.0.191:8000/newapp/contactdetails',data)                    
                         if(res['status']==200){
                             next_step =true
@@ -341,7 +351,63 @@ jQuery(document).ready(function() {
 
           
     //    fields validation
+    //      $('#familyfield').submit(function(e){
+    //     e.preventDefault(); 
+    //     $.ajax({
+    //           url: "http://192.168.0.191:8000/newapp/family",
+    //           type:"POST",
+    //           data : $("#check_form").serialize(),
+    //           success: function(response_data) { 
+    //             console.log(response_data);
+    //         },
+    //     });
+    // })
+    function displayResultnew(count,rowCount)
+    {
+    var counter =0
+    flag =false
+    var htm ='<tr><td><input type = "text" class="childfirstname" name="childfirstname" class="alph"></td> <td><input type = "text" name="childmiddlename" class="childmiddlename" class="alph"></td> <td><input type = "text" name="childlastname" class="childlastname" class="alph"></td> <td><input type = "Date" class="childbirthdate" name="childbirthdate" id="childbirthdate"></td> <td><select class="childgender" name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select class="childmaritalstatus" name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></td></tr>'
+    if (rowCount == 0){
+        console.log('in')
+        counter=count
+        for (var i = 0; i < counter; i++) {  
         
+            $('#myTable tbody').append(htm);
+        }
+    }
+    else if (count > rowCount)
+    {
+        counter =count-rowCount
+       for (var i = 0; i < counter; i++) {  
+        
+            $('#myTable tbody').append(htm);
+        }
+    }
+    else if (count < rowCount)
+    {
+        counter =rowCount-count
+       for (var i = 0; i < counter; i++) {   
+            $('#myTable tbody tr:last').remove();
+        }
+    }
+}
+    $('#numberofchild').change(function(){
+         var rowCount = $('#myTable tbody tr').length;
+        displayResultnew($(this).val(),rowCount)
+    })
+     $('.add_row').click(function(){
+        console.log("call")
+
+         var rowCount = $('#myTable tbody tr').length;
+          $('.test').val(rowCount+1)
+        displayResultnew(rowCount+1,rowCount)
+    })
+
+     $('.remove_row').click(function(){
+         var rowCount = $('#myTable tbody tr').length;
+         $('.test').val(rowCount-1)
+        displayResultnew(rowCount-1,rowCount)
+    })
 
     	
     	// fields validation
@@ -427,5 +493,5 @@ jQuery(document).ready(function() {
     	
     });
     
-    
-});
+    });
+

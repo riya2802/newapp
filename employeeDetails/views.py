@@ -49,6 +49,10 @@ def logoutFun(request):
     logout(request)
     return redirect('/newapp/login')
 
+@csrf_exempt
+def checking(request):
+    return render(request,'old correct form - Copy.html')
+
 def home(request):
 	return render(request,'home.html')
 

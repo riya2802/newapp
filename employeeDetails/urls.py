@@ -10,6 +10,7 @@ urlpatterns = [
     path('isuseridcorrect',views.isuserIdcorrect),
     path('login',views.loginFun),
     path('logout',views.logoutFun),
+    path('checking',views.checking),
     path('addFun',views.addFun),# add new employee
     path('addemployee',views.addEmployee),#show html 
     path('editemployee/<employeementId>',views.editHtmlForm),#call edit form with data 
