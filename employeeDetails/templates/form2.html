@@ -128,9 +128,10 @@
                                     <div class="row">
                                       <div class="col-sm-2" ><b>Gender:</b></div>
                                       <div class="col-sm-6" class="radio" id ="gender" >
-                                        <label><input type="radio" name="gendern" id="gendern" value="female">Female</label>           
-                                        <label><input type="radio" name="gendern" value="male" id="gendern">Male</label>
-                                        <label><input type="radio" name="gendern" value="unknown" id="gendern">Unknown</label><span style="color:red;">{{ error}}</span>
+                                        <label><input type="radio" name="gendern" id="gendern" {% if value= objEmployeePersonal.employeeGender %} checked="True"  > Female</label>         
+                                        <label><input type="radio" name="gendern"  id="gendern" {% elif value=objEmployeePersonal.employeeGender %} checked="True">Male</label>
+                                        <label><input type="radio" name="gendern" value="unknown" id="gendern" {% else %} checked="True">Unknown</label><span style="color:red;">{{ error}}</span>
+                                        {% endif %}
                                       </div>
                                         <div class="col-sm-4"></div>
                                     </div>
@@ -367,7 +368,7 @@
                                             <option value="Single">Single</option>
                                             </select></b>
                                         </div>
-                                        <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
+                                        <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" name = "spouseworking"  id = "spouseworking" {% if i.employeeFamilySpouseWorking %} checked {% endif %} value="yes"></b></div>
                                     </div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Number of Children:</b></div>
@@ -457,6 +458,10 @@
                                                         <th>Married</th>
                                                     </tr>
                                                 </thead>
+                                                
+                                                 <tbody>
+                                                  
+                                                
 
                                         </table>
                                 <div class="f1-buttons">
