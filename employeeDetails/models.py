@@ -111,6 +111,7 @@ class employeeChildren(models.Model):
 	employeeChildrenBirthDate=models.DateField(blank=True,null=True)
 	employeeChildrenGender= models.CharField(max_length=15, choices=gender, default='U',blank=True,null=True)
 	employeeChildrenMaritalStatus=models.CharField(max_length=1,default='Unmarried')
+	# employeeChildKey=models.CharField(max_length=15,default=0)
 
 class employeeHealth(models.Model):
 	employeeForeignId =models.ForeignKey(employee,models.CASCADE, unique = True)

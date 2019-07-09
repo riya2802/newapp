@@ -19,12 +19,12 @@
 		<link rel="stylesheet" href="{% static 'assets/css/form-elements.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <style>
-        #wrapper{
+        /*#wrapper{
             text-align:center;
             margin:0 auto;
             padding:0px;
             width:995px;
-        }
+        }*/
         .photo-background{
             height:100px;
             width:100px;
@@ -36,6 +36,20 @@
         .required{
   			color: red;
 		}
+        .column {
+        float: left;
+        width: 50%;
+        padding: 10px;
+        height: 400px; /* Should be removed. Only for demonstration */
+        }
+
+
+        /* Clear floats after the columns */
+        .row:after {
+        content: "";
+        display: table;
+        clear: both;
+        }
         .action{display: none;}
         .action1{display: none;}
     </style>
@@ -101,49 +115,58 @@
                     	<fieldset id="personalfield">
                     		<h4>Personal:</h4>
                             <div style="font-size: 20px; background-color: blue; color: white ">Personal Details</div><br>
-                            <div class="row">
-                                <div class="col-sm-2" ><b>ID <span class="required">*</span></b></div> 
-                                <div class="col-sm-6" >
-                                    <input type="text" name="employeeid" class="num" id= "employeeid" value="{{ objEmployeePersonal.employeementId }}" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint">{{ error}}{{ msg }}</span>
-                                </div>
-                                <div id="wrapper" >
-                                     <input type="file" accept="image/*" id="image" name="image" onchange="preview_image(event)">
-                                     <img id="output_image" src = "/media/{{objEmployeePersonal.employeePhoto}}" height="70" width="100">
-                                </div>                                        
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-sm-2" ><b>First Name <span class="required">*</span>: </b></div>
-                                <div class="col-sm-6" ><b><input value="{{ objEmployeePersonal.employeeFirstName }}" type="text" name="firstname" class="alph" id ="firstname" ><span style="color:red;"></span> </b></div>
-                                <div class= "col-sm-4" ></div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-sm-2" ><b>Middle Name:</b></div>
-                                <div class="col-sm-2" ><b><input value="{{ objEmployeePersonal.employeeMiddelName }}" type="text" name="middlename" class="alph" id="middlename"> </b></div>
-                                <div class= "col-sm-2" ></div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-sm-2" ><b>Last Name <span class="required">*</span>:</b></div>
-                                <div class="col-sm-6" ><b><input type="text" name="lastname" class="alph" id="lastname" value="{{ objEmployeePersonal.employeeLastName }}"> <span style="color:red;"></span></b></div>
-                                <div class= "col-sm-4"> </div>
-                            </div>
-                                    <br>
-                            <div class="row">
-                                <div class="col-sm-2" ><b>Gender:</b></div>
-                                <div class="col-sm-6" class="radio" id ="gender" >
-                                    <label><input type="radio" name="gendern" id="gendern" value="female">Female</label><label><input type="radio" name="gendern" value="male" id="gendern">Male</label>
-                                    <label><input type="radio" name="gendern" value="unknown" id="gendern">Unknown</label><span style="color:red;">{{ error}}</span>
-                                </div>
-                                <div class="col-sm-4"></div>
-                            </div>
-                                    <br>
-                            <div class="row">
-                                <div class="col-sm-2" ><b>Birth Date<span class="required">*</span>:</b></div>
-                                <div class="col-sm-6"><b><input value="{{ objEmployeePersonal.employeeBirthDate|date:'Y-m-d' }}" type="Date" name="birthdate" id="birthdate"><span style="color:red;"></span></b> </div>
-                                <div class= "col-sm-4" > </div>
-                            </div>
+                             <div class="row">
+                                    <div class="column">
+
+                                        <b>ID <span class="required" style="padding-right: 208px">*</span></b>
+                                        <input value="{{ objEmployeePersonal.employeementId }}" type="text" name="employeeid" class="num" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint"></span>
+                                        <br><br> 
+
+
+                                        <b>First Name <span class="required" style="padding-right: 141px" >*</span></b>
+                                        <b><input value="{{ objEmployeePersonal.employeeFirstName }}" type="text" name="firstname" class="alph" id ="firstname" ><span style="color:red;"></span> </b>
+
+
+                                        <br><br>
+
+                                        <b style="padding-right: 132px">Middle Name:</b>
+                                        <b><input type="text"  value="{{ objEmployeePersonal.employeeMiddelName }}"  name="middlename" class="alph" id="middlename"> </b>
+
+
+                                        <br><br>
+
+                                        <b>Last Name <span class="required" style="padding-right: 143px">*</span></b>
+                                        <b><input type="text"  value="{{ objEmployeePersonal.employeeLastName }}" name="lastname" class="alph" id="lastname"> <span style="color:red;"></span></b>
+
+                                        <br><br>
+
+                                        <b style="padding-right: 162px">Gender*:</b>
+                                         {% if objEmployeePersonal.employeeGender == "female" %}
+                                        <label style="padding-right: 5px" ><input type="radio" name="gendern" id="gendern" value="female  checked">Female</label>
+                                        <label style="padding-right: 5px"><input  type="radio" name="gendern" value="male" id="gendern">Male</label>
+                                        {% elif objEmployeePersonal.employeeGender == "male" %}
+                                        <label style="padding-right: 5px" ><input type="radio" name="gendern" id="gendern" value="female  ">Female</label>
+                                        <label style="padding-right: 5px"><input  type="radio" name="gendern" value="male" id="gendern"  checked>Male</label>
+                                        {% else %}
+                                        <label style="padding-right: 5px" ><input type="radio" name="gendern" id="gendern" value="female  ">Female</label>
+                                        <label style="padding-right: 5px"><input  type="radio" name="gendern" value="male" id="gendern">Male</label>
+                                        <label style="padding-right: 5px"><input  type="radio" name="gendern" value="unknown" id="gendern" checked>Unknown</label><span style="color:red;">{{ error}}</span>
+                                        {% endif %}
+                                        <br><br>
+
+                                        <b style="padding-right: 145px">Birth Date<span class="required">*</span>:</b>
+                                        <b><input type="Date" value="{{ objEmployeePersonal.employeeBirthDate|date:'Y-m-d' }}" name="birthdate" id="birthdate"><span style="color:red;"></span></b>
+                                    </div>
+                                  <div  class="column" id="wrapper" style="text-align: center;">
+                                        
+                                        <img id="output_image"/ src = "/media/{{objEmployeePersonal.employeePhoto}}" 
+                                             height="200" width="200" style="border-radius: 0px;" ><br><br>
+                                        
+                                        <input  style="float: right;  margin-right: 14%;" type="file" accept="image/*" id="image" name="{{objEmployeePersonal.employeePhoto}}" onchange="preview_image(event)">
+                                        
+                                    </div>
+                                    </div>
+                            
                                     <br>
                                   
                                 <div style="font-size: 20px; background-color: blue; color: white "> Nationality Details</div>
@@ -152,6 +175,7 @@
                                 <div class="col-sm-2" ><b>Nationality  <span class="required">*</span>:</b></div>
                                 <div class="col-sm-4" ><b>
                                   <select name="nationalitydd" id="nationalitydd">
+
                                     <option value="{{objEmployeePersonal.employeeNationality}}"hidden  selected>{{objEmployeePersonal.employeeNationality}}</option>
                                     {% for option in nationalityList %}
                                     <option value="{{ option.nationalityName }}">{{ option.nationalityName }}</option>
@@ -223,6 +247,7 @@
                                         <div class="col-sm-4"><b><input type="Date" name="jobstatuseffectivedate" value="{{ i.jobStatusEffectiveDate|date:'Y-m-d' }}" id= "jobstatuseffectivedate">{{ error6 }}</b></div>
                                     </div>
                                     <br>
+
                                     <div class="row">
                                         <div class="col-sm-2" ><b>Line Manager:</b></div>
                                         <div class="col-sm-4" ><b>
@@ -279,7 +304,7 @@
                                             </select></b>
                                         </div>
                                         <div class="col-sm-2"><b>Effective Date <span class="required">*</span>:</b></div>
-                                        <div class="col-sm-4"><b><input type="Date" name="employmentstatuseffectivedate" id="employmentstatuseffectivedate"></b></div>
+                                        <div class="col-sm-4"><b><input type="Date" name="employmentstatuseffectivedate" id="employmentstatuseffectivedate"  value="{{ i.employmentStatusEffectiveDate|date:'Y-m-d' }}"></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
@@ -390,7 +415,7 @@
                                         <div class="col-sm-3" ><b>First Name:</b></div> 
                                         <div class="col-sm-3" ><b><input value="{{ i.employeeFamilySpouseFirstName }}" type="text" class="alph" name="spousefirstname" id="spousefirstname"></b></div>
                                         <div class="col-sm-3"><b>Last Name:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" class="alph" name="spouselastname" id ="spouselastname" value="{{ i.employeeFamilySpouseFirstName }}" ></b></div>
+                                        <div class="col-sm-3"><b><input type="text" class="alph" name="spouselastname" id ="spouselastname" value="{{ i.employeeFamilySpouseLastName }}" ></b></div>
                                     </div>
                                     <br>
                                     <div class="row">
@@ -441,8 +466,8 @@
                                         </div>   
                                     </div><br>
                                     <div style="font-size: 20px; background-color: blue; color: white ">Children Details</div><br>
-                                        <button id="addchildren" type="button" onclick="displayResult()">Insert new row</button>
-                                        <button id="deletechildren" type="button" onclick="deleterow()">Delete row</button>
+                                        <button class="add_row" type="button" >Insert new row</button>
+                                        <button class="remove_row" type="button" >Delete row</button>
                                         <br>
                                         <table class="table table-striped" id="myTable">
                                                 <thead>
@@ -456,13 +481,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for i in objEmployeePersonal.employeechildren.all %}  
-                                                    <tr> 
-                                                        <td>{{i.employeeChildrenFirstName}}
-                                                        </td>
-                                                    </tr>
+                                        
+                                                
+                                                    {% for i in objEmployeeChildren %}  
+                                                    <tr> <td>
+                                                        <input type = "text" class="childfirstname" name="childfirstname" class="alph" value="{{i.employeeChildrenFirstName}}"></td> <td><input type = "text" name="childmiddlename" class="childmiddlename" class="alph" value="{{i.employeeChildrenMiddelName}}"></td> <td><input type = "text" name="childlastname" class="childlastname" class="alph" value="{{i.employeeChildrenLastName}}"></td> <td><input type = "Date" class="childbirthdate" name="childbirthdate" id="childbirthdate" value="{{i.employeeChildrenBirthDate}}"></td> <td><select class="childgender" name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select class="childmaritalstatus" name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></td></tr>
+
+                                                    
                                                        {% endfor %}                                           
                                                     
+                                        
+                                                
                                                 </tbody>
 
                                         </table>
@@ -786,6 +815,37 @@
                                         <div class="col-sm-6"  id= "spouserelegion_p" ></div>
                                 </div>
 
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Child First Name:</b></div>
+                                        <div class="col-sm-6"  class= "childfirstname_p" ></div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Child Middle Name:</b></div>
+                                        <div class="col-sm-6"  class= "childmiddlename_p" ></div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Child Last Name:</b></div>
+                                        <div class="col-sm-6"  class= "childlastname_p" ></div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Child Gender:</b></div>
+                                        <div class="col-sm-6"  class= "childgender_p" ></div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Child Maritalstatus:</b></div>
+                                        <div class="col-sm-6"  class= "childmaritalstatus_p" ></div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>child Birthdate:</b></div>
+                                        <div class="col-sm-6"  class= "childbirthdate" ></div>
+                                </div>
+
+
                                 <hr>
 
                                 <div class="row">
@@ -1028,9 +1088,9 @@ $("#endofprobation").attr("max", eopdatemax);
         else{
             $("#addchildren").attr("disabled", false);
             $("#deletechildren").attr("disabled", false);
-            for(i = 0; i <y; i++) { 
-                displayResult();
-                    }
+            // for(i = 0; i <y; i++) { 
+            //     displayResult();
+            //         }
             //displayResult();
             // $(y).each(function() { 
             //   displayResult();
@@ -1091,20 +1151,7 @@ $("#endofprobation").attr("max", eopdatemax);
   });
 </script>
 
-<script>
-        function displayResult()
-        { 
-            document.getElementById("myTable").insertRow(-1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname" class="alph" value="{{i.employeeChildrenFirstName}}"></td> <td><input type = "text" name="childmiddlename" class="alph"></td> <td><input type = "text" name="childlastname" class="alph"></td> <td><input type = "Date" name="childbirthdate" id="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
-        
-        }
-        
 
-                function deleterow()
-        {
-            document.getElementById("myTable").deleteRow(1).innerHTML = ' <tbody> <tr><td><input type = "text" name="childfirstname"></td> <td><input type = "text" name="childmiddlename"></td> <td><input type = "text" name="childlastname"></td> <td><input type = "Date" name="childbirthdate"></td> <td><select name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></tr></tbody>' ;
-        }
-
- </script>
  <script type='text/javascript'>
 
 function preview_image(event) 
