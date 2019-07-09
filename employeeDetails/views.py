@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import bloodGroup,department, branch, position,level,lineManager, holiDays,leaveWorkFlow,workDays,jobStatus, jobType, religion, ethnicity, country, employee,employeeFamily,employeeChildren,employeeHealth,Contact,Job,nationality
+from .models import numberOfChild, maritalStatus,bloodGroup,department, branch, position,level,lineManager, holiDays,leaveWorkFlow,workDays,jobStatus, jobType, religion, ethnicity, country, employee,employeeFamily,employeeChildren,employeeHealth,Contact,Job,nationality
 from . import personaldetails
 from django.shortcuts import render, redirect
 from . import validation_function
@@ -16,7 +16,7 @@ from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from django.shortcuts import render
 import reportlab
-# Create your views here.
+
 # accept ajax request to check username is valid
 @csrf_exempt
 def isuserIdcorrect(request):
@@ -78,7 +78,7 @@ def personalAjaxRequest(request):
 		birthDate= request.POST.get('birthdate',None)
 		print('birthDate',birthDate, type(birthDate))
 		nationality= request.POST.get('nationalitydd',None)
-		passport= request.POST.get('passport',None)
+		passport= request.POST.get('passport')
 		nationalId= request.POST.get('nationalid',None)
 		ethnicity= request.POST.get('ethnicity',None)
 		religion= request.POST.get('religion',None)
@@ -110,7 +110,6 @@ def personalAjaxRequest(request):
 		employee_obj =employee.objects.filter(employeementId = employeementId,status='Success').first()#check request is comming for edit user details
 		print('employee_obj',employee_obj)
 		if employee_obj:
-			print("user found")
 			employee_obj.employeeFirstName=firstName
 			employee_obj.employeeMiddelName=middelName
 			employee_obj.employeeLastName=lastName
@@ -120,9 +119,14 @@ def personalAjaxRequest(request):
 			employee_obj.employeePassport=passport
 			employee_obj.employeeEthnicity=ethnicity
 			employee_obj.employeeReligion=religion
-			employee_obj.employeePhoto=photo
+			# employee_obj.employeePhoto=photo
 			employee_obj.status="Pending"
 			employee_obj.save()
+			old_image_Name = employee_obj.employeePhoto
+			if 'image' in request.FILES:
+				employee_obj.employeePhoto=photo
+			else:
+				employee_obj.employeePhoto=old_image_Name
 			print('employee_obj.employeeFirstName',employee_obj.employeeId)
 			print(type(employee_obj))
 			print("filterobj.employeeId",employee_obj.employeeId)
@@ -171,10 +175,10 @@ def familyAjaxRequest(request):
 		spousemiddelName= request.POST.get('spousemiddlename',None)
 		spouselastName= request.POST.get('spouselastname',None)
 		spousebirthDate= request.POST.get('spousebirthdate',None)
+		print('spousebirthDate',spousebirthDate,type(spousebirthDate))
 		spousenationality= request.POST.get('spousenationality',None)
-		spousepassport= request.POST.get('spousepassport',None)
-		spousenationalId= request.POST.get('spousenationalid',None)
-		print('spousenationalId',spousenationalId, type(spousenationalId),len(spousenationalId))
+		spousepassport= request.POST.get('spousepassport')
+		spousenationalId= request.POST.get('spousenationalid')
 		spouseethnicity= request.POST.get('spouseethnicity',None)
 		spousereligion= request.POST.get('spousereligion',None)
 		# if spousenationality is None or spousenationality =="":
@@ -196,25 +200,28 @@ def familyAjaxRequest(request):
 			print("error5")
 			return JsonResponse({'msg':' passport no is not valid !','status':400})
 		if spousenationalId == None or spousenationalId =="":
-			spousenationalId = None
+			spousenationalId = spousenationalId
 		else:
 			if not validation_function.is_valid_national(spousenationalId):
 				print("error6")
 				return JsonResponse({'msg':' national ID is not valid !','status':400})
 		print('maritalStatus',maritalStatus,'numberOfChild',numberOfChild,'spouseWorking',spouseWorking,'spousefirstName',spousefirstName,'spousemiddelName')
 				#if numberOfChild > 0 and maritalStatus == "Merried":
-		query_dict_childfirstname=request.POST.getlist('childfirstname')
-		query_dict_childmiddlename=request.POST.getlist('childmiddlename')
-		query_dict_childlastname=request.POST.getlist('childlastname')
-		query_dict_childbirthdate=request.POST.getlist('childbirthdate')
-		query_dict_childgender=request.POST.getlist('childgender')
-		query_dict_childmaritalstatus=request.POST.getlist('childmaritalstatus')
+		# query_dict_childkey = request.POST.getlist('childkey[]')
+		query_dict_childfirstname=request.POST.getlist('childfirstname[]')
+		query_dict_childmiddlename=request.POST.getlist('childmiddlename[]')
+		query_dict_childlastname=request.POST.getlist('childlastname[]')
+		query_dict_childbirthdate=request.POST.getlist('childbirthdate[]')
+		query_dict_childgender=request.POST.getlist('childgender[]')
+		query_dict_childmaritalstatus=request.POST.getlist('childmaritalstatus[]')
+		print('query_dict_childfirstname',query_dict_childfirstname)
+		print('query_dict_childmiddlename',query_dict_childmiddlename)
+		print('query_dict_childmiddlename',query_dict_childmiddlename)
 		insert_list=[]
-		print("obj", obj)
-		# isemployee = employee.objects.filter(employeeId = obj).first()
-		# if not isemployee:
-		# 		return JsonResponse({'msg':'Id not exist!','status':400}) 
+		check_child = employeeChildren.objects.filter(employeeForeignId=obj)
 		for i in range(len(query_dict_childfirstname)):
+			if check_child :
+				employeeChildren.objects.filter(employeeForeignId=obj).delete()
 			newchildbirthdate = validation_function.checkForNone(query_dict_childbirthdate[i])
 			if not validation_function.check_is_valid_name(query_dict_childfirstname[i]) :
 				return JsonResponse({'msg':' child First name only takes alphabets !','status':400})
@@ -225,6 +232,7 @@ def familyAjaxRequest(request):
 			insert_list.append(employeeChildren(employeeForeignId=obj,employeeChildrenFirstName=query_dict_childfirstname[i],employeeChildrenMiddelName=query_dict_childmiddlename[i],employeeChildrenLastName=query_dict_childlastname[i],employeeChildrenBirthDate=newchildbirthdate,employeeChildrenGender=query_dict_childgender[i],employeeChildrenMaritalStatus=query_dict_childmaritalstatus[i]),)
 		employeeChildren.objects.bulk_create(insert_list)
 		print('insert_list',insert_list)
+
 		checkEmployee =employeeFamily.objects.filter(employeeForeignId = obj).update(employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousebirthDate,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=spousenationalId ,employeeFamilySpousePassport=spousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
 		if checkEmployee:
 			return JsonResponse({'msg':'success','status':200,'empID':employeementId_obj})
@@ -397,7 +405,6 @@ def editHtmlForm(request,employeeId):
 		return redirect('/newapp/login')
 	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
 	nationalityList = nationality.objects.filter(status="isactive")
-	countryListList = country.objects.filter(status="isactive")
 	ethnicityList=ethnicity.objects.filter(status="isactive")
 	religionList=religion.objects.filter(status="isactive")
 	jobTypeList=jobType.objects.all()
@@ -411,15 +418,25 @@ def editHtmlForm(request,employeeId):
 	branchList=branch.objects.all()
 	departmentList=department.objects.all()
 	bloodGroupList = bloodGroup.objects.all()
+	MaritalStatusList = maritalStatus.objects.all()
+	numberofchildList=numberOfChild.objects.all()
+	countryList = country.objects.filter(status="isactive")
+	print('numberofchildList', numberofchildList)
 	print('nationality ',objEmployeePersonal.employeeNationality)
 	if objEmployeePersonal:
-		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal)
-		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal)
-		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal)
+		objEmployeeFamily = objEmployeePersonal.employeefamily_set.all()
+		#objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal)
+		#objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal)
+		objEmployeeChildren = objEmployeePersonal.employeechildren_set.all()
+		# objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal)
+		objEmployeeHealth = objEmployeePersonal.employeehealth_set.all()
+		objEmployeeJob = objEmployeePersonal.job_set.all()
+		objEmployeeContact = objEmployeePersonal.contact_set.all()
+
 		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal)
 		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal)
 		print("objEmployeeJob",objEmployeeJob)
-		return render(request,'form2.html',{'bloodGroupList':bloodGroupList,"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
+		return render(request,'formedit.html',{'MaritalStatusList':MaritalStatusList,'numberofchildList':numberofchildList,'bloodGroupList':bloodGroupList,"nationalityList":nationalityList,'countryList':countryList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
 ,'action':"/newapp/submit",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
 	else:
 		return render(request,'error.html',{'error':'User not exist'})
@@ -478,7 +495,7 @@ def addEmployee(request):
 		return redirect('/newapp/login')
 	action = "addFun"
 	nationalityList = nationality.objects.filter(status="isactive")
-	countryListList = country.objects.filter(status="isactive")
+	#countryListList = country.objects.filter(status="isactive")
 	ethnicityList=ethnicity.objects.filter(status="isactive")
 	religionList=religion.objects.filter(status="isactive")
 	jobTypeList=jobType.objects.all()
@@ -491,7 +508,11 @@ def addEmployee(request):
 	positionList=position.objects.all()
 	branchList=branch.objects.all()
 	departmentList=department.objects.all()
-	return render(request,'form.html' , {"nationalityList":nationalityList,'countryListList':countryListList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
+	bloodGroupList = bloodGroup.objects.all()
+	MaritalStatusList = maritalStatus.objects.all()
+	numberofchildList=numberOfChild.objects.all()
+	countryList = country.objects.filter(status='isactive')
+	return render(request,'form.html' , {'MaritalStatusList':MaritalStatusList,'numberofchildList':numberofchildList,'bloodGroupList':bloodGroupList,"nationalityList":nationalityList,'countryList':countryList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
 ,'action':"/newapp/addFun",})
 
 
@@ -507,11 +528,6 @@ def directory(request):
 	employeementId_obj=request.POST.get('empid',None)
 	obj =employee.objects.filter(employeeId = employeementId_obj).first()
 	return JsonResponse({'msg':'success','status':200})
-# @csrf_exempt
-# def remark(request):
-# 	employeementId_obj=request.POST.get('empid',None)
-# 	obj =employee.objects.filter(employeeId = employeementId_obj).first()
-# 	return JsonResponse({'msg':'success','status':200})
 
 def createPdf(request,employeeId):
 	if not request.user.is_authenticated:
@@ -574,10 +590,6 @@ def createPdf(request,employeeId):
 	p.drawString(350,470,str( objEmployeeContact.mobile))
 	p.drawString(70,430,  "Country")
 	p.drawString(350,430,str(objEmployeeContact.country).upper())
-
-
-
-    # Close the PDF object cleanly, and we're done.
 	p.showPage()
 	p.save()
 	pdf = buffer.getvalue()
@@ -587,3 +599,18 @@ def createPdf(request,employeeId):
     # FileResponse sets the Content-Disposition header so that browsers
     # present the option to save the file.
     #return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
+
+@csrf_exempt
+def data(request):
+	query_dict_childfirstname1=request.POST.getlist('childfirstname')
+	query_dict_childfirstname3=request.POST.getlist('childfirstname[]')
+	query_dict_childfirstname=request.POST.get('childfirstname[]')
+	print('query_dict_childfirstname',query_dict_childfirstname)
+	#len(query_dict_childfirstname))
+	print('query_dict_childfirstname1',query_dict_childfirstname1)
+	print(query_dict_childfirstname3)
+	query_dict_childmiddelname3=request.POST.getlist('childmiddlename[]')
+	query_dict_childlastname3=request.POST.getlist('childlastname[]')
+	print('query_dict_childmiddelname3',query_dict_childmiddelname3)
+	print('query_dict_childlastname3',query_dict_childlastname3)
+	return JsonResponse({'msg':'Success','status':200 })
