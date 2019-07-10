@@ -23,6 +23,7 @@ urlpatterns = [
     path('directory',views.directory),
     path('pdf/<employeeId>',views.createPdf),#create pdf files
     path('data',views.data),
+    path('view/<employeeId>',views.employeeView),
     # path('remark',views.remark),
 
 

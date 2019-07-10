@@ -83,6 +83,7 @@ def is_valid_passport(passport):
    	if passport == "" or passport is None :
    		return True
    	if len(str(passport)) != 12:
+   		print("passport Len",len(str(passport)))
    		print("2")
    		return False
    	if str(passport).isalpha():

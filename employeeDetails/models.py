@@ -82,7 +82,7 @@ class employee(models.Model):
 	employeeBirthDate=models.DateField(blank=False,null=False)
 	employeeNationality=models.CharField(max_length=15, default='India',blank=False,null=False)
 	employeeNationalId=models.IntegerField(null=False,blank=False)
-	employeePassport=models.IntegerField(null=True,blank=True)
+	employeePassport=models.CharField(max_length=12,null=True,blank=True)
 	employeeEthnicity=models.CharField(max_length=15,default='NA',null=True,blank=True)
 	employeeReligion=models.CharField(max_length=15,default='NA',null=True,blank=True)
 	employeePhoto=models.ImageField(upload_to='photo', blank=True,)

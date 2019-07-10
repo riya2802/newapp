@@ -118,35 +118,37 @@
                              <div class="row">
                                     <div class="column">
 
-                                        <b>ID <span class="required" style="padding-right: 208px">*</span></b>
-                                        <input value="{{ objEmployeePersonal.employeementId }}" type="text" name="employeeid" class="num" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint"></span>
+                                        <b>ID <span class="required" style="padding-right: 181px">*</span></b>
+                                        <input value="{{ objEmployeePersonal.employeementId }}" type="text"  disabled name="employeeid" class="num" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint"></span>
                                         <br><br> 
 
 
-                                        <b>First Name <span class="required" style="padding-right: 141px" >*</span></b>
+                                        <b>First Name <span class="required" style="padding-right: 119px" >*</span></b>
                                         <b><input value="{{ objEmployeePersonal.employeeFirstName }}" type="text" name="firstname" class="alph" id ="firstname" ><span style="color:red;"></span> </b>
 
 
                                         <br><br>
 
-                                        <b style="padding-right: 132px">Middle Name:</b>
+                                        <b style="padding-right: 108px">Middle Name:</b>
                                         <b><input type="text"  value="{{ objEmployeePersonal.employeeMiddelName }}"  name="middlename" class="alph" id="middlename"> </b>
 
 
                                         <br><br>
 
-                                        <b>Last Name <span class="required" style="padding-right: 143px">*</span></b>
+                                        <b>Last Name <span class="required" style="padding-right: 121px">*</span></b>
                                         <b><input type="text"  value="{{ objEmployeePersonal.employeeLastName }}" name="lastname" class="alph" id="lastname"> <span style="color:red;"></span></b>
 
                                         <br><br>
 
-                                        <b style="padding-right: 162px">Gender*:</b>
+                                        <b style="padding-right: 145px">Gender*:</b>
                                          {% if objEmployeePersonal.employeeGender == "female" %}
-                                        <label style="padding-right: 5px" ><input type="radio" name="gendern" id="gendern" value="female  checked">Female</label>
+                                        <label style="padding-right: 5px" ><input type="radio" name="gendern" id="gendern" value="female"checked >Female</label>
                                         <label style="padding-right: 5px"><input  type="radio" name="gendern" value="male" id="gendern">Male</label>
+                                        <label style="padding-right: 5px"><input  type="radio" name="gendern" value="unknown" id="gendern" >Unknown</label>
                                         {% elif objEmployeePersonal.employeeGender == "male" %}
                                         <label style="padding-right: 5px" ><input type="radio" name="gendern" id="gendern" value="female  ">Female</label>
                                         <label style="padding-right: 5px"><input  type="radio" name="gendern" value="male" id="gendern"  checked>Male</label>
+                                        <label style="padding-right: 5px"><input  type="radio" name="gendern" value="unknown" id="gendern" >Unknown</label>
                                         {% else %}
                                         <label style="padding-right: 5px" ><input type="radio" name="gendern" id="gendern" value="female  ">Female</label>
                                         <label style="padding-right: 5px"><input  type="radio" name="gendern" value="male" id="gendern">Male</label>
@@ -154,7 +156,7 @@
                                         {% endif %}
                                         <br><br>
 
-                                        <b style="padding-right: 145px">Birth Date<span class="required">*</span>:</b>
+                                        <b style="padding-right: 129px">Birth Date<span class="required">*</span>:</b>
                                         <b><input type="Date" value="{{ objEmployeePersonal.employeeBirthDate|date:'Y-m-d' }}" name="birthdate" id="birthdate"><span style="color:red;"></span></b>
                                     </div>
                                   <div  class="column" id="wrapper" style="text-align: center;">
@@ -388,17 +390,17 @@
                                         <div class="col-sm-3"><b>
                                             <select name="maritalstatus" id="maritalstatus">
                                             <option value="{{i.employeeFamilyMaritalStatus}}"hidden  selected>{{i.employeeFamilyMaritalStatus}}</option>
-                                            {% for option in MaritalStatus %}
-                                            <option value="{{ option.Maritalstatus }}">{{ option.Maritalstatus }}</option>
+                                            {% for option in MaritalStatusList %}
+                                            <option value="{{ option.Maritalstatus }}">{{ option.maritalstatus }}</option> 
                                               {% endfor %}
                                             </select></b>
                                         </div>
-                                        <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" style="size: 8px" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
+                                        <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" style="size: 8px ; padding-right: 8px;" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
                                     </div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Number of Children:</b></div>
                                         <div class="col-sm-3"><b>
-                                            <select name="numberofchild" id="numberofchild">
+                                            <select name="numberofchild" id="numberofchild" class="test">
                                                 <option value="{{i.employeeFamilyNumberOfChild}}"hidden  selected>{{i.employeeFamilyNumberOfChild}}</option>
                                                 {% for option in numberofchildList %}
                                             <option value="{{ option.numberOfchild }}">{{ option.numberOfchild }}</option>

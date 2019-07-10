@@ -16,6 +16,9 @@ from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from django.shortcuts import render
 import reportlab
+from django.template.loader import get_template
+from . import createpdf
+from createpdf import render_to_pdf
 
 # accept ajax request to check username is valid
 @csrf_exempt
@@ -71,20 +74,33 @@ def personalAjaxRequest(request):
 	# 	print('not authenticate')
 	# 	#return redirect('/newapp/login')
 	# 	return JsonResponse({'msg':'User is not authenticated','status':400})
+	print(request.POST)
 	if request.method == "POST":
 		employeementId= request.POST.get('employeeid',None)
+		print('employeementId',employeementId)
 		firstName= request.POST.get('firstname',None)
+		print('firstName',firstName)
 		middelName= request.POST.get('middlename',None)
+		print('middelName',middelName)
 		lastName= request.POST.get('lastname',None)
+		print('lastName',lastName)
 		gender= request.POST.get('gendern',None)
+		print('gender',gender)
 		birthDate= request.POST.get('birthdate',None)
+		print('birthDate',birthDate)
 		print('birthDate',birthDate, type(birthDate))
 		nationality= request.POST.get('nationalitydd',None)
+		print('nationality',nationality)
 		passport= request.POST.get('passport')
+		print('passport',passport)
 		nationalId= request.POST.get('nationalid',None)
+		print('nationalId',nationalId)
 		ethnicity= request.POST.get('ethnicity',None)
+		print('ethnicity',ethnicity)
 		religion= request.POST.get('religion',None)
+		print('religion',religion)
 		photo=request.FILES.get('image')
+
 		print('photo',photo)
 		print("passport",passport)
 		print('nationalId',nationalId)
@@ -116,6 +132,7 @@ def personalAjaxRequest(request):
 			employee_obj.employeeLastName=lastName
 			employee_obj.employeeGender=gender
 			employee_obj.employeeBirthDate=birthDate
+			employee_obj.employeeNationality=nationality
 			employee_obj.employeeNationalId=nationalId
 			employee_obj.employeePassport=passport
 			employee_obj.employeeEthnicity=ethnicity
@@ -132,23 +149,29 @@ def personalAjaxRequest(request):
 			return JsonResponse({'msg':'success','status':200,'empID':employee_obj.employeeId})
 		updateobj = employee.objects.filter(employeementId = employeementId,status='Pending').first()
 		if updateobj:
-			old_image_Name = employee_obj.employeePhoto
-			if 'image' in request.FILES:
-				updateobj.employeePhoto=photo
-			else:
-				updateobj.employeePhoto=old_image_Name
+			# old_image_Name = employee_obj.employeePhoto
+			# if 'image' in request.FILES:
+			# 	updateobj.employeePhoto=photo
+			# else:
+			# 	updateobj.employeePhoto=old_image_Name
 			updateobj.employeeFirstName=firstName
 			updateobj.employeeMiddelName=middelName
 			updateobj.employeeLastName=lastName
 			updateobj.employeeGender=gender
 			updateobj.employeeBirthDate=birthDate
 			updateobj.employeeNationalId=nationalId
+			updateobj.employeeNationality=nationality
 			updateobj.employeePassport=passport
 			updateobj.employeeEthnicity=ethnicity
 			updateobj.employeeReligion=religion
-			#updateobj.employeePhoto=photo
+			updateobj.employeePhoto=photo
 			updateobj.status="Pending"
 			updateobj.save()
+			# if 'image' in request.FILES:
+			# 	employee_obj.employeePhoto=photo
+			# else:
+			# 	employee_obj.employeePhoto=old_image_Name
+			# employee_obj.save()
 			print('updateobj.employeeFirstName',updateobj.employeeId)
 			print(type(updateobj))
 			print("updateobj.employeeId",updateobj.employeeId)
@@ -162,25 +185,40 @@ def personalAjaxRequest(request):
 def familyAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
+	print(request.POST.get('data[empid]'))
 	if request.method == "POST":
-		employee_empid=request.POST.get('empid',None)
+		employee_empid=request.POST.get('data[empid]',None)
+		print('employee_empid',employee_empid)
+		print('request.POST',request.POST)
 		obj =employee.objects.filter(employeeId = employee_empid).first()
 		if not obj:
 				return JsonResponse({'msg':'Id not exist!','status':400}) 
-		maritalStatus=request.POST.get('maritalstatus',None)
-		numberOfChild=request.POST.get('numberofchild',None)
+		maritalStatus=request.POST.get('data[maritalstatus]',None)
+		print('maritalStatus',maritalStatus)
+		numberOfChild=request.POST.get('data[numberofchild]',None)
+
 		print('numberOfChild',numberOfChild,type(numberOfChild))
-		spouseWorking=request.POST.get('spouseworking',None)
-		spousefirstName= request.POST.get('spousefirstname',None)
-		spousemiddelName= request.POST.get('spousemiddlename',None)
-		spouselastName= request.POST.get('spouselastname',None)
-		spousebirthDate= request.POST.get('spousebirthdate',None)
+		spouseWorking=request.POST.get('data[spouseworking]',None)
+		print('spouseWorking',spouseWorking)
+		spousefirstName= request.POST.get('data[spousefirstname]',None)
+		print('spousefirstName',spousefirstName)
+		spousemiddelName= request.POST.get('data[spousemiddlename]',None)
+		print('spousemiddelName',spousemiddelName)
+		spouselastName= request.POST.get('data[spouselastname]',None)
+		print('spouselastName',spouselastName)
+		spousebirthDate= request.POST.get('data[spousebirthdate]',None)
+		print('spousebirthDate',spousebirthDate)
 		print('spousebirthDate',spousebirthDate,type(spousebirthDate))
-		spousenationality= request.POST.get('spousenationality',None)
-		spousepassport= request.POST.get('spousepassport')
-		spousenationalId= request.POST.get('spousenationalid')
-		spouseethnicity= request.POST.get('spouseethnicity',None)
-		spousereligion= request.POST.get('spousereligion',None)
+		spousenationality= request.POST.get('data[spousenationality]',None)
+		print('spousenationality',spousenationality)
+		spousepassport= request.POST.get('data[spousepassport]')
+		print('spousepassport',spousepassport)
+		spousenationalId= request.POST.get('data[spousenationalid]')
+		print('spousenationalId',spousenationalId)
+		spouseethnicity= request.POST.get('data[spouseethnicity]',None)
+		print('spouseethnicity',spouseethnicity)
+		spousereligion= request.POST.get('data[spouserelegion]',None)
+		print('spousereligion',spousereligion)
 		if not employee_empid:
 			return JsonResponse({'msg':' Employee Id field Empty!','status':400})
 		# if spousenationality is None or spousenationality =="":
@@ -210,20 +248,27 @@ def familyAjaxRequest(request):
 		print('maritalStatus',maritalStatus,'numberOfChild',numberOfChild,'spouseWorking',spouseWorking,'spousefirstName',spousefirstName,'spousemiddelName')
 				#if numberOfChild > 0 and maritalStatus == "Merried":
 		# query_dict_childkey = request.POST.getlist('childkey[]')
+
 		query_dict_childfirstname=request.POST.getlist('childfirstname[]')
 		query_dict_childmiddlename=request.POST.getlist('childmiddlename[]')
 		query_dict_childlastname=request.POST.getlist('childlastname[]')
 		query_dict_childbirthdate=request.POST.getlist('childbirthdate[]')
 		query_dict_childgender=request.POST.getlist('childgender[]')
 		query_dict_childmaritalstatus=request.POST.getlist('childmaritalstatus[]')
+		print("check")
 		print('query_dict_childfirstname',query_dict_childfirstname)
 		print('query_dict_childmiddlename',query_dict_childmiddlename)
 		print('query_dict_childmiddlename',query_dict_childmiddlename)
+		print('query_dict_childbirthdate',query_dict_childbirthdate)
+		print('query_dict_childgender',query_dict_childgender)
+		print('query_dict_childmaritalstatus',query_dict_childmaritalstatus)
 		insert_list=[]
 		check_child = employeeChildren.objects.filter(employeeForeignId=obj)
 		for i in range(len(query_dict_childfirstname)):
 			if check_child :
+				print(check_child)
 				employeeChildren.objects.filter(employeeForeignId=obj).delete()
+			print(query_dict_childfirstname[i])
 			newchildbirthdate = validation_function.checkForNone(query_dict_childbirthdate[i])
 			if not validation_function.check_is_valid_name(query_dict_childfirstname[i]) :
 				return JsonResponse({'msg':' child First name only takes alphabets !','status':400})
@@ -243,6 +288,7 @@ def familyAjaxRequest(request):
 #----------------------------------------------------------------
 @csrf_exempt
 def jobAjaxRequest(request):
+	print("in")
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
@@ -255,24 +301,39 @@ def jobAjaxRequest(request):
 				return JsonResponse({'msg':'Id not exist!','status':400}) 
 		print('request.POST',request.POST)
 		DateJoined = request.POST.get('datejoin',None)
+		print('DateJoined',DateJoined)
 		EndofProbation = request.POST.get('endofprobation',None)
+		print('EndofProbation',EndofProbation)
 		print('EndofProbation',EndofProbation,type(EndofProbation))
 		Position = request.POST.get('positiondd',None)
+		print('Position',Position)
 		JobStatusEffectiveDate = request.POST.get('jobstatuseffectivedate',None)
+		print('JobStatusEffectiveDate',JobStatusEffectiveDate)
 		print('JobStatusEffectiveDate',JobStatusEffectiveDate,type(JobStatusEffectiveDate))
 		LineManager = request.POST.get('linemanagedd',None)
+		print('LineManager',LineManager)
 		Department = request.POST.get('departmentdd',None)
+		print('Department',Department)
 		Branch = request.POST.get('branchdd',None)
+		print('Branch',Branch)
 		Level = request.POST.get('leveldd',None)
+		print('Level',Level)
 		JobType = request.POST.get('jobtypedd',None)
+		print('JobType',religion)
 		EmploymentStatusEffectiveDate = request.POST.get('employmentstatuseffectivedate',None)
 		print('EmploymentStatusEffectiveDate',EmploymentStatusEffectiveDate, type(EmploymentStatusEffectiveDate))
 		JobStatus = request.POST.get('jobstatusdd',None)
+		print('JobStatus',JobStatus)
 		LeaveWorkflow = request.POST.get('leaveworkflowdd',None)
+		print('LeaveWorkflow',LeaveWorkflow)
 		Workdays = request.POST.get('workdays',None)
+		print('Workdays',Workdays)
 		Holidays = request.POST.get('holidaysdd',None)
+		print('Holidays',Holidays)
 		TermStart = request.POST.get('termstartdd',None)
+		print('TermStart',TermStart)
 		TermEnd = request.POST.get('termend',None)
+		print('TermEnd',TermEnd)
 		print('EmploymentStatusEffectiveDate',EmploymentStatusEffectiveDate,'DateJoined',DateJoined,'Position',Position,'JobStatusEffectiveDate',JobStatusEffectiveDate)
 		if employeementId_obj is None or employeementId_obj=="" and DateJoined is  None or DateJoined == "" and Position is None or Position == "" and JobStatusEffectiveDate is None or JobStatusEffectiveDate == "" and EmploymentStatusEffectiveDate is None or EmploymentStatusEffectiveDate == "":		    
 			return JsonResponse({'msg':'Required fields empty !','status':400})
@@ -322,20 +383,31 @@ def contactAjaxRequest(request):
 		print('Home',Home)
 
 		Address1 = request.POST.get('address1')
+		print('Address1',Address1)
 		Address2 = request.POST.get('address2')
+		print('Address2',Address2)
 		City = request.POST.get('city')
+		print('City',City)
 		PostCode = request.POST.get('postcode')
 		print('PostCode',PostCode,type(PostCode))
 		State = request.POST.get('state')
+		print('State',State)
 		Country = request.POST.get('countrydd')
 		print('Country',Country)
 		contactFirstName = request.POST.get('coefirstname')
+		print('contactFirstName',contactFirstName)
 		contactLastName = request.POST.get('coelastname')
+		print('contactLastName',contactLastName)
 		conatctMiddleName = request.POST.get('coemiddlename')
+		print('conatctMiddleName',conatctMiddleName)
 		Relationship = request.POST.get('coerelationship')
+		print('Relationship',Relationship)
 		MobilePhone = request.POST.get('coemobile')
+		print('MobilePhone',MobilePhone)
 		HousePhone = request.POST.get('coehousephone')
+		print('HousePhone',HousePhone)
 		OfficePhone = request.POST.get('coeofficephone')
+		print('OfficePhone',OfficePhone)
 		print('OfficePhone',OfficePhone)
 		print(Email,"OfficePhone->", type(OfficePhone),OfficePhone,"HousePhone",HousePhone, type(HousePhone),MobilePhone,type(MobilePhone),PostCode,type(PostCode),Mobile,type(Mobile))
 		if Country is None or Country == ""  :                 
@@ -388,8 +460,11 @@ def healthAjaxRequest(request):
 			return JsonResponse({'msg':' emplaoyee Id field Empty!','status':400})
 		obj =employee.objects.filter(employeeId = employee_empid).first()
 		height=	request.POST.get('height',None)
+		print('height',height)
 		weight=request.POST.get('weight',None)
+		print('weight',weight)
 		bloodGroup=	request.POST.get('bloodgroup',None)
+		print('bloodGroup',bloodGroup)
 		if not validation_function.is_valid_height(height):
 			return JsonResponse({'msg':'Minimum Height should be 120 in cm and maximum should be 325 !','status':400})
 		if not validation_function.is_valid_weight(weight):
@@ -615,9 +690,10 @@ def data(request):
 	return JsonResponse({'msg':'Success','status':200 })
 
 @csrf_exempt
-def employeeView(request,employeeId):
+def employeeView(request,employeeId, *args, **kwargs):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
+	template = get_template('view_new.html')
 	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
 	if objEmployeePersonal:
 		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal).first()
@@ -630,4 +706,12 @@ def employeeView(request,employeeId):
 		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal).first()
 		print("objEmployeeJob",objEmployeeJob)
 		print('objEmployeeContact',objEmployeeContact.email)
-	pass
+	context ={'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact}
+	html = template.render(context)
+	pdf= render_to_pdf('view_new.html',context)
+	return HttpResponse(pdf,content_type='application/pdf')
+		# return render(request,'view_new.html',{'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
+
+
+    
+    
