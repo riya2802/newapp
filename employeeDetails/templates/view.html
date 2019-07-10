@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title> ListPost </title>
+    <title> View Page </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -10,310 +10,58 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
     <style type="text/css">
-      .button {
-  background-color: #80aaff; /* Green */
-  border: none;
-  color: white;
-  padding: 7px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin: 4px 2px;
-  cursor: pointer;
-  -webkit-transition-duration: 0.1s; /* Safari */
-  transition-duration: 0.2s;
-}
-.button2:hover {
-  border-radius: 50%;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-}
+     
+        body{
+          line-height: 2.42857143;
+        }
+        .table>tbody>tr>td{
+          line-height: 2.42857143;
+        }
+        .mainbody{
+            margin-top: 5px;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            height:initial;
+            /*width:inherit;*/
+            background-color: pink;
+
+        }
+        .container > h4{
+            margin-top: 50px;
+            text-align: center;
+            font-size: 30px;
+        }
+        .mainbody_left{
+            /*height:250px;*/
+            width:250px;
+
+            background-color:black; 
+        }
+        .container > .mainbody_right{
+            height:inherit;
+            width:inherit;
+            background-color:black; 
+        }
+
     </style>
   </head>
-  <body style="background-color: #398ad0;">
-
-    <div class="container">
-      <div class="jumbotron"   style="background-color: #e6ecff";>
-        <h2 align="centre"><b>Employees</b></h2>
+  <body style="background-color: lightgrey; font-size: 14px" >
+    <div style="padding-top: 100px"></div>
+    <div class="container" style="background-color: white; border-radius: 8px ">
+      <h4 align="centre"><b>Employees</b></h4>
+      <br>
+      <div class = "mainbody">
+            <div class="mainbody_left">
+            </div>
+            <div class="mainbody_right">
+            </div>
       </div>  
 
-
-            <div class="row" >
-              <div class="col-lg-12" align="right" ><a href='/blogging/logout'><button class="button button2" >Logout</button></a></div>
-            </div>
+    </div>
+</body>
 
 
-             <div class="row" style="padding-top: 20px">
-
-             	<h4>Preview:</h4>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>ID:</b></div>
-                                        <div class="col-sm-6"  id= "employeeid_p" >{{ }}</div>
-                                </div>
-                                <!-- <div class="row">
-                                        <div class="col-sm-6" ><b>First Name:</b></div>
-                                        <div class="col-sm-6"  id= "FirstName_p" ></div>
-                                </div> -->
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>First Name:</b></div>
-                                        <div class="col-sm-6"  id= "firstname_p" >{{ }}</div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Middle Name:</b></div>
-                                        <div class="col-sm-6"  id= "middlename_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Last Name:</b></div>
-                                        <div class="col-sm-6"  id= "lastname_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Gender:</b></div>
-                                        <div class="col-sm-6"  id= "gendern_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Birth date:</b></div>
-                                        <div class="col-sm-6"  id= "birthdate_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Nationality:</b></div>
-                                        <div class="col-sm-6"  id= "nationalitydd_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Nationality ID:</b></div>
-                                        <div class="col-sm-6"  id= "nationalid_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Passport:</b></div>
-                                        <div class="col-sm-6"  id= "passport_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Ethnicity:</b></div>
-                                        <div class="col-sm-6"  id= "ethnicity_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Religion:</b></div>
-                                        <div class="col-sm-6"  id= "religion_p" >{{ }}</div>
-                                </div>
-
-                                <hr>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Date Join:</b></div>
-                                        <div class="col-sm-6"  id= "datejoin_p" >{{ }}</div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>End of Probation:</b></div>
-                                        <div class="col-sm-6"  id= "endofprobation_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Position:</b></div>
-                                        <div class="col-sm-6"  id= "positiondd_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Effective Date:</b></div>
-                                        <div class="col-sm-6"  id= "jobstatuseffectivedate_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Line Manager:</b></div>
-                                        <div class="col-sm-6"  id= "linemanagedd_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Department:</b></div>
-                                        <div class="col-sm-6"  id= "departmentdd_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Branch:</b></div>
-                                        <div class="col-sm-6"  id= "branchdd_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Level:</b></div>
-                                        <div class="col-sm-6"  id= "leveldd_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Job Type:</b></div>
-                                        <div class="col-sm-6"  id= "jobtypedd_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Effective Date:</b></div>
-                                        <div class="col-sm-6"  id= "employmentstatuseffectivedate_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Job Status:</b></div>
-                                        <div class="col-sm-6"  id= "jobstatusdd_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Leave Workflow:</b></div>
-                                        <div class="col-sm-6"  id= "leaveworkflowdd_p" >{{ }}</div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Workdays:</b></div>
-                                        <div class="col-sm-6"  id= "workdays_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Holidays:</b></div>
-                                        <div class="col-sm-6"  id= "holidaysdd_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Term Start:</b></div>
-                                        <div class="col-sm-6"  id= "termstartdd_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>TermEnd:</b></div>
-                                        <div class="col-sm-6"  id= "termend_p" >{{ }}</div>
-                                </div>
-
-                                <hr>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Maritial Status:</b></div>
-                                        <div class="col-sm-6"  id= "maritalstatus_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Spouse:</b></div>
-                                        <div class="col-sm-6"  id= "spouseworking_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Number of Children:</b></div>
-                                        <div class="col-sm-6"  id= "numberofchild_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Spouse First Name:</b></div>
-                                        <div class="col-sm-6"  id= "spousefirstname_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Spouse Last Name:</b></div>
-                                        <div class="col-sm-6"  id= "spouselastname_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Spouse Middle Name:</b></div>
-                                        <div class="col-sm-6"  id= "spousemiddlename_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Spouse Nationality:</b></div>
-                                        <div class="col-sm-6"  id= "spousenationality_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>National ID :</b></div>
-                                        <div class="col-sm-6"  id= "spousenationalid_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Birthdate:</b></div>
-                                        <div class="col-sm-6"  id= "spousebirthdate_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Passport:</b></div>
-                                        <div class="col-sm-6"  id= "spousepassport_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Ethnicity:</b></div>
-                                        <div class="col-sm-6"  id= "spouseethnicity_p" >{{ }}</div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Religion:</b></div>
-                                        <div class="col-sm-6"  id= "spouserelegion_p" >{{ }}</div>
-                                </div>
-
-                                <hr>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Email:</b></div>
-                                        <div class="col-sm-6"  id= "email_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Blog/Homepage:</b></div>
-                                        <div class="col-sm-6"  id= "bloghomepage_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Office:</b></div>
-                                        <div class="col-sm-6"  id= "office_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Mobile:</b></div>
-                                        <div class="col-sm-6"  id= "mobile_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Home:</b></div>
-                                        <div class="col-sm-6"  id= "home_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Address 1:</b></div>
-                                        <div class="col-sm-6"  id= "address1_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Address 2:</b></div>
-                                        <div class="col-sm-6"  id= "address2_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>City:</b></div>
-                                        <div class="col-sm-6"  id= "city_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Postcode:</b></div>
-                                        <div class="col-sm-6"  id= "postcode_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>State:</b></div>
-                                        <div class="col-sm-6"  id= "state_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Country:</b></div>
-                                        <div class="col-sm-6"  id= "countrydd_p" >{{ }}</div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>COE First Name:</b></div>
-                                        <div class="col-sm-6"  id= "coefirstname_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>COE Last Name:</b></div>
-                                        <div class="col-sm-6"  id= "coelastname_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>COE Middle Name:</b></div>
-                                        <div class="col-sm-6"  id= "coemiddlename_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>COE Relationship:</b></div>
-                                        <div class="col-sm-6"  id= "coerelationship_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>COE Mobile Phone:</b></div>
-                                        <div class="col-sm-6"  id= "coemobile_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>COE House Phone:</b></div>
-                                        <div class="col-sm-6"  id= "coehousephone_p" >{{ }}</div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>COE Office Phone:</b></div>
-                                        <div class="col-sm-6"  id= "officephone_p" >{{ }}</div>
-                                </div>
-
-                                <hr>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Height:</b></div>
-                                        <div class="col-sm-6"  id= "height_p" >{{ }}</div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Weight:</b></div>
-                                        <div class="col-sm-6"  id= "weight_p" >{{ }}</div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Blood Type:</b></div>
-                                        <div class="col-sm-6"  id= "bloodgroup_p" >{{ }}</div>
-                                </div>
-        </div>
-
-</div>
-
-     
-  </body>
 </html>
+
+            

@@ -56,10 +56,12 @@ def loginFun(request):
 @csrf_exempt
 def logoutFun(request):
     logout(request)
-    return redirect('/newapp/login')
+    return redirect('/newapp/home')
 
 def home(request):
-	return render(request,'home.html')
+	if not request.user.is_authenticated:
+		return render(request,'home.html',{'login_button_url':'/newapp/login','button_text':'Login'})
+	return render(request,'home.html',{'login_button_url':'/newapp/logout','button_text':'Logout'})
 
  ## --------------------------------------------------------------------------------------------------------
 #persondetails validation 
@@ -101,7 +103,6 @@ def personalAjaxRequest(request):
 		if not validation_function.is_date(birthDate):
 			return JsonResponse({'msg':'Invalid Date Format !','status':400})
 		if validation_function.calculateAge(datetime.strptime(birthDate, '%Y-%m-%d')) < 18 :
-		#if validation_function.calculateAge(date(birthDate)) < 18:
 			return JsonResponse({'msg':'Your age is less then 18 years !','status':400})
 		if not validation_function.is_valid_passport(passport):
 			return JsonResponse({'msg':' passport no is not valid !','status':400})
@@ -127,13 +128,15 @@ def personalAjaxRequest(request):
 				employee_obj.employeePhoto=photo
 			else:
 				employee_obj.employeePhoto=old_image_Name
-			print('employee_obj.employeeFirstName',employee_obj.employeeId)
-			print(type(employee_obj))
-			print("filterobj.employeeId",employee_obj.employeeId)
+			employee_obj.save()
 			return JsonResponse({'msg':'success','status':200,'empID':employee_obj.employeeId})
 		updateobj = employee.objects.filter(employeementId = employeementId,status='Pending').first()
 		if updateobj:
-			print("in2")
+			old_image_Name = employee_obj.employeePhoto
+			if 'image' in request.FILES:
+				updateobj.employeePhoto=photo
+			else:
+				updateobj.employeePhoto=old_image_Name
 			updateobj.employeeFirstName=firstName
 			updateobj.employeeMiddelName=middelName
 			updateobj.employeeLastName=lastName
@@ -143,7 +146,7 @@ def personalAjaxRequest(request):
 			updateobj.employeePassport=passport
 			updateobj.employeeEthnicity=ethnicity
 			updateobj.employeeReligion=religion
-			updateobj.employeePhoto=photo
+			#updateobj.employeePhoto=photo
 			updateobj.status="Pending"
 			updateobj.save()
 			print('updateobj.employeeFirstName',updateobj.employeeId)
@@ -160,11 +163,8 @@ def familyAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		employeementId_obj=request.POST.get('empid',None)
-		if not employeementId_obj:
-			return JsonResponse({'msg':' Emplaoyee Id field Empty!','status':400})
-		print('employeementId_obj',employeementId_obj)
-		obj =employee.objects.filter(employeeId = employeementId_obj).first()
+		employee_empid=request.POST.get('empid',None)
+		obj =employee.objects.filter(employeeId = employee_empid).first()
 		if not obj:
 				return JsonResponse({'msg':'Id not exist!','status':400}) 
 		maritalStatus=request.POST.get('maritalstatus',None)
@@ -181,6 +181,8 @@ def familyAjaxRequest(request):
 		spousenationalId= request.POST.get('spousenationalid')
 		spouseethnicity= request.POST.get('spouseethnicity',None)
 		spousereligion= request.POST.get('spousereligion',None)
+		if not employee_empid:
+			return JsonResponse({'msg':' Employee Id field Empty!','status':400})
 		# if spousenationality is None or spousenationality =="":
 		# 	return JsonResponse({'msg':' spouse Nationality number is Required field !','status':400})
 		if not validation_function.check_is_valid_name(spousefirstName) :
@@ -235,9 +237,9 @@ def familyAjaxRequest(request):
 
 		checkEmployee =employeeFamily.objects.filter(employeeForeignId = obj).update(employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousebirthDate,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=spousenationalId ,employeeFamilySpousePassport=spousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
 		if checkEmployee:
-			return JsonResponse({'msg':'success','status':200,'empID':employeementId_obj})
+			return JsonResponse({'msg':'success','status':200,'empID':employee_empid})
 		employeeFamily.objects.create(employeeForeignId=obj, employeeFamilyMaritalStatus=maritalStatus,employeeFamilyNumberOfChild=numberOfChild,employeeFamilySpouseWorking=spouseWorking,employeeFamilySpouseFirstName=spousefirstName,employeeFamilySpouseMiddelName=spousemiddelName,employeeFamilySpouseLastName=spouselastName,employeeFamilySpouseBirthDate=spousebirthDate,employeeFamilySpouseNationality=spousenationality,employeeFamilySpouseNationalId=spousenationalId ,employeeFamilySpousePassport=spousepassport,employeeFamilySpouseEthnicity=spouseethnicity,employeeFamilySpouseReligion=spousereligion)
-		return JsonResponse({'msg':'success','status':200,'empID':employeementId_obj})
+		return JsonResponse({'msg':'success','status':200,'empID':employee_empid})
 #----------------------------------------------------------------
 @csrf_exempt
 def jobAjaxRequest(request):
@@ -381,17 +383,17 @@ def healthAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
-		employeementId_obj=request.POST.get('empid',None)
-		if not employeementId_obj:
+		employee_empid=request.POST.get('empid',None)
+		if not employee_empid:
 			return JsonResponse({'msg':' emplaoyee Id field Empty!','status':400})
-		obj =employee.objects.filter(employeeId = employeementId_obj).first()
+		obj =employee.objects.filter(employeeId = employee_empid).first()
 		height=	request.POST.get('height',None)
 		weight=request.POST.get('weight',None)
 		bloodGroup=	request.POST.get('bloodgroup',None)
 		if not validation_function.is_valid_height(height):
-			return JsonResponse({'msg':'Minimum Height should be 120 in cm !','status':400})
+			return JsonResponse({'msg':'Minimum Height should be 120 in cm and maximum should be 325 !','status':400})
 		if not validation_function.is_valid_weight(weight):
-			return JsonResponse({'msg':' Minimum Weight should be 25 !','status':400})
+			return JsonResponse({'msg':' Minimum Weight should be 25 and maximum should be 120 kg  !','status':400})
 		checkhealth = employeeHealth.objects.filter(employeeForeignId = obj).update(employeeHealthHeight=height,employeeHealthWeight=weight,employeeHealthBloodGroup=bloodGroup)
 		if checkhealth :
 			return JsonResponse({'msg':'success','status':200})
@@ -407,6 +409,7 @@ def editHtmlForm(request,employeeId):
 	nationalityList = nationality.objects.filter(status="isactive")
 	ethnicityList=ethnicity.objects.filter(status="isactive")
 	religionList=religion.objects.filter(status="isactive")
+	countryList = country.objects.filter(status="isactive")
 	jobTypeList=jobType.objects.all()
 	jobStatusList=jobStatus.objects.all()
 	workDaysList= workDays.objects.all()
@@ -420,21 +423,14 @@ def editHtmlForm(request,employeeId):
 	bloodGroupList = bloodGroup.objects.all()
 	MaritalStatusList = maritalStatus.objects.all()
 	numberofchildList=numberOfChild.objects.all()
-	countryList = country.objects.filter(status="isactive")
 	print('numberofchildList', numberofchildList)
 	print('nationality ',objEmployeePersonal.employeeNationality)
 	if objEmployeePersonal:
 		objEmployeeFamily = objEmployeePersonal.employeefamily_set.all()
-		#objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal)
-		#objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal)
 		objEmployeeChildren = objEmployeePersonal.employeechildren_set.all()
-		# objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal)
 		objEmployeeHealth = objEmployeePersonal.employeehealth_set.all()
 		objEmployeeJob = objEmployeePersonal.job_set.all()
 		objEmployeeContact = objEmployeePersonal.contact_set.all()
-
-		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal)
-		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal)
 		print("objEmployeeJob",objEmployeeJob)
 		return render(request,'formedit.html',{'MaritalStatusList':MaritalStatusList,'numberofchildList':numberofchildList,'bloodGroupList':bloodGroupList,"nationalityList":nationalityList,'countryList':countryList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
 ,'action':"/newapp/submit",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
@@ -447,19 +443,22 @@ def editHtmlForm(request,employeeId):
 def submit(request):
 	# if not request.user.is_authenticated:
 	# 	return redirect('/login')
-	print("submit")
 	employeementId_obj=request.POST.get('empid',None)
 	print(employeementId_obj,employeementId_obj)
 	userCheck = employee.objects.filter(employeeId = employeementId_obj,status='Pending').first()
-	#print('userCheck',userCheck,userCheck.status,userCheck.employeeId)
 	if not userCheck:
 		print('userCheck',userCheck)
 		return JsonResponse({'msg':"User Not Exist", 'status':400 })	
-	objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=userCheck)
-	objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=userCheck)
-	objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=userCheck)
-	objEmployeeJob=Job.objects.filter(employeeForeignId=userCheck)
-	objEmployeeContact=Contact.objects.filter(employeeForeignId=userCheck)	
+	#objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=userCheck)
+	objEmployeeFamily=userCheck.employeefamily_set.all()
+	#objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=userCheck)
+	objEmployeeChildren= userCheck.employeechildren_set.all()
+	#objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=userCheck)
+	objEmployeeHealth=userCheck.employeehealth_set.all()
+	#objEmployeeJob=Job.objects.filter(employeeForeignId=userCheck)
+	objEmployeeJob=userCheck.job_set.all()
+	#objEmployeeContact=Contact.objects.filter(employeeForeignId=userCheck)
+	objEmployeeContact=userCheck.contact_set.all()	
 	if objEmployeeFamily is None and objEmployeeChildren is None and objEmployeeHealth is None and objEmployeeJob is None and objEmployeeContact is None :
 		return JsonResponse({'msg':"Data not save in the Database", 'status':400 })
 	userCheck.status='Success'
@@ -474,7 +473,7 @@ def employeeList(request):
 	employeeObj= employee.objects.filter(status='Success')
 	if employeeObj is None:## if no employee is addedd
 		return render(request, 'Employee.html',{'form':form})
-	paginator = Paginator(employeeObj, 5) # Show 25 contacts per page
+	paginator = Paginator(employeeObj, 10) # Show 25 contacts per page
 	page = request.GET.get('page')
 	employee_page = paginator.get_page(page)
 	return render(request, 'Listcopy.html',{'employeeObj':employee_page})
@@ -544,7 +543,7 @@ def createPdf(request,employeeId):
 		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal).first()
 		print("objEmployeeJob",objEmployeeJob)
 		print('objEmployeeContact',objEmployeeContact.email)
-		response = HttpResponse(content_type='application/pdf')
+	response = HttpResponse(content_type='application/pdf')
 	response['Content-Disposition'] = 'inline; filename="mypdf.pdf"'
     # Create a file-like buffer to receive PDF data.
 	buffer = io.BytesIO()
@@ -614,3 +613,21 @@ def data(request):
 	print('query_dict_childmiddelname3',query_dict_childmiddelname3)
 	print('query_dict_childlastname3',query_dict_childlastname3)
 	return JsonResponse({'msg':'Success','status':200 })
+
+@csrf_exempt
+def employeeView(request,employeeId):
+	if not request.user.is_authenticated:
+		return redirect('/newapp/login')
+	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
+	if objEmployeePersonal:
+		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		print('objEmployeeFamily',objEmployeeFamily)
+		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		print('objEmployeeChildren',objEmployeeChildren)
+		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		print('objEmployeeHealth',objEmployeeHealth)
+		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		print("objEmployeeJob",objEmployeeJob)
+		print('objEmployeeContact',objEmployeeContact.email)
+	pass
