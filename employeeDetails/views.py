@@ -19,7 +19,7 @@ import reportlab
 from django.template.loader import get_template
 from . import createpdf
 from createpdf import render_to_pdf
-
+from django_xhtml2pdf.utils import pdf_decorator
 # accept ajax request to check username is valid
 @csrf_exempt
 def isuserIdcorrect(request):
@@ -693,25 +693,40 @@ def data(request):
 def employeeView(request,employeeId, *args, **kwargs):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
-	template = get_template('view_new.html')
+	template = get_template('userview.html')
 	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
 	if objEmployeePersonal:
-		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal).first()
-		print('objEmployeeFamily',objEmployeeFamily)
-		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal).first()
-		print('objEmployeeChildren',objEmployeeChildren)
-		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal).first()
-		print('objEmployeeHealth',objEmployeeHealth)
-		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal).first()
-		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		objEmployeeFamily = objEmployeePersonal.employeefamily_set.all()
+		objEmployeeChildren = objEmployeePersonal.employeechildren_set.all()
+		objEmployeeHealth = objEmployeePersonal.employeehealth_set.all()
+		objEmployeeJob = objEmployeePersonal.job_set.all()
+		objEmployeeContact = objEmployeePersonal.contact_set.all()
 		print("objEmployeeJob",objEmployeeJob)
-		print('objEmployeeContact',objEmployeeContact.email)
-	context ={'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact}
+	key=['UserId','First Name','Last Name', 'Gender','BirthDate', 'Nationality' , 'NationalId','Passport', 'Ethnicity', 'Religion']                 
+	context ={'key':key,'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact}
 	html = template.render(context)
-	pdf= render_to_pdf('view_new.html',context)
+#, 'Joining Date', End of probation , Position Effectivedate, LineManager Department Branch Level JobType JobStatusEffectiveDate, LeaveWorkflow, Workdays , Holidays, MaritalStatus,numberofchild, spouseWorking, spousefirstname, SpouseLastName,spouse Birthdate, SpouseNationality  ,SpouseNationalId,SpousePassport,SpouseEthnicity,SpouseReligion
+	pdf= createpdf.render_to_pdf('userview.html',context)
 	return HttpResponse(pdf,content_type='application/pdf')
 		# return render(request,'view_new.html',{'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
 
+# @csrf_exempt
+# @pdf_decorator(pdfname='1.pdf')
+# def employeeView(request,employeeId):
+# 	print("static")
+# 	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
+# 	if objEmpl'oyeePersonal:
+# 		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal).first()
+# 		print('objEmployeeFamily',objEmployeeFamily)
+# 		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal).first()
+# 		print('objEmployeeChildren',objEmployeeChildren)
+# 		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal).first()
+# 		print('objEmployeeHealth',objEmployeeHealth)
+# 		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal).first()
+# 		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal).first()
+# 		print("objEmployeeJob",objEmployeeJob)
+# 		print('objEmployeeContact',objEmployeeContact.email)
+# 	context ={'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact}
 
-    
-    
+# 	return render(request, 'userview.html',context)  
+#     
