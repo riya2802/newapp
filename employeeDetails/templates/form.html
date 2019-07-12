@@ -19,12 +19,12 @@
 		<link rel="stylesheet" href="{% static 'assets/css/form-elements.css' %}">
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <style>
-        #wrapper{
+        /*#wrapper{
             text-align:center;
             margin:0 auto;
             padding:0px;
             width:995px;
-        }
+        }*/
         .photo-background{
             height:100px;
             width:100px;
@@ -965,6 +965,7 @@ $(document).ready(function(){
 today = yyyy+'-'+mm+'-'+dd;
 
 $("#spousebirthdate").attr("max", today);
+$("#childbirthdate").attr("max", today); //new change
 
 todayb = yyyyb+'-'+mm+'-'+dd;
 var effdatemin = yyyy+'-'+effdatemm+'-'+dd;
@@ -1180,12 +1181,19 @@ function preview_image(event)
         countrydd:'required',
         spousenationality:'required',
         },
-        // messages: {
-        //   datejoin: 'This field is required',
-        //   positiondd: 'This field is required',
-        //   jobstatuseffectivedate: 'Enter a valid email',
-        //   employmentstatuseffectivedate: 'Enter a valid email' 
-        // },
+        messages: {
+
+        nationalid: 'enter 8 digits',
+        spousenationalid: 'enter 8 digits',
+        passport: 'enter 12 digits',
+        office: 'enter 10 digits',
+        officeextention: 'enter 10 digits'
+        home: 'enter 10 digits'
+        mobile: 'enter 10 digits'
+        postcode: 'enter 6 digits'
+        coehousephone: 'enter 10 digits'
+        ceoofficephone: 'enter 10 digits'
+        }
         // submitHandler: function(form) {
         //    form.submit();
         // }
