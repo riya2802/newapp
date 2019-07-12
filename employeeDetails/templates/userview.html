@@ -32,12 +32,24 @@
             max-height: 100%;
         }
         .table th,
-        .table td {
-            padding: 5px;
+        .label {
+            padding: 15px;
             vertical-align: top;
             /*border-top: 1px solid #000;*/
             text-align: left;
             font-size:15pt;
+            color: pink
+        }
+        .data{
+             padding-left: 55px;
+            vertical-align: top;
+            border-top: 1px solid #000;
+            text-align: left;
+            font-size:15pt;
+            color:green;
+            /*width:30pt;*/
+
+
         }
         /*.table thead th {
             vertical-align: bottom;
@@ -78,6 +90,13 @@
             padding: 25px;
 
         }
+        /*label{
+            padding: 15px;
+            vertical-align: top;
+            border-top: 1px solid #000;
+            text-align: left;
+            font-size:15pt;
+        }*/
     </style>
     <body>    
     <div class= "content_frame" >
@@ -88,18 +107,19 @@
             </div>
             <br><br>
             <table class="table">
-                <tr>
-                    <td>User Id</td>
+               <!--  <tr>
+                    <label for="male">Male</label>
                     <td>data</td>
-                </tr>
+                </tr> -->
                 <tr>
-                    <td>Name</td>
-                    <td>data</td>
+                    <td class="label">Name</td>
+                    <td class="data">data</td>
                 </tr>
                 
                 
             </table>
         </div>
+        
         </div>
     </div>
 
