@@ -50,7 +50,7 @@
 </head>
 <body>
 <img id="output_image"/ height="200" width="200" style="border-radius: 5px; background: grey" ><br><br>
-                   <input type="text" name="in" >
+<input type="hidden" id="irn" >
  <span class="btn btn-success fileinput-button">
         <span style="color: blue">Change Photo</span>
 
@@ -73,6 +73,13 @@ function preview_image(event)
   output.src = reader.result;
   console.log(output.src,"output.src")
  }
+ var fileName = event.target.files[0].name;
+ console.log(fileName,'fileName');
+$("#irn").val(fileName);
+
+value = $("#irn").attr('value');
+console.log(value,"this is the name")
  reader.readAsDataURL(event.target.files[0]);
 }
+
 </script>

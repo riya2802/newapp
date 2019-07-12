@@ -83,6 +83,9 @@ DATABASES = {
         'NAME': 'newapp',
         'USER': 'root',
         'PASSWORD': '',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+            }
     }
 }
 

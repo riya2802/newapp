@@ -38,7 +38,7 @@ function apiServiceData(apiUrl,data)
       function checkId(str){
           if (str){
             $.ajax({
-              url: "localhost:8000/newapp/isuseridcorrect",
+              url: "/newapp/isuseridcorrect",
               type:"POST",
               data : { request_data:$('#employeeid').val()},
               success: function(response_data) { 
@@ -61,7 +61,7 @@ function apiServiceData(apiUrl,data)
 
 function apiServiceForFormData(form) 
 {
-    var apiUrl = 'localhost:8000/newapp/persoanldetails';
+    var apiUrl = '/newapp/persoanldetails';
     var res=''
     $.ajax({
         url : apiUrl,
@@ -207,7 +207,7 @@ jQuery(document).ready(function() {
                      var apiUrl = "http://192.168.0.191:8000/newapp/jobdetails";
                     // console.log(apiUrl)
 
-                    res = apiServiceData('localhost:8000/newapp/jobdetails',data)                   
+                    res = apiServiceData('newapp/jobdetails',data)                   
 
                         if(res['status']==200){
                             next_step =true
@@ -261,7 +261,7 @@ jQuery(document).ready(function() {
 
                      
                     // console.log(apiUrl)
-                    res = apiServiceFamilyData('localhost:8000/newapp/familydetails',data,child_f_name,child_m_name,child_l_name,child_gen,child_marital_st,child_b_date)
+                    res = apiServiceFamilyData('/newapp/familydetails',data,child_f_name,child_m_name,child_l_name,child_gen,child_marital_st,child_b_date)
                         if(res['status']==200){
                             next_step =true
                             console.log('we are in a if condition');
@@ -304,7 +304,7 @@ jQuery(document).ready(function() {
                     data[$('#coeofficephone').attr('name')] = $('#coeofficephone').val();
 
 
-                     res = apiServiceData('localhost/newapp/contactdetails',data)                    
+                     res = apiServiceData('/newapp/contactdetails',data)                    
                         if(res['status']==200){
                             next_step =true
                             console.log('we are in a if condition');
@@ -347,7 +347,7 @@ jQuery(document).ready(function() {
                 else if (selectedid =='previewfield'){
                      var data = {};
                     data[$('.empid').attr('name')] = $('.empid').val();
-                    res = apiServiceData('localhost/newapp/preview',data)
+                    res = apiServiceData('/newapp/preview',data)
                     if(res['status']==200){
                             next_step =true
                             $('.action').show().delay(5000).fadeOut();
@@ -366,7 +366,7 @@ jQuery(document).ready(function() {
                 else if (selectedid =='directoryfield'){
                     var data = {};
                     data[$('.empid').attr('name')] = $('.empid').val();
-                    res = apiServiceData('localhost/newapp/directory',data)
+                    res = apiServiceData('/newapp/directory',data)
                     if(res['status']==200){
                             next_step =true
                             $('.action').show().delay(5000).fadeOut();
@@ -510,14 +510,14 @@ jQuery(document).ready(function() {
         e.preventDefault();            
         var data = {};
         data[$('.empid').attr('name')] = $('.empid').val();
-        res = apiServiceData('localhost/newapp/submit',data)
+        res = apiServiceData('/newapp/submit',data)
         if(res['status']==200){
             next_step =true
             $('.action').show().delay(5000).fadeOut();
             $('.action').addClass('alert-success');
             $('.action').removeClass('alert-danger');
             $('.action').text(res['msg']);
-             window.location.href = 'localhost/newapp/employeeList';
+             window.location.href = '/newapp/employeeList';
         }else{
             next_step =false
             console.log('we are in a else condition');

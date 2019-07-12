@@ -29,7 +29,7 @@ class ethnicity(models.Model):
 	status = models.CharField(choices= Status, max_length=30, null = True, blank = True)
 
 class religion(models.Model):
-	religionName = models.CharField(max_length = 30,unique=True)
+	religionName = models.CharField(max_length = 30,unique=True) 
 	status = models.CharField(choices= Status, max_length=30, default="notactive" )
 
 class jobType(models.Model):
