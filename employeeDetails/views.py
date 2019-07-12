@@ -42,6 +42,7 @@ def loginFun(request):
 		username = request.POST.get('username')
 		password = request.POST.get('password')
 		user_obj =User.objects.filter(username=username).first()
+
 		if user_obj is None:
 			return redirect('/newapp/login')
 		user = authenticate(username =user_obj.username, password= password )
@@ -60,6 +61,10 @@ def loginFun(request):
 def logoutFun(request):
     logout(request)
     return redirect('/newapp/home')
+
+@csrf_exempt
+def checking(request):
+    return render(request,'old correct form - Copy.html')
 
 def home(request):
 	if not request.user.is_authenticated:
@@ -568,6 +573,7 @@ def addEmployee(request):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
 	action = "addFun"
+
 	nationalityList = nationality.objects.filter(status="isactive")
 	#countryListList = country.objects.filter(status="isactive")
 	ethnicityList=ethnicity.objects.filter(status="isactive")
@@ -709,6 +715,7 @@ def employeeView(request,employeeId, *args, **kwargs):
 	pdf= createpdf.render_to_pdf('userview.html',context)
 	return HttpResponse(pdf,content_type='application/pdf')
 		# return render(request,'view_new.html',{'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
+
 
 # @csrf_exempt
 # @pdf_decorator(pdfname='1.pdf')

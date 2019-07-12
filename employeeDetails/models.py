@@ -74,7 +74,7 @@ class numberOfChild(models.Model):
 
 class employee(models.Model):
 	employeeId= models.AutoField(primary_key=True)#primary key
-	employeementId =models.IntegerField(max_length=255,null=False,blank=False,unique=True)
+	employeementId =models.IntegerField(null=False,blank=False,unique=True)
 	employeeFirstName= models.CharField(max_length=255,blank=False,null=False)
 	employeeMiddelName=models.CharField(max_length=255,null=True,blank=True)
 	employeeLastName=models.CharField( max_length=255,blank=False,null=False)
@@ -89,7 +89,7 @@ class employee(models.Model):
 	status=models.CharField(max_length=30, choices=employeeStatus, default="Pending" )
 
 class employeeFamily(models.Model):
-	employeeForeignId =models.ForeignKey(employee,models.CASCADE,unique=True)
+	employeeForeignId =models.OneToOneField(employee,models.CASCADE,unique=True)
 	employeeFamilyMaritalStatus=models.CharField(max_length=15, default='Unmarried')
 	employeeFamilyNumberOfChild= models.CharField(max_length=15,default="0",null=True)
 	employeeFamilySpouseWorking =models.CharField(max_length=15,default='No',null=True)
@@ -104,7 +104,7 @@ class employeeFamily(models.Model):
 	employeeFamilySpouseReligion=models.CharField(max_length=15,default='NA',null=True,blank=True)
 
 class employeeChildren(models.Model):
-	employeeForeignId =models.ForeignKey(employee,models.CASCADE)
+	employeeForeignId =models.OneToOneField(employee,models.CASCADE)
 	employeeChildrenFirstName= models.CharField(max_length=255,blank=True,null=True)
 	employeeChildrenMiddelName=models.CharField(max_length=255,null=True,blank=True)
 	employeeChildrenLastName=models.CharField( max_length=255,blank=True,null=True)
@@ -114,13 +114,13 @@ class employeeChildren(models.Model):
 	# employeeChildKey=models.CharField(max_length=15,default=0)
 
 class employeeHealth(models.Model):
-	employeeForeignId =models.ForeignKey(employee,models.CASCADE, unique = True)
+	employeeForeignId =models.OneToOneField(employee,models.CASCADE, unique = True)
 	employeeHealthHeight=models.CharField(max_length=255,blank=True,null=True)
 	employeeHealthWeight=models.CharField(max_length=255,null=True,blank=True)
 	employeeHealthBloodGroup=models.CharField(max_length=5, default="Don't No",blank=True,null=True)
 
 class Job(models.Model):
-	employeeForeignId =models.ForeignKey(employee,models.CASCADE, unique = True)
+	employeeForeignId =models.OneToOneField(employee,models.CASCADE, unique = True)
 	dateJoined = models.DateField(null=False,blank=False)
 	endofProbation = models.DateField(null=True)
 	position = models.CharField(max_length=30, null=False, blank=False)
@@ -140,7 +140,7 @@ class Job(models.Model):
 	
 
 class Contact(models.Model):
-	employeeForeignId =models.ForeignKey(employee,models.CASCADE, unique = True)
+	employeeForeignId =models.OneToOneField(employee,models.CASCADE, unique = True)
 	email= models.EmailField(max_length=55,null=True,blank=True	)
 	blogHomepage=models.CharField(max_length=60,null=True)
 	office=models.CharField(max_length=30,null=True)

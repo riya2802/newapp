@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>image</title>
+	<style type="text/css">
+		/*Copied from bootstrap */
+ 
+	</style>
+</head>
+<body>
+<img id="output_image"/ height="200" width="200" style="border-radius: 5px; background: grey" ><br><br>
+
+                   <input type="hidden" id="irn" >
+
+ <span class="btn btn-success fileinput-button">
+        <span style="color: blue">Change Photo</span>
+
+    <input type="file"  id="image" name="image" onchange="preview_image(event)">
+    </span>
+
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type='text/javascript'>
+
+
+function preview_image(event) 
+{
+ var reader = new FileReader();
+ reader.onload = function()
+ {
+  var output = document.getElementById('output_image');
+  console.log(output,"output")
+  output.src = reader.result;
+  console.log(output.src,"output.src")
+ }
+ var fileName = event.target.files[0].name;
+ console.log(fileName,'fileName');
+$("#irn").val(fileName);
+
+value = $("#irn").attr('value');
+console.log(value,"this is the name")
+ reader.readAsDataURL(event.target.files[0]);
+}
+
+
+
+function apiServiceForFormData(form) 
+{
+    var apiUrl = 'http://192.168.0.191:8000/newapp/persoanldetails';
+    var res=''
+    $.ajax({
+        url : apiUrl,
+        type: 'POST',
+        data: form,
+        async: false,
+        cache:false,
+        contentType: false,
+        processData: false,
+        mimeType: "multipart/form-data",
+    }).success(function(response) {
+        res=JSON.parse(response)      
+
+    });
+    return res
+}
+
+var form = new FormData();
+form.append("irn", $('#irn').val());
+form.append("image", $('#image').prop('files')[0]);
+res = apiServiceForFormData(form)
+
+</script>
