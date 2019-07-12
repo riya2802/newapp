@@ -83,9 +83,11 @@ DATABASES = {
         'NAME': 'newapp',
         'USER': 'root',
         'PASSWORD': '',
+        'OPTIONS': {
+           'sql_mode': 'traditional',
     }
 }
-
+} 
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
