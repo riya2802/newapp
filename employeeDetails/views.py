@@ -694,16 +694,20 @@ def employeeView(request,employeeId, *args, **kwargs):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
 	template = get_template('userview.html')
+	key=['UserId','First Name','Last Name', 'Gender','BirthDate', 'Nationality' , 'NationalId','Passport', 'Ethnicity', 'Religion']                 
 	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
 	if objEmployeePersonal:
-		objEmployeeFamily = objEmployeePersonal.employeefamily_set.all()
-		objEmployeeChildren = objEmployeePersonal.employeechildren_set.all()
-		objEmployeeHealth = objEmployeePersonal.employeehealth_set.all()
-		objEmployeeJob = objEmployeePersonal.job_set.all()
-		objEmployeeContact = objEmployeePersonal.contact_set.all()
-		print("objEmployeeJob",objEmployeeJob)
-	key=['UserId','First Name','Last Name', 'Gender','BirthDate', 'Nationality' , 'NationalId','Passport', 'Ethnicity', 'Religion']                 
-	context ={'key':key,'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact}
+		#objEmployeeFamily = objEmployeePersonal.employeefamily_set.all()
+		# objEmployeeChildren = objEmployeePersonal.employeechildren_set.all()
+		# objEmployeeHealth = objEmployeePersonal.employeehealth_set.all()
+		# objEmployeeJob = objEmployeePersonal.job_set.all()
+		# objEmployeeContact = objEmployeePersonal.contact_set.all()
+		# print("objEmployeeJob",objEmployeeJob)
+		pass
+	
+	name= ['FirstName','lastname']
+	# context ={'name':name,'key':key,'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact}
+	context = {'objEmployeePersonal':objEmployeePersonal}
 	html = template.render(context)
 #, 'Joining Date', End of probation , Position Effectivedate, LineManager Department Branch Level JobType JobStatusEffectiveDate, LeaveWorkflow, Workdays , Holidays, MaritalStatus,numberofchild, spouseWorking, spousefirstname, SpouseLastName,spouse Birthdate, SpouseNationality  ,SpouseNationalId,SpousePassport,SpouseEthnicity,SpouseReligion
 	pdf= createpdf.render_to_pdf('userview.html',context)

@@ -11,9 +11,10 @@
 
      <style type="text/css">
         @page {
-            size: A4;
-            margin: 1cm;
-
+            /*size: A4;
+            margin: 1cm;*/
+            letter landscape
+            colordisplay:pink;
             @frame content_frame {
             left: 50pt;
             width: 512pt;
@@ -22,13 +23,14 @@
             padding:50px;
             /*-pdf-frame-border: 10px;*/
              /* for debugging the layout */
+             background-color: #D3D3D3
              }
         }
         .table {
             width: 100%;
             max-width: 100%;
             margin-bottom: 5px;
-            background-color: #fff;
+            background-color:   #D3D3D3;
             max-height: 100%;
         }
         .table th,
@@ -38,19 +40,16 @@
             /*border-top: 1px solid #000;*/
             text-align: left;
             font-size:15pt;
-            color: pink
-        }
+            }
         .data{
-             padding-left: 55px;
+             padding-left: 15px;
             vertical-align: top;
-            border-top: 1px solid #000;
+            /*border-top: 1px solid #000;*/
             text-align: left;
             font-size:15pt;
-            color:green;
+           
             /*width:30pt;*/
-
-
-        }
+            }
         /*.table thead th {
             vertical-align: bottom;
             border-bottom: 2px solid #000;
@@ -78,17 +77,24 @@
         .heading{
             height:200pt;
             background-color: white;
-            width:100%;
+            width:50%;
+            margin-right:200pt; 
             margin-top:50pt;
-            margin-bottom: 20pt;
-
+            /*margin-bottom: 5pt;*/
+            /*border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            /*border-left: 2px solid #000;*/
+            /*border-right: 2px solid #000;*/
+            
         }
         h4{
-            text-align: center;
+            text-align: Left;
             top: 50pt;
             font-size: 25pt;
             padding: 25px;
-
+            padding-left:20px;
+            width:25%;
+    
         }
         /*label{
             padding: 15px;
@@ -97,26 +103,43 @@
             text-align: left;
             font-size:15pt;
         }*/
+        .image{
+            height:70px;
+            width:70px;
+            border: 2px solid black;
+            float:right;
+            background-color: green;
+             
+        }
     </style>
     <body>    
     <div class= "content_frame" >
         <div class="content_frame">
             <div class="main-container">
             <div class = heading>
-                <h4 class="h4">Username</h4>
+               <pdf: class="h6"> {{ objEmployeePersonal.employeeFirstName}} />
+            </div>
+            <div class="image">
+
             </div>
             <br><br>
             <table class="table">
-               <!--  <tr>
-                    <label for="male">Male</label>
-                    <td>data</td>
-                </tr> -->
+               
+                <tr>
+                    <td class="label">ID</td>
+                    <td class="data">{{ objEmployeePersonal.employeementId }}</td>
+                </tr>
                 <tr>
                     <td class="label">Name</td>
-                    <td class="data">data</td>
+                    <td class="data">{{ objEmployeePersonal.employeeFirstName}} {{objEmployeePersonal.employeeLastName}}</td>
                 </tr>
-                
-                
+                <tr>
+                    <td class="label">Gender</td>
+                    <td class="data">{{ objEmployeePersonal.employeeGender}} </td>
+                </tr>
+                <tr>
+                    <td><img src ="/media/{objEmployeePersonal.employeePhoto}" height="25px" widtg=25px ></td>
+                </tr>
             </table>
         </div>
         
