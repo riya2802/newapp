@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title> ListPost </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+  </head>
+  <body style="background-color: lightgrey">
+
+    <div class="container">
+        
+
+
+            <div class="row" style="padding-top: 25px">
+                <div class="col-lg-4" ><h4 align="centre"><b>Employee Detail</b></h4></div>
+              <div class="col-lg-8" align="right" ><a href='/blogging/logout'><button type="button" style="border-radius: 3px">Logout</button></a></div>
+            </div>
+
+
+             <div class="row" style="padding-top: 20px">
+
+             	<h4>Preview:</h4>
+                                 {% for i in objEmployeePersonal %}
+                                <div class="row">
+
+                                        <div class="col-sm-6" ><b>ID:</b></div>
+                                        <div class="col-sm-6"  id= "employeeid_p" >{{i.employeementId }}</div>
+                                </div>
+                                {% endfor %}
+                                <!-- <div class="row">
+                                        <div class="col-sm-6" ><b>First Name:</b></div>
+                                        <div class="col-sm-6"  id= "FirstName_p" ></div>
+                                </div> -->
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>First Name:</b></div>
+                                        <div class="col-sm-6"  id= "firstname_p" >{{ }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Middle Name:</b></div>
+                                        <div class="col-sm-6"  id= "middlename_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Last Name:</b></div>
+                                        <div class="col-sm-6"  id= "lastname_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Gender:</b></div>
+                                        <div class="col-sm-6"  id= "gendern_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Birth date:</b></div>
+                                        <div class="col-sm-6"  id= "birthdate_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Nationality:</b></div>
+                                        <div class="col-sm-6"  id= "nationalitydd_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Nationality ID:</b></div>
+                                        <div class="col-sm-6"  id= "nationalid_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Passport:</b></div>
+                                        <div class="col-sm-6"  id= "passport_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Ethnicity:</b></div>
+                                        <div class="col-sm-6"  id= "ethnicity_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Religion:</b></div>
+                                        <div class="col-sm-6"  id= "religion_p" >{{ }}</div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Date Join:</b></div>
+                                        <div class="col-sm-6"  id= "datejoin_p" >{{ }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>End of Probation:</b></div>
+                                        <div class="col-sm-6"  id= "endofprobation_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Position:</b></div>
+                                        <div class="col-sm-6"  id= "positiondd_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Effective Date:</b></div>
+                                        <div class="col-sm-6"  id= "jobstatuseffectivedate_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Line Manager:</b></div>
+                                        <div class="col-sm-6"  id= "linemanagedd_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Department:</b></div>
+                                        <div class="col-sm-6"  id= "departmentdd_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Branch:</b></div>
+                                        <div class="col-sm-6"  id= "branchdd_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Level:</b></div>
+                                        <div class="col-sm-6"  id= "leveldd_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Job Type:</b></div>
+                                        <div class="col-sm-6"  id= "jobtypedd_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Effective Date:</b></div>
+                                        <div class="col-sm-6"  id= "employmentstatuseffectivedate_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Job Status:</b></div>
+                                        <div class="col-sm-6"  id= "jobstatusdd_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Leave Workflow:</b></div>
+                                        <div class="col-sm-6"  id= "leaveworkflowdd_p" >{{ }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Workdays:</b></div>
+                                        <div class="col-sm-6"  id= "workdays_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Holidays:</b></div>
+                                        <div class="col-sm-6"  id= "holidaysdd_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Term Start:</b></div>
+                                        <div class="col-sm-6"  id= "termstartdd_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>TermEnd:</b></div>
+                                        <div class="col-sm-6"  id= "termend_p" >{{ }}</div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Maritial Status:</b></div>
+                                        <div class="col-sm-6"  id= "maritalstatus_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Spouse:</b></div>
+                                        <div class="col-sm-6"  id= "spouseworking_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Number of Children:</b></div>
+                                        <div class="col-sm-6"  id= "numberofchild_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Spouse First Name:</b></div>
+                                        <div class="col-sm-6"  id= "spousefirstname_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Spouse Last Name:</b></div>
+                                        <div class="col-sm-6"  id= "spouselastname_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Spouse Middle Name:</b></div>
+                                        <div class="col-sm-6"  id= "spousemiddlename_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Spouse Nationality:</b></div>
+                                        <div class="col-sm-6"  id= "spousenationality_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>National ID :</b></div>
+                                        <div class="col-sm-6"  id= "spousenationalid_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Birthdate:</b></div>
+                                        <div class="col-sm-6"  id= "spousebirthdate_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Passport:</b></div>
+                                        <div class="col-sm-6"  id= "spousepassport_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Ethnicity:</b></div>
+                                        <div class="col-sm-6"  id= "spouseethnicity_p" >{{ }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Religion:</b></div>
+                                        <div class="col-sm-6"  id= "spouserelegion_p" >{{ }}</div>
+                                </div>
+                                        { % for i in OBJ % }
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Child First Name:</b></div>
+                                        <div class="col-sm-6"  id= "childfirstname_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>child Middle Name:</b></div>
+                                        <div class="col-sm-6"  id= "childmiddlename_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>child Last Name:</b></div>
+                                        <div class="col-sm-6"  id= "childlastname_p" >{{ }}</div>
+                                </div>
+                                
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>child Gender:</b></div>
+                                        <div class="col-sm-6"  id= "childgender_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>child First Name:</b></div>
+                                        <div class="col-sm-6"  id= "childbirthdate_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>child Marital Status:</b></div>
+                                        <div class="col-sm-6"  id= "childmaritalstatus_p" >{{ }}</div>
+                                </div>
+                                { % endfor% }
+                                <hr>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Email:</b></div>
+                                        <div class="col-sm-6"  id= "email_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Blog/Homepage:</b></div>
+                                        <div class="col-sm-6"  id= "bloghomepage_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Office:</b></div>
+                                        <div class="col-sm-6"  id= "office_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Mobile:</b></div>
+                                        <div class="col-sm-6"  id= "mobile_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Home:</b></div>
+                                        <div class="col-sm-6"  id= "home_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Address 1:</b></div>
+                                        <div class="col-sm-6"  id= "address1_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Address 2:</b></div>
+                                        <div class="col-sm-6"  id= "address2_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>City:</b></div>
+                                        <div class="col-sm-6"  id= "city_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Postcode:</b></div>
+                                        <div class="col-sm-6"  id= "postcode_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>State:</b></div>
+                                        <div class="col-sm-6"  id= "state_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Country:</b></div>
+                                        <div class="col-sm-6"  id= "countrydd_p" >{{ }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE First Name:</b></div>
+                                        <div class="col-sm-6"  id= "coefirstname_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE Last Name:</b></div>
+                                        <div class="col-sm-6"  id= "coelastname_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE Middle Name:</b></div>
+                                        <div class="col-sm-6"  id= "coemiddlename_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE Relationship:</b></div>
+                                        <div class="col-sm-6"  id= "coerelationship_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE Mobile Phone:</b></div>
+                                        <div class="col-sm-6"  id= "coemobile_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE House Phone:</b></div>
+                                        <div class="col-sm-6"  id= "coehousephone_p" >{{ }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE Office Phone:</b></div>
+                                        <div class="col-sm-6"  id= "officephone_p" >{{ }}</div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Height:</b></div>
+                                        <div class="col-sm-6"  id= "height_p" >{{ }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Weight:</b></div>
+                                        <div class="col-sm-6"  id= "weight_p" >{{ }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Blood Type:</b></div>
+                                        <div class="col-sm-6"  id= "bloodgroup_p" >{{ }}</div>
+                                </div>
+        </div>
+
+</div>
+
+     
+  </body>
+</html>
+<!-- <div class ="mainbox">
+                <div class="left_mainbox">
+                    {% for i in key %}
+                        
+                        <div class=row>
+                            <b> {{i}}</b>
+                        </div>
+                    {% endfor %}                   
+                </div>
+                <div class="right_mainbox">
+                        {% for j in value %}
+                        {% if j=={{""}} or j=={{null}} %}
+                        <div class=row>
+                            <b>{{ }} </b>
+                        </div>
+                        {% else %}
+                        <div class=row>
+                            <b>{{ j }} </b>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                </div>
+            </div> -->

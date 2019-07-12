@@ -1,22 +1,4 @@
-console.log("checked")
 
-function apiServiceFamilyData(apiUrl,data,child_f_name,child_m_name,child_l_name,child_gen,child_marital_st,child_b_date) 
-{
-    console.log("we are in the job details function");
-    console.log("this is the data",data)
-   console.log(apiUrl,"this is the url");
-    var res=''
-    $.ajax({
-        url : apiUrl,
-        type: 'POST',
-        data: {'data':data,'childlastname':child_l_name,'childfirstname':child_f_name,'childmiddlename':child_m_name,'childgender':child_gen,'childbirthdate':child_b_date,'childmaritalstatus':child_marital_st},
-        async: false,
-    }).success(function(response){
-
-        res=JSON.parse(JSON.stringify(response))
-    });
-    return res
-}
 function apiServiceData(apiUrl,data) 
 {
     console.log("we are in the job details function");
@@ -34,11 +16,10 @@ function apiServiceData(apiUrl,data)
     });
     return res
 }
-
       function checkId(str){
           if (str){
             $.ajax({
-              url: "localhost:8000/newapp/isuseridcorrect",
+              url: "http://192.168.0.191:8000/newapp/isuseridcorrect",
               type:"POST",
               data : { request_data:$('#employeeid').val()},
               success: function(response_data) { 
@@ -61,7 +42,7 @@ function apiServiceData(apiUrl,data)
 
 function apiServiceForFormData(form) 
 {
-    var apiUrl = 'localhost:8000/newapp/persoanldetails';
+    var apiUrl = 'http://192.168.0.191:8000/newapp/persoanldetails';
     var res=''
     $.ajax({
         url : apiUrl,
@@ -78,7 +59,6 @@ function apiServiceForFormData(form)
     });
     return res
 }
-
 
 function scroll_to_class(element_class, removed_height) {
 	var scroll_to = $(element_class).offset().top - removed_height;
@@ -161,11 +141,6 @@ jQuery(document).ready(function() {
                     form.append("birthdate", $('#birthdate').val());
                     form.append("nationalitydd",$('#nationalitydd').val());
                     form.append("nationalid", $('#nationalid').val());
-
-                    form.append("passport", $('#passport').val());
-                    form.append("ethnicity",$('#ethnicity').val());
-                    form.append("religion", $('#religion').val());
-
                     form.append("image", $('#image').prop('files')[0]);
                     res = apiServiceForFormData(form)                    
                     if(res['status']==200){
@@ -197,18 +172,13 @@ jQuery(document).ready(function() {
                     data[$('#jobtypedd').attr('name')] = $('#jobtypedd').val();
                     data[$('#employmentstatuseffectivedate').attr('name')] = $('#employmentstatuseffectivedate').val();
                     data[$('#jobstatusdd').attr('name')] = $('#jobstatusdd').val();
-
-                    data[$('#leaveworkflowdd').attr('name')] = $('#leaveworkflowdd').val();
-
                     data[$('#workdays').attr('name')] = $('#workdays').val(); 
                     data[$('#holidaysdd').attr('name')] = $('#holidaysdd').val(); 
                     data[$('#termstartdd').attr('name')] = $('#termstartdd').val(); 
                     data[$('#termend').attr('name')] = $('#termend').val(); 
                      var apiUrl = "http://192.168.0.191:8000/newapp/jobdetails";
                     // console.log(apiUrl)
-
-                    res = apiServiceData('localhost:8000/newapp/jobdetails',data)                   
-
+                    res = apiServiceData(apiUrl,data)                   
                         if(res['status']==200){
                             next_step =true
                             console.log('we are in a if condition');
@@ -236,32 +206,15 @@ jQuery(document).ready(function() {
                     data[$('#numberofchild').attr('name')] = $('#numberofchild').val();
                     data[$('#spousefirstname').attr('name')] = $('#spousefirstname').val();
                     data[$('#spousemiddlename').attr('name')] = $('#spousemiddlename').val();
-
-                    data[$('#spouselastname').attr('name')] = $('#spouselastname').val();
-
                     data[$('#spousenationality').attr('name')] = $('#spousenationality').val();
                     data[$('#spousenationalid').attr('name')] = $('#spousenationalid').val();
                     data[$('#spousebirthdate').attr('name')] = $('#spousebirthdate').val();
                     data[$('#spousepassport').attr('name')] = $('#spousepassport').val();
                     data[$('#spouseethnicity').attr('name')] = $('#spouseethnicity').val();
                     data[$('#spouserelegion').attr('name')] = $('#spouserelegion').val();
-
-                 //   data[$('.childfirstname').attr('name')] = $('.childfirstname').val();
-                 //   data[$('.childlastname').attr('name')] = $('.childlastname').val();
-                   // data[$('.childmiddlename').attr('name')] = $('.childmiddlename').val();
-                   // data[$('.childgender').attr('name')] = $('.childgender').val();
-                    //data[$('.childbirthdate').attr('name')] = $('.childbirthdate').val();
-                    //data[$('.childmaritalstatus').attr('name')] = $('.childmaritalstatus').val();
-                    var child_f_name = $(".childfirstname").map(function(){return $(this).val();}).get();
-                    var child_m_name = $(".childmiddlename").map(function(){return $(this).val();}).get();
-                    var child_l_name = $(".childlastname").map(function(){return $(this).val();}).get();
-                    var child_gen = $(".childgender").map(function(){return $(this).val();}).get();
-                    var child_b_date = $(".childbirthdate").map(function(){return $(this).val();}).get();
-                    var child_marital_st = $(".childmaritalstatus").map(function(){return $(this).val();}).get();
-
-                     
+                     var apiUrl = 'http://192.168.0.191:8000/newapp/familydetails';
                     // console.log(apiUrl)
-                    res = apiServiceFamilyData('localhost:8000/newapp/familydetails',data,child_f_name,child_m_name,child_l_name,child_gen,child_marital_st,child_b_date)
+                    res = apiServiceData('http://192.168.0.191:8000/newapp/familydetails',data)                    
                         if(res['status']==200){
                             next_step =true
                             console.log('we are in a if condition');
@@ -302,9 +255,7 @@ jQuery(document).ready(function() {
                     data[$('#coemobile').attr('name')] = $('#coemobile').val();
                     data[$('#coehousephone').attr('name')] = $('#coehousephone').val();
                     data[$('#coeofficephone').attr('name')] = $('#coeofficephone').val();
-
-
-                     res = apiServiceData('localhost/newapp/contactdetails',data)                    
+                     res = apiServiceData('http://192.168.0.191:8000/newapp/contactdetails',data)                    
                         if(res['status']==200){
                             next_step =true
                             console.log('we are in a if condition');
@@ -347,7 +298,7 @@ jQuery(document).ready(function() {
                 else if (selectedid =='previewfield'){
                      var data = {};
                     data[$('.empid').attr('name')] = $('.empid').val();
-                    res = apiServiceData('localhost/newapp/preview',data)
+                    res = apiServiceData('http://192.168.0.191:8000/newapp/preview',data)
                     if(res['status']==200){
                             next_step =true
                             $('.action').show().delay(5000).fadeOut();
@@ -366,7 +317,7 @@ jQuery(document).ready(function() {
                 else if (selectedid =='directoryfield'){
                     var data = {};
                     data[$('.empid').attr('name')] = $('.empid').val();
-                    res = apiServiceData('localhost/newapp/directory',data)
+                    res = apiServiceData('http://192.168.0.191:8000/newapp/directory',data)
                     if(res['status']==200){
                             next_step =true
                             $('.action').show().delay(5000).fadeOut();
@@ -390,74 +341,7 @@ jQuery(document).ready(function() {
 
           
     //    fields validation
-    //      $('#familyfield').submit(function(e){
-    //     e.preventDefault(); 
-    //     $.ajax({
-    //           url: "http://192.168.0.191:8000/newapp/family",
-    //           type:"POST",
-    //           data : $("#check_form").serialize(),
-    //           success: function(response_data) { 
-    //             console.log(response_data);
-    //         },
-    //     });
-    // })
-    function displayResultnew(count,rowCount)
-    {
-    var counter =0
-    flag =false
-
-    var htm ='<tr><td><input type = "text" class="childfirstname" name="childfirstname" class="alph"></td> <td><input type = "text" name="childmiddlename" class="childmiddlename" class="alph"></td> <td><input type = "text" name="childlastname" class="childlastname" class="alph"></td> <td><input type = "Date" class="childbirthdate" name="childbirthdate" id="childbirthdate"></td> <td><select class="childgender" name="childgender"><option value="Unknown">Unknown</option><option value="Male">Male</option><option value="Female">Female</option></td> <td><select class="childmaritalstatus" name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></td></tr>'
-    if (rowCount == 0){
-
         
-        counter=count
-        for (var i = 0; i < count; i++) {  
-            
-
-            $('#myTable tbody').append(htm);
-        }
-    }
-    else if (count > rowCount)
-
-    {   
-
-        counter =count-rowCount
-       for (var i = 0; i < counter; i++) {  
-        
-            $('#myTable tbody').append(htm);
-        }
-    }
-    else if (count < rowCount)
-    {
-        counter =rowCount-count
-       for (var i = 0; i < counter; i++) {   
-            $('#myTable tbody tr:last').remove();
-        }
-    }
-}
-
-    $('.test').change(function(){
-
-         var rowCount = $('#myTable tbody tr').length;
-        displayResultnew($(this).val(),rowCount)
-    })
-     $('.add_row').click(function(){
-        console.log("call")
-
-         var rowCount = $('#myTable tbody tr').length;
-
-         console.log("rowCount",rowCount)
-
-
-          $('.test').val(rowCount+1)
-        displayResultnew(rowCount+1,rowCount)
-    })
-
-     $('.remove_row').click(function(){
-         var rowCount = $('#myTable tbody tr').length;
-         $('.test').val(rowCount-1)
-        displayResultnew(rowCount-1,rowCount)
-    })
 
     	
     	// fields validation
@@ -510,14 +394,14 @@ jQuery(document).ready(function() {
         e.preventDefault();            
         var data = {};
         data[$('.empid').attr('name')] = $('.empid').val();
-        res = apiServiceData('localhost/newapp/submit',data)
+        res = apiServiceData('http://192.168.0.191:8000/newapp/submit',data)
         if(res['status']==200){
             next_step =true
             $('.action').show().delay(5000).fadeOut();
             $('.action').addClass('alert-success');
             $('.action').removeClass('alert-danger');
             $('.action').text(res['msg']);
-             window.location.href = 'localhost/newapp/employeeList';
+             window.location.href = 'http://192.168.0.191:8000/newapp/employeeList';
         }else{
             next_step =false
             console.log('we are in a else condition');
@@ -543,5 +427,5 @@ jQuery(document).ready(function() {
     	
     });
     
-    });
-
+    
+});

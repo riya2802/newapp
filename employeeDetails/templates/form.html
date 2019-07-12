@@ -118,29 +118,36 @@
                              <div class="row">
                                     <div class="column">
 
-                                        <b>ID <span class="required" style="padding-right: 208px">*</span></b>
-                                        <input type="text" name="employeeid" class="num" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: red;" class="error" id="txtHint"></span>
+
+                                        <b>ID <span class="required" style="padding-right: 181px">*</span></b>
+                                        <input type="text" name="employeeid" class="num" id= "employeeid" onkeyup="checkId(this.value)" >  <span style="color: black;" class="error" id="txtHint"></span>
                                         <br><br> 
 
 
-                                        <b>First Name <span class="required" style="padding-right: 141px" >*</span></b>
+                                        <b>First Name <span class="required" style="padding-right: 119px" >*</span></b>
+
                                         <b><input type="text" name="firstname" class="alph" id ="firstname" ><span style="color:red;"></span> </b>
 
 
                                         <br><br>
 
-                                        <b style="padding-right: 132px">Middle Name:</b>
+
+                                        <b style="padding-right: 108px">Middle Name:</b>
+
                                         <b><input type="text" name="middlename" class="alph" id="middlename"> </b>
 
 
                                         <br><br>
 
-                                        <b>Last Name <span class="required" style="padding-right: 143px">*</span></b>
+                                        <b>Last Name <span class="required" style="padding-right: 121px">*</span></b>
+
                                         <b><input type="text" name="lastname" class="alph" id="lastname"> <span style="color:red;"></span></b>
 
                                         <br><br>
 
-                                        <b style="padding-right: 162px">Gender*:</b>
+
+                                        <b style="padding-right: 145px">Gender*:</b>
+
 
                                         <label style="padding-right: 5px" ><input type="radio" name="gendern" id="gendern" value="female">Female</label>
                                         <label style="padding-right: 5px"><input  type="radio" name="gendern" value="male" id="gendern">Male</label>
@@ -148,15 +155,18 @@
 
                                         <br><br>
 
-                                        <b style="padding-right: 145px">Birth Date<span class="required">*</span>:</b>
+
+                                        <b style="padding-right: 129px">Birth Date<span class="required">*</span>:</b>
                                         <b><input type="Date" name="birthdate" id="birthdate"><span style="color:red;"></span></b>
                                     </div>
                                   <div  class="column" id="wrapper" style="text-align: center;">
                                         <img id="output_image"/ height="200" width="200" style="border-radius: 5px;" ><br><br>
                                         <input style="float: right;  margin-right: 14%;" type="file" accept="image/*" id="image" name="image" onchange="preview_image(event)">
                                         
+                                        
                                     </div>
                                     </div>
+
                                     <br>
                                   
                                 <div style="font-size: 20px; background-color: blue; color: white "> Nationality Details</div>
@@ -165,7 +175,9 @@
                                 <div class="col-sm-2" ><b>Nationality  <span class="required">*</span>:</b></div>
                                 <div class="col-sm-4" ><b>
                                   <select name="nationalitydd" id="nationalitydd">
-                                  
+
+                                  <option value="">Select</option>
+
                                   {% for option in nationalityList %}
                                     <option value="{{ option.nationalityName }}">{{ option.nationalityName }}</option>
                                     {% endfor %}
@@ -186,7 +198,8 @@
                                 <div class="col-sm-2" ><b>Ethnicity:</b></div>
                                 <div class="col-sm-2" ><b>
                                     <select name= "ethnicity" id= "ethnicity">
-                                   
+                                    <option value="">Select</option>
+
                                             {% for option in ethnicityList %}
                                          <option value="{{ option.ethnicityName }}">{{ option.ethnicityName }}</option>
                                              {% endfor %}
@@ -196,6 +209,9 @@
                                 <div class="col-sm-2" ><b>Religion:</b></div>
                                 <div class="col-sm-2" ><b>
                                     <select name = "religion"  id = "religion">
+
+                                    <option value="">Select</option>
+
                                     {% for option in religionList %}
                                          <option value="{{ option.religionName }}">{{ option.religionName }}</option>
                                              {% endfor %}
@@ -225,6 +241,8 @@
                                         <div class="col-sm-2" ><b>Position <span class="required">*</span>:</b></div> 
                                         <div class="col-sm-4" ><b> 
                                             <select name="positiondd"  id="positiondd" >
+                                            <option value="">Select</option>
+
                                             {% for option in positionList %}
                                             <option value="{{ option.position }}">{{ option.position }}</option>
                                             {% endfor %}
@@ -238,6 +256,9 @@
                                         <div class="col-sm-2" ><b>Line Manager:</b></div>
                                         <div class="col-sm-4" ><b>
                                             <select name="linemanagedd" id="linemanagedd">
+
+                                            <option value="">Select</option>
+
                                             {% for option in lineManagerList %}
                                               <option value="{{ option.lineManager }}">{{ option.lineManager }}</option>
                                               {% endfor %}
@@ -247,6 +268,9 @@
                                         <div class="col-sm-2"><b>Department:</b></div>
                                         <div class="col-sm-4"><b>   
                                             <select name="departmentdd"id="departmentdd">
+
+                                            <option value="">Select</option>
+
                                             {% for option in departmentList %}
                                             <option value="{{ option.department }}">{{ option.department }}</option>
                                               {% endfor %}
@@ -258,7 +282,9 @@
                                         <div class="col-sm-2" ><b>Branch:</b></div>
                                         <div class="col-sm-4" ><b>
                                             <select name="branchdd"  id="branchdd">
-                                            <option value="">Not Assigned</option>
+
+                                            <option value="">Select</option>
+
                                             {% for option in branchList %}
                                             <option value="{{ option.branchName }}">{{ option.branchName }}</option>
                                               {% endfor %}
@@ -268,6 +294,9 @@
                                         <div class="col-sm-2"><b>Level:</b></div>
                                         <div class="col-sm-4"><b>
                                             <select name="leveldd" id="leveldd">
+
+                                            <option value="">Select</option>
+
                                             {% for option in levelList %}
                                             <option value="{{ option.joblevel }}">{{ option.joblevel }}</option>
                                               {% endfor %}
@@ -280,6 +309,8 @@
                                         <div class="col-sm-2" ><b>Job Type:</b></div>
                                         <div class="col-sm-4" ><b>
                                         <select name="jobtypedd" id="jobtypedd">
+                                            <option value="">Select</option>
+
                                             {% for option in jobTypeList %}
                                             <option value="{{ option.jobType }}">{{ option.jobType }}</option>
                                               {% endfor %}
@@ -293,6 +324,9 @@
                                         <div class="col-sm-2" ><b>Job Status:</b></div>
                                         <div class="col-sm-4" ><b>
                                             <select name="jobstatusdd" id="jobstatusdd">
+
+                                            <option value="">Select</option>
+
                                             {% for option in jobStatusList %}
                                             <option value="{{ option.jobStatus }}">{{ option.jobStatus }}</option>
                                               {% endfor %}
@@ -301,7 +335,10 @@
                                         <div class="col-sm-2"><b>Leave Workflow:</b></div>  
                                         <div class="col-sm-4"><b>   
                                             <select name="leaveworkflowdd" id="leaveworkflowdd">
-                                            <option value="">Default</option>
+
+                                            <option value="">Select</option>
+                                            
+
                                             {% for option in leaveWorkFlowList %}
                                             <option value="{{ option.leaveworkflow }}">{{ option.leaveworkflow }}</option>
                                               {% endfor %}
@@ -313,6 +350,9 @@
                                         <div class="col-sm-2" ><b>Workdays:</b></div>
                                         <div class="col-sm-4" ><b>
                                             <select name="workdays" id="workdays">
+
+                                            <option value="">Select</option>
+
                                             {% for option in workDaysList %}
                                             <option value="{{ option.workdays }}">{{ option.workdays }}</option>
                                               {% endfor %}
@@ -321,6 +361,9 @@
                                         <div class="col-sm-2"><b>Holidays:</b></div>
                                         <div class="col-sm-4"><b>
                                             <select name="holidaysdd" id="holidaysdd">
+
+                                            <option value="">Select</option>
+
                                             <!-- <option value="">Default</option> -->
                                             {% for option in holiDaysList %}
                                             <option value="{{ option.holidays }}">{{ option.holidays }}</option>
@@ -365,18 +408,26 @@
                                         <div class="col-sm-3" ><b>Maritial Status:</b></div>
                                         <div class="col-sm-3"><b>
                                             <select name="maritalstatus" id="maritalstatus">
+
+                                            <option value="">Select</option>
+
                                             {% for option in MaritalStatusList %}
                                             <option value="{{ option.Maritalstatus }}">{{ option.Maritalstatus }}</option>
                                               {% endfor %}
                                             </select></b>
                                         </div>
-                                        <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
+
+                                        <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" style="padding-right: 8px;" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
+
                                     </div><br>
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Number of Children:</b></div>
                                         <div class="col-sm-3"><b>
-                                            <select name="numberofchild" id="numberofchild">
-                                            <{{i.employeeFamilyNumberOfChild}}</option>
+
+                                            <select name="numberofchild" id="numberofchild" class="test">
+                                            <option value="">Select</option>
+                                            {{i.employeeFamilyNumberOfChild}}</option>
+
                                                 {% for option in numberofchildList %}
                                             <option value="{{ option.numberOfchild }}">{{ option.numberOfchild }}</option>
                                               {% endfor %}
@@ -405,6 +456,9 @@
                                         <div class="col-sm-3" ><b>Nationality <span class="required">*</span>:</b></div>
                                         <div class="col-sm-3" ><b>
                                             <select name="spousenationality" id ="spousenationality">
+
+                                            <option value="">Select</option>
+
                                             {% for j in nationalityList %}
                                             <option value="{{j.nationalityName}}">{{j.nationalityName}}</option>
                                             {% endfor %}
@@ -425,6 +479,9 @@
                                         <div class="col-sm-3" ><b>Ethnicity:</b></div>
                                         <div class="col-sm-3" ><b>
                                             <select name="spouseethnicity" id ="spouseethnicity">
+
+                                            <option value="">Select</option>
+
                                             {% for option in ethnicityList %}
                                          <option value="{{ option.ethnicityName }}">{{ option.ethnicityName }}</option>
                                              {% endfor %}
@@ -433,6 +490,9 @@
                                         <div class="col-sm-3" ><b>Religion:</b></div>
                                         <div class="col-sm-3" ><b>
                                             <select name="spouserelegion"id="spouserelegion">
+
+                                            <option value="">Select</option>
+
                                             {% for option in religionList %}
                                          <option value="{{ option.religionName }}">{{ option.religionName }}</option>
                                              {% endfor %} 
@@ -440,11 +500,11 @@
                                         </div>   
                                     </div><br>
                                     <div style="font-size: 20px; background-color: blue; color: white ">Children Details</div><br>
-                                        <button id="addchildren" type="button" onclick="displayResult()">Insert new row</button>
-                                        <button id="deletechildren" type="button" onclick="deleterow()">Delete row</button>
+                                        <button class="add_row" type="button" >Insert new row</button>
+                                        <button class="remove_row" type="button" >Delete row</button>
                                         <br>
                                         <table class="table table-striped" id="myTable">
-                                                <thead>
+                                                <thead >
                                                     <tr>
                                                         <th>First Name</th>
                                                         <th>Middle Name</th>
@@ -454,6 +514,10 @@
                                                         <th>Married</th>
                                                     </tr>
                                                 </thead>
+                                                <tbody>
+                                                    
+
+                                                </tbody>
 
                                         </table>
                                 <div class="f1-buttons">
@@ -516,6 +580,9 @@
                                         <div class="col-sm-3"><b>Country <span class="required">*</span>:</b></div>
                                         <div class="col-sm-3"><b>
                                         <select name="countrydd"  id="countrydd">
+
+                                        <option value="">Select</option>
+
                                         {% for j in countryList %}
                                             <option value="{{j.countryName}}">{{j.countryName}}</option>
                                             {% endfor %}
@@ -544,7 +611,9 @@
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Relationship:</b></div>
                                         <div class="col-sm-3"><b>
-                                        <input type="text" class="alph" class="alph"ame="coerelationship" id="coerelationship">
+
+                                        <input type="text" class="alph" class="alph" name="coerelationship" id="coerelationship">
+
                                         </b></div>
                                         <div class="col-sm-3" ><b>Mobile Phone:</b></div>
                                         <div class="col-sm-3"><b>
@@ -575,7 +644,9 @@
                                     <div class="row">
                                         <div class="col-sm-3" ><b>Height (cm)</b></div>
                                         <div class="col-sm-3"><b>
-                                            <input min="4" type= "number" class="num" name="height" id="height"></b>
+
+                                            <input min="122" type= "number" class="num" name="height" id="height"></b>
+
                                         </div>
                                         <div class="col-sm-3"><b>Weight (kg)</b></div>
                                         <div class="col-sm-3"><b><input min="25" type="number" class="num" name = "weight" id = "weight"></b></div>
@@ -585,6 +656,7 @@
                                         <div class="col-sm-3" ><b>Blood Type:</b></div>
                                         <div class="col-sm-3"><b>
                                             <select name="bloodgroup" id="bloodgroup">
+                                                <option value="">Select</option>
                                             <option value="AN">AN</option>
                                             <option value="AP">AP</option>
                                             <option value="B">B</option>
@@ -965,7 +1037,7 @@ $(document).ready(function(){
 today = yyyy+'-'+mm+'-'+dd;
 
 $("#spousebirthdate").attr("max", today);
-$("#childbirthdate").attr("max", today); //new change
+
 
 todayb = yyyyb+'-'+mm+'-'+dd;
 var effdatemin = yyyy+'-'+effdatemm+'-'+dd;
@@ -1082,7 +1154,8 @@ $("#endofprobation").attr("max", eopdatemax);
 
   $("#maritalstatus").on('change',function(){
     console.log("in")
-   if($(this).find('option:selected').text()=="Single")
+
+   if($(this).find('option:selected').text()=="Unmarried" && $(this).find('option:selected').text()==""  )
    {
     $("#spouseworking").attr('disabled',true);
     $("#numberofchild").attr('disabled',true);
@@ -1181,19 +1254,22 @@ function preview_image(event)
         countrydd:'required',
         spousenationality:'required',
         },
-        messages: {
 
-        nationalid: 'enter 8 digits',
-        spousenationalid: 'enter 8 digits',
-        passport: 'enter 12 digits',
-        office: 'enter 10 digits',
-        officeextention: 'enter 10 digits'
-        home: 'enter 10 digits'
-        mobile: 'enter 10 digits'
-        postcode: 'enter 6 digits'
-        coehousephone: 'enter 10 digits'
-        ceoofficephone: 'enter 10 digits'
-        }
+
+       messages: {
+
+       nationalid: 'enter 8 digits',
+       spousenationalid: 'enter 8 digits',
+       passport: 'enter 12 digits',
+       office: 'enter 10 digits',
+       officeextention: 'enter 10 digits'
+       home: 'enter 10 digits'
+       mobile: 'enter 10 digits'
+       postcode: 'enter 6 digits'
+       coehousephone: 'enter 10 digits'
+       ceoofficephone: 'enter 10 digits'
+       }
+
         // submitHandler: function(form) {
         //    form.submit();
         // }

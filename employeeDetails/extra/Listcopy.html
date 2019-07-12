@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title> ListPost </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+      .button {
+  background-color: #80aaff; /* Green */
+  border: none;
+  color: white;
+  padding: 7px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.1s; /* Safari */
+  transition-duration: 0.2s;
+}
+.button2:hover {
+  border-radius: 50%;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+body{
+  font-size: 18px;
+  line-height: 2.42857143;
+}
+.table>tbody>tr>td{
+  line-height: 2.42857143;
+}
+    </style>
+  </head>
+  <body style="background-color: #e6ecff;">
+
+    <div class="container">
+      <div class="jumbotron"   style="background-color: #398ad0;">
+        <h2 align="centre"><b>Employees</b></h2>
+      </div>  
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">Id</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Dob</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Pdf</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in employeeObj %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ i.employeementId }}</td>
+      <td>{{i.employeeFirstName}}</td>
+      <td>{{i.employeeLastName}}</td>
+      <td>{{i.employeeBirthDate}}</td>
+      <td><a href='editemployee/{{i.employeeId}}'><button class="button button2" >Edit</button></a> </td>
+      <td><a href='pdf/{{i.employeeId}}'><button class="button button2" >PDF</button></a></td>
+      <!-- <td></td> -->
+    </tr>
+    {% endfor %}
+     </tbody>
+</table>
+<div class="pagination">
+    <span class="step-links">
+        {% if employeeObj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ employeeObj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ employeeObj.employeeId }} of {{ employeeObj.paginator.num_pages }}.
+        </span>
+
+        {% if employeeObj.has_next %}
+            <a href="?page={{ employeeObj.next_page_number }}">next</a>
+            <a href="?page={{ employeeObj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</body>
+</html>
+
+            
