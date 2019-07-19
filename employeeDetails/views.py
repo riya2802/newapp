@@ -1,4 +1,13 @@
 from django.shortcuts import render
+import os
+from django.conf import settings
+from django.http import HttpResponse
+from django.template import Context
+from django.template.loader import get_template
+
+
+import datetime
+from xhtml2pdf import pisa 
 from django.contrib.auth.models import User
 from .models import numberOfChild, maritalStatus,bloodGroup,department, branch, position,level,lineManager, holiDays,leaveWorkFlow,workDays,jobStatus, jobType, religion, ethnicity, country, employee,employeeFamily,employeeChildren,employeeHealth,Contact,Job,nationality
 from . import personaldetails
@@ -73,7 +82,7 @@ def home(request):
 
  ## --------------------------------------------------------------------------------------------------------
 #persondetails validation 
-@csrf_exempt
+# @csrf_exempt
 def personalAjaxRequest(request):
 	# if not request.user.is_authenticated:
 	# 	print('not authenticate')
@@ -89,7 +98,7 @@ def personalAjaxRequest(request):
 		print('middelName',middelName)
 		lastName= request.POST.get('lastname',None)
 		print('lastName',lastName)
-		gender= request.POST.get('gendern',None)
+		gender= request.POST.get('gender',None)
 		print('gender',gender)
 		birthDate= request.POST.get('birthdate',None)
 		print('birthDate',birthDate)
@@ -105,7 +114,6 @@ def personalAjaxRequest(request):
 		religion= request.POST.get('religion',None)
 		print('religion',religion)
 		photo=request.FILES.get('image')
-
 		print('photo',photo)
 		print("passport",passport)
 		print('nationalId',nationalId)
@@ -169,7 +177,8 @@ def personalAjaxRequest(request):
 			updateobj.employeePassport=passport
 			updateobj.employeeEthnicity=ethnicity
 			updateobj.employeeReligion=religion
-			updateobj.employeePhoto=photo
+			if photo: 
+				updateobj.employeePhoto=photo
 			updateobj.status="Pending"
 			updateobj.save()
 			# if 'image' in request.FILES:
@@ -457,6 +466,7 @@ def contactAjaxRequest(request):
 #------------------------------------------------------------------------
 @csrf_exempt
 def healthAjaxRequest(request):
+	print("we are in the healthAjaxRequest")
 	# if not request.user.is_authenticated:
 	# 	return redirect('/newapp/login')
 	if request.method == "POST":
@@ -506,14 +516,25 @@ def editHtmlForm(request,employeeId):
 	print('numberofchildList', numberofchildList)
 	print('nationality ',objEmployeePersonal.employeeNationality)
 	if objEmployeePersonal:
-		objEmployeeFamily = objEmployeePersonal.employeefamily_set.all()
-		objEmployeeChildren = objEmployeePersonal.employeechildren_set.all()
-		objEmployeeHealth = objEmployeePersonal.employeehealth_set.all()
-		objEmployeeJob = objEmployeePersonal.job_set.all()
-		objEmployeeContact = objEmployeePersonal.contact_set.all()
-		print("objEmployeeJob",objEmployeeJob)
-		return render(request,'formedit.html',{'MaritalStatusList':MaritalStatusList,'numberofchildList':numberofchildList,'bloodGroupList':bloodGroupList,"nationalityList":nationalityList,'countryList':countryList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList
-,'action':"/newapp/submit",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
+		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal)
+		# objEmployeeFamily=userCheck.employeefamily_set.all()
+		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal)
+		# objEmployeeChildren= userCheck.employeechildren_set.all()
+		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal)
+		# objEmployeeHealth=userCheck.employeehealth_set.all()
+		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal)
+		# objEmployeeJob=userCheck.job_set.all()
+		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal)
+		print('objEmployeeFamily',objEmployeeFamily)
+		print('objEmployeeJob',objEmployeeJob)
+		# objEmployeeFamily = objEmployeePersonal.employeefamily_set.all()
+		# objEmployeeChildren = objEmployeePersonal.employeechildren_set.all()
+		# objEmployeeHealth = objEmployeePersonal.employeehealth_set.all()
+		# objEmployeeJob = objEmployeePersonal.job_set.all()
+		# objEmployeeContact = objEmployeePersonal.contact_set.all()
+		# print("objEmployeeJob",objEmployeeJob)
+		return render(request,'formedit.html',{'MaritalStatusList':MaritalStatusList,'numberofchildList':numberofchildList,'bloodGroupList':bloodGroupList,"nationalityList":nationalityList,'countryList':countryList,'ethnicityList':ethnicityList,'religionList':religionList,'workDaysList':workDaysList,'jobStatusList':jobStatusList,'jobTypeList':jobTypeList,'lineManagerList':lineManagerList,'holiDaysList':holiDaysList,'leaveWorkFlowList':leaveWorkFlowList,'departmentList':departmentList,'branchList':branchList,'positionList':positionList,'levelList':levelList,
+		'action':"/newapp/submit",'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
 	else:
 		return render(request,'error.html',{'error':'User not exist'})
 
@@ -521,6 +542,7 @@ def editHtmlForm(request,employeeId):
 ##add new employee
 @csrf_exempt
 def submit(request):
+	print("We are in the submit")
 	# if not request.user.is_authenticated:
 	# 	return redirect('/login')
 	employeementId_obj=request.POST.get('empid',None)
@@ -529,16 +551,16 @@ def submit(request):
 	if not userCheck:
 		print('userCheck',userCheck)
 		return JsonResponse({'msg':"User Not Exist", 'status':400 })	
-	#objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=userCheck)
-	objEmployeeFamily=userCheck.employeefamily_set.all()
-	#objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=userCheck)
-	objEmployeeChildren= userCheck.employeechildren_set.all()
-	#objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=userCheck)
-	objEmployeeHealth=userCheck.employeehealth_set.all()
-	#objEmployeeJob=Job.objects.filter(employeeForeignId=userCheck)
-	objEmployeeJob=userCheck.job_set.all()
-	#objEmployeeContact=Contact.objects.filter(employeeForeignId=userCheck)
-	objEmployeeContact=userCheck.contact_set.all()	
+	objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=userCheck).first()
+	# objEmployeeFamily=userCheck.employeefamily_set.all()
+	objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=userCheck).first()
+	# objEmployeeChildren= userCheck.employeechildren_set.all()
+	objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=userCheck).first()
+	# objEmployeeHealth=userCheck.employeehealth_set.all()
+	objEmployeeJob=Job.objects.filter(employeeForeignId=userCheck).first()
+	# objEmployeeJob=userCheck.job_set.all()
+	objEmployeeContact=Contact.objects.filter(employeeForeignId=userCheck).first()
+	# objEmployeeContact=userCheck.contact_set.all()	
 	if objEmployeeFamily is None and objEmployeeChildren is None and objEmployeeHealth is None and objEmployeeJob is None and objEmployeeContact is None :
 		return JsonResponse({'msg':"Data not save in the Database", 'status':400 })
 	userCheck.status='Success'
@@ -609,28 +631,28 @@ def directory(request):
 	obj =employee.objects.filter(employeeId = employeementId_obj).first()
 	return JsonResponse({'msg':'success','status':200})
 
-def createPdf(request,employeeId):
-	if not request.user.is_authenticated:
-		return redirect('/newapp/login')
-	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
-	if objEmployeePersonal:
-		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal).first()
-		print('objEmployeeFamily',objEmployeeFamily)
-		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal).first()
-		print('objEmployeeChildren',objEmployeeChildren)
-		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal).first()
-		print('objEmployeeHealth',objEmployeeHealth)
-		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal).first()
-		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal).first()
-		print("objEmployeeJob",objEmployeeJob)
-		print('objEmployeeContact',objEmployeeContact.email)
-	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'inline; filename="mypdf.pdf"'
-    # Create a file-like buffer to receive PDF data.
-	buffer = io.BytesIO()
+# def createPdf(request,employeeId):
+# 	if not request.user.is_authenticated:
+# 		return redirect('/newapp/login')
+# 	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
+# 	if objEmployeePersonal:
+# 		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal).first()
+# 		print('objEmployeeFamily',objEmployeeFamily)
+# 		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal).first()
+# 		print('objEmployeeChildren',objEmployeeChildren)
+# 		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal).first()
+# 		print('objEmployeeHealth',objEmployeeHealth)
+# 		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal).first()
+# 		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal).first()
+# 		print("objEmployeeJob",objEmployeeJob)
+# 		print('objEmployeeContact',objEmployeeContact.email)
+# 	response = HttpResponse(content_type='application/pdf')
+# 	response['Content-Disposition'] = 'inline; filename="mypdf.pdf"'
+#     # Create a file-like buffer to receive PDF data.
+# 	buffer = io.BytesIO()
 
-    # Create the PDF object, using the buffer as its "file."
-	p = canvas.Canvas(buffer)
+#     # Create the PDF object, using the buffer as its "file."
+# 	p = canvas.Canvas(buffer)
 
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
@@ -720,6 +742,100 @@ def employeeView(request,employeeId, *args, **kwargs):
 	return HttpResponse(pdf,content_type='application/pdf')
 		# return render(request,'view_new.html',{'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact})
 
+# from weasyprint import HTML, CSS
+# from django.conf import settings
+
+# CSS(settings.STATIC_ROOT + ‘css/main.css’)
+
+# Ex: HTML(‘http://yourwebsite.org/’).write_pdf(‘/yourdirectory/file.pdf’,
+# 	stylesheets=[CSS(settings.STATIC_ROOT + ‘css/main.css’)])
+# def gpdf(request,employeeId):
+# 	weasyprint https://weasyprint.org/ weasyprint.pdf
+import pdfkit
+import os
+from django.http import HttpResponse
+from easy_pdf.views import PDFTemplateView
+from io import BytesIO 
+import reportlab
+from easy_pdf.rendering import render_to_pdf_response
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+def sending_data(request,employeeId):
+	if not request.user.is_authenticated:
+		return redirect('/newapp/login')
+	
+	print("objEmployeePersonal hihi",objEmployeePersonal)
+
+	return render(request,'testing.html' , {'objEmployeePersonal':objEmployeePersonal})
+
+
+class HelloPDFView(PDFTemplateView):
+	template_name = 'testing.html'
+	base_url = 'file://' + settings.STATIC_ROOT
+	download_filename = 'hello.pdf'
+	# def get_queryset(self):
+	def get_context_data(self, **kwargs):
+		objEmployeePersonal=employee.objects.filter(employeeId = self.kwargs['employeeId']).first()
+		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		# objEmployeeFamily=userCheck.employeefamily_set.all()
+		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		# objEmployeeChildren= userCheck.employeechildren_set.all()
+		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		# objEmployeeHealth=userCheck.employeehealth_set.all()
+		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		# objEmployeeJob=userCheck.job_set.all()
+		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		print(objEmployeePersonal.employeeId,"fgsdgf")
+		return super(HelloPDFView, self).get_context_data(
+		pagesize='A4',
+		title='Hi there!',
+		objEmployeePersonal=objEmployeePersonal,
+		objEmployeeFamily=objEmployeeFamily,
+		objEmployeeChildren=objEmployeeChildren,
+		objEmployeeHealth=objEmployeeHealth,
+		objEmployeeJob=objEmployeeJob,
+		objEmployeeContact=objEmployeeContact,
+		**kwargs
+		)
+
+# def create_pdf(request):
+
+
+    # context={'objEmployeePersonal':objEmployeePersonal}
+
+	# config = pdfkit.configuration(wkhtmltopdf="C:\\Program Files\\wkhtmltox\\bin\\wkhtmltopdf.exe")
+	# options = {
+ #    'page-size': 'Letter',
+ #    'margin-top': '0.75in',
+ #    'margin-right': '0.75in',
+ #    'margin-bottom': '0.75in',
+ #    'margin-left': '0.75in',
+ #    'encoding': "UTF-8",
+ #    'no-outline': None
+	# }
+	# # pdf=pdfkit.from_url("https://www.w3schools.com/", "ourcodeworld.pdf",configuration=config,options=options)
+	# # response = HttpResponse(pdf,content_type='application/pdf')
+	# # response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+	# options = {
+ #    'quiet': ''
+	# }
+	# p=pdfkit.from_string('Hello!', 'out.pdf',configuration=config)
+	# #p=pdfkit.from_url('google.com', 'out.pdf', options=options,configuration=config)
+	# response = HttpResponse(p,content_type='application/pdf')
+	# return response
+	# data = {}
+
+	# template = get_template('pdftest.html')
+	# html  = template.render({'objEmployeePersonal':objEmployeePersonal})
+
+	# file = open('test.pdf', "w+b")
+	# pisaStatus = pisa.CreatePDF(html.encode('utf-8'), dest=file,
+	#         encoding='utf-8')
+
+	# file.seek(0)
+	# pdf = file.read()
+	# file.close()            
+	# return HttpResponse(pdf, 'application/pdf')
 
 # @csrf_exempt
 # @pdf_decorator(pdfname='1.pdf')

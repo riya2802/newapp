@@ -45,18 +45,18 @@
     border: 1px solid transparent;
     border-radius: 4px;
 }
-/*Also */
+
  .kbtn-success {
     color: #fff;
     background-color: #transparent;
     border-color: #transparent;
 }
-/* This is copied from https://github.com/blueimp/jQuery-File-Upload/blob/master/css/jquery.fileupload.css */
+
  .fileinput-button {
     position: relative;
     overflow: hidden;
 }
-/*Also*/
+
  .fileinput-button input {
     position: absolute;
     top: 0;
@@ -192,12 +192,12 @@
                                         <br><br>
 
 
-                                        <b style="padding-right: 128px">Gender*:</b>
+                                       <b>Gender <span class="required" style="padding-right: 109px">*</span></b>
 
 
-                                        <label style="padding-right: 5px" ><input type="radio" name="gendern" id="gendern" value="female">Female</label>
-                                        <label style="padding-right: 5px"><input  type="radio" name="gendern" value="male" id="gendern">Male</label>
-                                        <label style="padding-right: 5px"><input  type="radio" name="gendern" value="unknown" id="gendern">Unknown</label><span style="color:red;">{{ error}}</span>
+                                        <label style="padding-right: 5px" ><input type="radio" name="gender" value="female" id="gender" >Female</label>
+                                        <label style="padding-right: 5px"><input  type="radio" name="gender" value="male" id="gender">Male</label>
+                                        <label style="padding-right: 5px"><input  type="radio" name="gender" value="unknown" id="gender">Unknown</label>
 
                                         <br><br>
 
@@ -205,13 +205,15 @@
                                         <b style="padding-right: 112px">Birth Date<span class="required">*</span>:</b>
                                         <b><input type="Date" name="birthdate" id="birthdate"><span style="color:red;"></span></b>
                                     </div>
-                                  <div  class="column" id="wrapper" style="text-align: center;">
+                                  <div  class="column" style="text-align: center;">
                                         <img id="output_image"/ height="200" width="200" style="border-radius: 5px;" ><br><br><input type="hidden" id="irn" >
                                           <span class="kbtn kbtn-success fileinput-button">
                                                 <span style="color: blue">Change Photo</span>
 
-                                            <input type="file" name="file"  onchange="preview_image(event)">
+                                            <input type="file" id="image" name="image" accept="image/*" onchange="preview_image(event)">
                                             </span>
+                                             <!-- <img id="output_image"/ height="200" width="200" style="border-radius: 5px;" ><br><br>
+                                        <input style="float: right;  margin-right: 14%;" type="file" accept="image/*" id="image" name="image" onchange="preview_image(event)"> -->
                                         
                                         
                                     </div>
@@ -234,7 +236,7 @@
                                   </select><span style="color:red;"></span> </b>
                                 </div>
                                 <div class="col-sm-2" ><b>National ID <span class="required">*</span>:</b></div>
-                                <div class="col-sm-4"><input type="text" class="num"  name="nationalid" id ="nationalid"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>    
+                                <div class="col-sm-4"><input type="text" class="num"  name="nationalid" id ="nationalid" maxlength="8"><span class="error"style="color:red;">{{ msg }}{{ nationalmsg }}</span></div>    
                             </div>   
                                     <br>
                             <div class="row">
@@ -550,26 +552,29 @@
                                         </div>   
                                     </div><br>
                                     <div style="font-size: 20px; background-color: blue; color: white ">Children Details</div><br>
-                                        <button class="add_row" type="button" >Insert new row</button>
-                                        <button class="remove_row" type="button" >Delete row</button>
+                                        <button type="button" class="add_row">Add row</button>
+                                        <button type="button" class="remove_row">Remove row</button>
                                         <br>
+                                        <div class="table-responsive" class="form-control">
                                         <table class="table table-striped" id="myTable">
-                                                <thead >
-                                                    <tr>
-                                                        <th>First Name</th>
-                                                        <th>Middle Name</th>
-                                                        <th>Last Name</th>
-                                                        <th>BirthDate</th>
-                                                        <th>Gender</th>
-                                                        <th>Married</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                                            <thead>
+                                                <tr>
+                                                    <th>First Name</th>
+                                                    <th>Middle Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>BirthDate</th>
+                                                    <th>Gender</th>
+                                                    <th>Married</th>
                                                     
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                                                </tbody>
+                                               
+                                            </tbody>
 
                                         </table>
+                                    </div>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="button" class="btn btn-next">Next</button>
@@ -750,7 +755,7 @@
                                 </div>
                                 <div class="row">
                                         <div class="col-sm-6" ><b>Gender:</b></div>
-                                        <div class="col-sm-6"  id= "gendern_p" ></div>
+                                        <div class="col-sm-6"  id= "gender_p" ></div>
                                 </div>
                                 <div class="row">
                                         <div class="col-sm-6" ><b>Birth date:</b></div>
@@ -1237,25 +1242,35 @@ $("#endofprobation").attr("max", eopdatemax);
 </script>
 
  <script type='text/javascript'>
-
 function preview_image(event) 
 {
  var reader = new FileReader();
  reader.onload = function()
  {
   var output = document.getElementById('output_image');
-  console.log(output,"output")
   output.src = reader.result;
-  console.log(output.src,"output.src")
  }
- var fileName = event.target.files[0].name;
- console.log(fileName,'fileName');
-$("#irn").val(fileName);
-
-value = $("#irn").attr('value');
-console.log(value,"this is the name")
  reader.readAsDataURL(event.target.files[0]);
 }
+
+// function preview_image(event) 
+// {
+//  var reader = new FileReader();
+//  reader.onload = function()
+//  {
+//   var output = document.getElementById('output_image');
+//   console.log(output,"output")
+//   output.src = reader.result;
+//   console.log(output.src,"output.src")
+//  }
+//  var fileName = event.target.files[0].name;
+//  console.log(fileName,'fileName');
+// $("#irn").val(fileName);
+
+// value = $("#irn").attr('value');
+// console.log(value,"this is the name")
+//  reader.readAsDataURL(event.target.files[0]);
+// }
 </script>
  <script>
 
@@ -1266,12 +1281,11 @@ console.log(value,"this is the name")
  <script>
  $(document).ready(function(){             
     $("#fullform").validate({
-
         rules: {
-        employeeid: 'required',
+        employeeid: {required:true},
         firstname: 'required',
         lastname: 'required',
-        gendern: 'required',
+        gender: 'required',
         birthdate: 'required',
         nationalitydd: 'required',
         nationalid: {
@@ -1310,13 +1324,14 @@ console.log(value,"this is the name")
         jobstatuseffectivedate:'required',
         employmentstatuseffectivedate:'required',
         countrydd:'required',
-        spousenationality:'required',
+        spousenationality:'required'
         },
+
        messages: {
         employeeid: 'Required',
         firstname: 'Required',
         lastname:'Required',
-        gendern:'Required',
+        gender:'Required',
         birthdate:'Required',
         nationalitydd:'Required',
         nationalid: 'Enter 8 digits',

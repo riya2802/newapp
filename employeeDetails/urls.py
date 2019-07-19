@@ -23,9 +23,12 @@ urlpatterns = [
     path('healthdetails',views.healthAjaxRequest),
     path('preview',views.preview),
     path('directory',views.directory),
-    path('pdf/<employeeId>',views.createPdf),#create pdf files
+    # path('pdf/<employeeId>',views.createPdf),#create pdf files
     path('data',views.data),
     path('view/<employeeId>',views.employeeView),
+    path('sending_data/<employeeId>',views.sending_data),
+    # path('create_pdf',views.create_pdf),
+    path('try/<employeeId>', views.HelloPDFView.as_view()),
     # path('remark',views.remark),
 
 

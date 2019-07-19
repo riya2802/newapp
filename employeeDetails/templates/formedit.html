@@ -28,7 +28,51 @@
             width:995px;
 
         }*/
+                .kbtn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
 
+ .kbtn-success {
+    color: #fff;
+    background-color: #transparent;
+    border-color: #transparent;
+}
+
+ .fileinput-button {
+    position: relative;
+    overflow: hidden;
+}
+
+ .fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter:'alpha(opacity=0)';
+    font-size: 200px;
+    direction: ltr;
+    cursor: pointer;
+}
+        .error {
+      color: red;
+                      }
         
 
         .photo-background{
@@ -148,20 +192,43 @@
 
                                         <br><br>
 
-                                        <b style="padding-right: 162px">Gender*:</b>
+                                        <b>Gender <span class="required" style="padding-right: 109px">*</span></b>
 
-                                        <label style="padding-right: 5px" ><input type="radio" name="gendern" id="gendern" value="female">Female</label>
-                                        <label style="padding-right: 5px"><input  type="radio" name="gendern" value="male" id="gendern">Male</label>
-                                        <label style="padding-right: 5px"><input  type="radio" name="gendern" value="unknown" id="gendern">Unknown</label><span style="color:red;">{{ error}}</span>
+
+                                        {% if objEmployeePersonal.employeeGender == "female" %}
+                                       <label style="padding-right: 5px" ><input type="radio" name="gender" id="gender" value="female"checked >Female</label>
+                                       <label style="padding-right: 5px"><input  type="radio" name="gendern" value="male" id="gender">Male</label>
+                                       <label style="padding-right: 5px"><input  type="radio" name="gendern" value="unknown" id="gender" >Unknown</label>
+                                       {% elif objEmployeePersonal.employeeGender == "male" %}
+                                       <label style="padding-right: 5px" ><input type="radio" name="gender" id="gender" value="female  ">Female</label>
+                                       <label style="padding-right: 5px"><input  type="radio" name="gender" value="male" id="gender"  checked>Male</label>
+                                       <label style="padding-right: 5px"><input  type="radio" name="gender" value="unknown" id="gender" >Unknown</label>
+                                       {% else %}
+                                       <label style="padding-right: 5px" ><input type="radio" name="gender" id="gender" value="female  ">Female</label>
+                                       <label style="padding-right: 5px"><input  type="radio" name="gender" value="male" id="gender">Male</label>
+                                       <label style="padding-right: 5px"><input  type="radio" name="gender" value="unknown" id="gender" checked>Unknown</label><span style="color:red;">{{ error}}</span>
+                                       {% endif %}
 
                                         <br><br>
 
                                         <b style="padding-right: 145px">Birth Date<span class="required">*</span>:</b>
                                         <b><input type="Date" value="{{ objEmployeePersonal.employeeBirthDate|date:'Y-m-d' }}" name="birthdate" id="birthdate"><span style="color:red;"></span></b>
                                     </div>
-                                  <div  class="column" id="wrapper" style="text-align: center;">
+                                  <!-- <div  class="column" id="wrapper" style="text-align: center;">
                                         <img id="output_image"/ src = "/media/{{objEmployeePersonal.employeePhoto}}"  height="200" width="200" style="border-radius: 5px;" ><br><br>
                                         <input  style="float: right;  margin-right: 14%;" type="file" accept="image/*" id="image" name="image" onchange="preview_image(event)">
+                                        
+                                    </div> -->
+                                     <div  class="column" style="text-align: center;">
+                                        <img id="output_image"/ src = "/media/{{objEmployeePersonal.employeePhoto}}" height="200" width="200" style="border-radius: 5px;"><br><br><input type="hidden" id="irn" >
+                                          <span class="kbtn kbtn-success fileinput-button">
+                                                <span style="color: blue">Change Photo</span>
+
+                                            <input type="file" id="image" name="image" accept="image/*" onchange="preview_image(event)">
+                                            </span>
+                                             <!-- <img id="output_image"/ height="200" width="200" style="border-radius: 5px;" ><br><br>
+                                        <input style="float: right;  margin-right: 14%;" type="file" accept="image/*" id="image" name="image" onchange="preview_image(event)"> -->
+                                        
                                         
                                     </div>
                                     </div>
@@ -206,7 +273,8 @@
 
                                             {% for option in ethnicityList %}
                                          <option value="{{ option.ethnicityName }}">{{ option.ethnicityName }}</option>
-                                             {% endfor %}
+                                         {% endfor %}
+                                             
                                     </select></b>
                                 </div>
                                 <div class= "col-sm-2" ></div>
@@ -229,327 +297,322 @@
                                 </div>  
                         </fieldset>
 
-                                    {% for i in objEmployeeJob %}
+                        {% for i in objEmployeeJob %}
 
-                        <fieldset id="jobfield">
-                                 <h4>Job:</h4>
+                            <fieldset id="jobfield">
+                                <h4>Job:</h4>
 
-                                 <div style="font-size: 15px; background-color: blue; color: white; ">Employment Information</div><br>
-                                    <div class="row">
-                                        <div class="col-sm-2" ><b>Date Joined <span class="required">*</span>:</b></div>
+                                <div style="font-size: 15px; background-color: blue; color: white; ">Employment Information</div><br>
+                                <div class="row">
+                                <div class="col-sm-2" ><b>Date Joined <span class="required">*</span>:</b></div>
 
-                                        <div class="col-sm-4" ><b><input type="Date" name="datejoin"  id="datejoin"  value="{{i.dateJoined|date:'Y-m-d' }}"></b></div>
+                                <div class="col-sm-4" ><b><input type="Date" name="datejoin"  id="datejoin"  value="{{i.dateJoined|date:'Y-m-d' }}"></b></div>
 
-                                        <div class="col-sm-2"><b>End of Probation:</b></div>
-                                        <div class="col-sm-4"><b> <input value="{{ i.endofProbation|date:'Y-m-d' }}" type="Date" name="endofprobation" id="endofprobation"></b></div>
-                                    </div>
-                                    <br>
-                                <div style="font-size: 15px; background-color: blue; color: white ">Job Status</div><br>
-                                    <div class="row">
-                                        <div class="col-sm-2" ><b>Position <span class="required">*</span>:</b></div> 
-                                        <div class="col-sm-4" ><b> 
-                                            <select name="positiondd"  id="positiondd" >
-
-                                             <option value="{{i.position}}"hidden  selected>{{i.position}}</option>
-
-                                            {% for option in positionList %}
-                                            <option value="{{ option.position }}">{{ option.position }}</option>
-                                            {% endfor %}
-                                            </select></b>
-                                        </div>
-                                        <div class="col-sm-2"><b>Effective Date <span class="required">*</span>:</b></div>
-                                        <div class="col-sm-4"><b><input type="Date" name="jobstatuseffectivedate" value="{{ i.jobStatusEffectiveDate|date:'Y-m-d' }}" id= "jobstatuseffectivedate">{{ error6 }}</b></div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-sm-2" ><b>Line Manager:</b></div>
-                                        <div class="col-sm-4" ><b>
-                                            <select name="linemanagedd" id="linemanagedd">
-
-                                           <option value="{{i.lineManager}}"hidden  selected>{{i.lineManager}}</option>
-                                              {% for option in lineManagerList %}
-
-                                              <option value="{{ option.lineManager }}">{{ option.lineManager }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-
-                                        <div class="col-sm-2"><b>Department:</b></div>
-                                        <div class="col-sm-4"><b>   
-                                            <select name="departmentdd"id="departmentdd">
-
-                                           <option value="{{i.department}}"hidden  selected>{{i.department}}</option>
-
-                                            {% for option in departmentList %}
-                                            <option value="{{ option.department }}">{{ option.department }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-
-                                    </div><br>
-                                    <div class="row">
-                                        <div class="col-sm-2" ><b>Branch:</b></div>
-                                        <div class="col-sm-4" ><b>
-                                            <select name="branchdd"  id="branchdd">
-
-                                            < <option value="{{i.branch}}"hidden  selected>{{i.branch}}</option>
-
-                                            {% for option in branchList %}
-                                            <option value="{{ option.branchName }}">{{ option.branchName }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-
-                                        <div class="col-sm-2"><b>Level:</b></div>
-                                        <div class="col-sm-4"><b>
-                                            <select name="leveldd" id="leveldd">
-
-                                            <option value="{{i.level}}"hidden  selected>{{i.level}}</option>
-
-                                            {% for option in levelList %}
-                                            <option value="{{ option.joblevel }}">{{ option.joblevel }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-                                    </div>
-                                    <br>
-                                <div style="font-size: 15px; background-color: blue; color: white">Employment Status</div><br>
-                                    <div class="row">
-                                        <div class="col-sm-2" ><b>Job Type:</b></div>
-                                        <div class="col-sm-4" ><b>
-                                        <select name="jobtypedd" id="jobtypedd">
-
-                                            <option value="{{i.jobType}}"hidden  selected>{{i.jobType}}</option>
-
-                                            {% for option in jobTypeList %}
-                                            <option value="{{ option.jobType }}">{{ option.jobType }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-                                        <div class="col-sm-2"><b>Effective Date <span class="required">*</span>:</b></div>
-                                        <div class="col-sm-4"><b><input type="Date" name="employmentstatuseffectivedate" id="employmentstatuseffectivedate"></b></div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-sm-2" ><b>Job Status:</b></div>
-                                        <div class="col-sm-4" ><b>
-                                            <select name="jobstatusdd" id="jobstatusdd">
-
-                                            <option value="{{i.jobStatus}}"hidden  selected>{{i.jobStatus}}</option>
-
-                                            {% for option in jobStatusList %}
-                                            <option value="{{ option.jobStatus }}">{{ option.jobStatus }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-                                        <div class="col-sm-2"><b>Leave Workflow:</b></div>  
-                                        <div class="col-sm-4"><b>   
-                                            <select name="leaveworkflowdd" id="leaveworkflowdd">
-
-                                            <option value="{{i.leaveWorkflow}}"hidden  selected>{{i.leaveWorkflow}}</option>
-
-                                            {% for option in leaveWorkFlowList %}
-                                            <option value="{{ option.leaveworkflow }}">{{ option.leaveworkflow }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-sm-2" ><b>Workdays:</b></div>
-                                        <div class="col-sm-4" ><b>
-                                            <select name="workdays" id="workdays">
-
-                                            <option value="{{i.workdays}}"hidden  selected>{{i.workdays}}</option>
-
-                                            {% for option in workDaysList %}
-                                            <option value="{{ option.workdays }}">{{ option.workdays }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-                                        <div class="col-sm-2"><b>Holidays:</b></div>
-                                        <div class="col-sm-4"><b>
-                                            <select name="holidaysdd" id="holidaysdd">
-
-                                            <<option value="{{i.holidays}}"hidden  selected>{{i.holidays}}</option>
-
-                                            {% for option in holiDaysList %}
-                                            <option value="{{ option.holidays }}">{{ option.holidays }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-sm-2" ><b style="color: lightgrey">Term Start:</b></div>
-                                        <div class="col-sm-4"><b style="color: lightgrey">
-                                            <select disabled name="termstartdd" id="termstartdd">
-                                             <option value="{{i.termStart}}"hidden  selected>{{i.termStart}}</option>
-                                            <option value="termstartasyouwant">As you want</option>
-                                            <option value="termstartasyouwant">As you want</option>
-                                            <option value="termstartasyouwant">As you want</option>
-                                            </select></b>
-                                        </div>
-                                        <div class="col-sm-2" ><b style="color: lightgrey">Term End:</b></div>
-                                        <div class="col-sm-4"><b style="color: lightgrey">
-                                            <select  disabled name="termend" id="termend">
-                                           <option value="{{i.termEnd}}"hidden  selected>{{i.termEnd}}</option>
-                                            <option value="termendasyouwant">As you want</option>
-                                            <option value="termstartasyouwant">As you want</option>
-                                            <option value="termstartasyouwant">As you want</option>
-                                            </select></b>
-                                        </div>
-                                    </div>
-                                    <br>
-
-
-                                <div class="f1-buttons">
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-next">Next</button>
-                                </div>  
-
-                                
-                        </fieldset>
-                                {% endfor %}
-                                 {% for i in objEmployeeFamily %}
-
-                             <fieldset id = "familyfield">
-                                <h4>Family:</h4>
-                                <div style="font-size: 20px; background-color: blue; color: white">Family Details</div><br>
-                                    <div class="row">
-                                        <div class="col-sm-3" ><b>Maritial Status:</b></div>
-                                        <div class="col-sm-3"><b>
-                                            <select name="maritalstatus" id="maritalstatus">
-
-                                            <option value="{{i.employeeFamilyMaritalStatus}}"hidden  selected>{{i.employeeFamilyMaritalStatus}}</option>
-                                            {% for option in MaritalStatus %}
-
-                                            <option value="{{ option.Maritalstatus }}">{{ option.Maritalstatus }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-
-                                        <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" style="size: 8px" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
-
-                                    </div><br>
-                                    <div class="row">
-                                        <div class="col-sm-3" ><b>Number of Children:</b></div>
-                                        <div class="col-sm-3"><b>
-                                            <select name="numberofchild" id="numberofchild">
-
-                                                <option value="{{i.employeeFamilyNumberOfChild}}"hidden  selected>{{i.employeeFamilyNumberOfChild}}</option>
-
-                                                {% for option in numberofchildList %}
-                                            <option value="{{ option.numberOfchild }}">{{ option.numberOfchild }}</option>
-                                              {% endfor %}
-                                            </select></b>
-                                        </div>
-                                        <div class="col-sm-3"><b></b></div>
-                                        <div class="col-sm-3"><b></b></div>
-                                    </div>
+                                <div class="col-sm-2"><b>End of Probation:</b></div>
+                                <div class="col-sm-4"><b> <input value="{{ i.endofProbation|date:'Y-m-d' }}" type="Date" name="endofprobation" id="endofprobation"></b></div>
+                                </div>
                                 <br>
+                                <div style="font-size: 15px; background-color: blue; color: white ">Job Status</div><br>
+                                <div class="row">
+                                <div class="col-sm-2" ><b>Position <span class="required">*</span>:</b></div> 
+                                <div class="col-sm-4" ><b> 
+                                <select name="positiondd"  id="positiondd" >
 
-                                <div style="font-size: 20px; background-color: blue; color: white ">Spouse Details</div><br>
+                                <option value="{{i.position}}"hidden  selected>{{i.position}}</option>
+
+                                {% for option in positionList %}
+                                <option value="{{ option.position }}">{{ option.position }}</option>
+                                {% endfor %}
+                                </select></b>
+                                </div>
+                                <div class="col-sm-2"><b>Effective Date <span class="required">*</span>:</b></div>
+                                <div class="col-sm-4"><b><input type="Date" name="jobstatuseffectivedate" value="{{ i.jobStatusEffectiveDate|date:'Y-m-d' }}" id= "jobstatuseffectivedate">{{ error6 }}</b></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                <div class="col-sm-2" ><b>Line Manager:</b></div>
+                                <div class="col-sm-4" ><b>
+                                <select name="linemanagedd" id="linemanagedd">
+
+                                <option value="{{i.lineManager}}"hidden  selected>{{i.lineManager}}</option>
+                                {% for option in lineManagerList %}
+
+                                <option value="{{ option.lineManager }}">{{ option.lineManager }}</option>
+                                {% endfor %}
+                                </select></b>
+                                </div>
+
+                                <div class="col-sm-2"><b>Department:</b></div>
+                                <div class="col-sm-4"><b>   
+                                <select name="departmentdd"id="departmentdd">
+
+                                <option value="{{i.department}}"hidden  selected>{{i.department}}</option>
+
+                                {% for option in departmentList %}
+                                <option value="{{ option.department }}">{{ option.department }}</option>
+                                {% endfor %}
+                                </select></b>
+                                </div>
+
+                                </div><br>
+                                <div class="row">
+                                <div class="col-sm-2" ><b>Branch:</b></div>
+                                <div class="col-sm-4" ><b>
+                                <select name="branchdd"  id="branchdd">
+
+                                < <option value="{{i.branch}}"hidden  selected>{{i.branch}}</option>
+
+                                {% for option in branchList %}
+                                <option value="{{ option.branchName }}">{{ option.branchName }}</option>
+                                {% endfor %}
+                                </select></b>
+                                </div>
+
+                                <div class="col-sm-2"><b>Level:</b></div>
+                                <div class="col-sm-4"><b>
+                                <select name="leveldd" id="leveldd">
+
+                                <option value="{{i.level}}"hidden  selected>{{i.level}}</option>
+
+                                {% for option in levelList %}
+                                <option value="{{ option.joblevel }}">{{ option.joblevel }}</option>
+                                {% endfor %}
+                                </select></b>
+                                </div>
+                                </div>
+                                <br>
+                                <div style="font-size: 15px; background-color: blue; color: white">Employment Status</div><br>
+                                <div class="row">
+                                <div class="col-sm-2" ><b>Job Type:</b></div>
+                                <div class="col-sm-4" ><b>
+                                <select name="jobtypedd" id="jobtypedd">
+
+                                <option value="{{i.jobType}}"hidden  selected>{{i.jobType}}</option>
+
+                                {% for option in jobTypeList %}
+                                <option value="{{ option.jobType }}">{{ option.jobType }}</option>
+                                {% endfor %}
+                                </select></b>
+                                </div>
+                                <div class="col-sm-2"><b>Effective Date <span class="required">*</span>:</b></div>
+                                <div class="col-sm-4"><b><input type="Date" name="employmentstatuseffectivedate" value="{{ i.jobStatusEffectiveDate|date:'Y-m-d' }}" id="employmentstatuseffectivedate"></b></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                <div class="col-sm-2" ><b>Job Status:</b></div>
+                                <div class="col-sm-4" ><b>
+                                <select name="jobstatusdd" id="jobstatusdd">
+
+                                <option value="{{i.jobStatus}}"hidden  selected>{{i.jobStatus}}</option>
+
+                                {% for option in jobStatusList %}
+                                <option value="{{ option.jobStatus }}">{{ option.jobStatus }}</option>
+                                {% endfor %}
+                                </select></b>
+                                </div>
+                                <div class="col-sm-2"><b>Leave Workflow:</b></div>  
+                                <div class="col-sm-4"><b>   
+                                <select name="leaveworkflowdd" id="leaveworkflowdd">
+
+                                <option value="{{i.leaveWorkflow}}"hidden  selected>{{i.leaveWorkflow}}</option>
+
+                                {% for option in leaveWorkFlowList %}
+                                <option value="{{ option.leaveworkflow }}">{{ option.leaveworkflow }}</option>
+                                {% endfor %}
+                                </select></b>
+                                </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                <div class="col-sm-2" ><b>Workdays:</b></div>
+                                <div class="col-sm-4" ><b>
+                                <select name="workdays" id="workdays">
+
+                                <option value="{{i.workdays}}"hidden  selected>{{i.workdays}}</option>
+
+                                {% for option in workDaysList %}
+                                <option value="{{ option.workdays }}">{{ option.workdays }}</option>
+                                {% endfor %}
+                                </select></b>
+                                </div>
+                                <div class="col-sm-2"><b>Holidays:</b></div>
+                                <div class="col-sm-4"><b>
+                                <select name="holidaysdd" id="holidaysdd">
+
+                                <<option value="{{i.holidays}}"hidden  selected>{{i.holidays}}</option>
+
+                                {% for option in holiDaysList %}
+                                <option value="{{ option.holidays }}">{{ option.holidays }}</option>
+                                {% endfor %}
+                                </select></b>
+                                </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                <div class="col-sm-2" ><b style="color: lightgrey">Term Start:</b></div>
+                                <div class="col-sm-4"><b style="color: lightgrey">
+                                <select disabled name="termstartdd" id="termstartdd">
+                                <option value="{{i.termStart}}"hidden  selected>{{i.termStart}}</option>
+                                <option value="termstartasyouwant">As you want</option>
+                                <option value="termstartasyouwant">As you want</option>
+                                <option value="termstartasyouwant">As you want</option>
+                                </select></b>
+                                </div>
+                                <div class="col-sm-2" ><b style="color: lightgrey">Term End:</b></div>
+                                <div class="col-sm-4"><b style="color: lightgrey">
+                                <select  disabled name="termend" id="termend">
+                                <option value="{{i.termEnd}}"hidden  selected>{{i.termEnd}}</option>
+                                <option value="termendasyouwant">As you want</option>
+                                <option value="termstartasyouwant">As you want</option>
+                                <option value="termstartasyouwant">As you want</option>
+                                </select></b>
+                                </div>
+                                </div>
+                                <br>
+                                <div class="f1-buttons">
+                                <button type="button" class="btn btn-previous">Previous</button>
+                                <button type="button" class="btn btn-next">Next</button>
+                                </div>  
+                            </fieldset>
+                                {% endfor %}
+
+                                    {% for i in objEmployeeFamily %}
+
+                                    <fieldset id = "familyfield">
+                                    <h4>Family:</h4>
+                                    <div style="font-size: 20px; background-color: blue; color: white">Family Details</div><br>
                                     <div class="row">
-                                        <div class="col-sm-3" ><b>First Name:</b></div> 
+                                    <div class="col-sm-3" ><b>Maritial Status:</b></div>
+                                    <div class="col-sm-3"><b>
+                                    <select name="maritalstatus" id="maritalstatus">
 
-                                        <div class="col-sm-3" ><b><input value="{{ i.employeeFamilySpouseFirstName }}" type="text" class="alph" name="spousefirstname" id="spousefirstname"></b></div>
-                                        <div class="col-sm-3"><b>Last Name:</b></div>
-                                        <div class="col-sm-3"><b><input type="text" class="alph" name="spouselastname" id ="spouselastname" value="{{ i.employeeFamilySpouseFirstName }}" ></b></div>
+                                    <option value="{{i.employeeFamilyMaritalStatus}}"hidden  selected>{{i.employeeFamilyMaritalStatus}}</option>
+                                    {% for option in MaritalStatus %}
 
+                                    <option value="{{ option.Maritalstatus }}">{{ option.Maritalstatus }}</option>
+                                    {% endfor %}
+                                    </select></b>
                                     </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-sm-3" ><b>Middle Name:</b></div>
 
-                                        <div class="col-sm-3" ><b><input type="text" class="alph" value="{{ i.employeeFamilySpouseMiddelName }}" name="spousemiddlename" id="spousemiddlename"></b></div>
+                                    <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" style="size: 8px" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
 
-                                        <div class="col-sm-3"></div>
-                                        <div class="col-sm-3"></div>
                                     </div><br>
                                     <div class="row">
-                                        <div class="col-sm-3" ><b>Nationality <span class="required">*</span>:</b></div>
-                                        <div class="col-sm-3" ><b>
-                                            <select name="spousenationality" id ="spousenationality">
+                                    <div class="col-sm-3" ><b>Number of Children:</b></div>
+                                    <div class="col-sm-3"><b>
+                                    <select name="numberofchild" id="numberofchild">
 
-                                            <option value="{{i.employeeFamilySpouseNationality}}"hidden  selected>{{i.employeeFamilySpouseNationality}}</option>
+                                    <option value="{{i.employeeFamilyNumberOfChild}}"hidden  selected>{{i.employeeFamilyNumberOfChild}}</option>
 
-                                            {% for j in nationalityList %}
-                                            <option value="{{j.nationalityName}}">{{j.nationalityName}}</option>
-                                            {% endfor %}
-                                            </select></b>
-                                        </div>
-                                        <div class="col-sm-3" ><b>National ID </b></div>
+                                    {% for option in numberofchildList %}
+                                    <option value="{{ option.numberOfchild }}">{{ option.numberOfchild }}</option>
+                                    {% endfor %}
+                                    </select></b>
+                                    </div>
+                                    <div class="col-sm-3"><b></b></div>
+                                    <div class="col-sm-3"><b></b></div>
+                                    </div>
+                                    <br>
 
-                                        <div class="col-sm-3"><b><input value="{{ i.employeeFamilySpouseNationalId }}" type="text" class="num" minlength="8" maxlength="8" name="spousenationalid" id="spousenationalid" ></b>{{nationalmsg}}</div>   
+                                    <div style="font-size: 20px; background-color: blue; color: white ">Spouse Details</div><br>
+                                    <div class="row">
+                                    <div class="col-sm-3" ><b>First Name:</b></div> 
+
+                                    <div class="col-sm-3" ><b><input value="{{ i.employeeFamilySpouseFirstName }}" type="text" class="alph" name="spousefirstname" id="spousefirstname"></b></div>
+                                    <div class="col-sm-3"><b>Last Name:</b></div>
+                                    <div class="col-sm-3"><b><input type="text" class="alph" name="spouselastname" id ="spouselastname" value="{{ i.employeeFamilySpouseFirstName }}" ></b></div>
 
                                     </div>
                                     <br>
                                     <div class="row">
-                                        <div class="col-sm-3" ><b>Birthdate: </b></div>
-                                        <div class="col-sm-3" ><input type="Date" name="spousebirthdate"  value="{{  i.employeeFamilySpouseBirthDate|date:'Y-m-d' }}" id="spousebirthdate"></div>
-                                        <div class="col-sm-3" ><b>Passport:</b></div>
+                                    <div class="col-sm-3" ><b>Middle Name:</b></div>
 
-                                        <div class="col-sm-3" ><input type="text" name="spousepassport" value="{{ i.employeeFamilySpousePassport }}" class="num" minlength="12" maxlength="12"  id="spousepassport" >{{passmsg}}</div>
+                                    <div class="col-sm-3" ><b><input type="text" class="alph" value="{{ i.employeeFamilySpouseMiddelName }}" name="spousemiddlename" id="spousemiddlename"></b></div>
+
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-3"></div>
+                                    </div><br>
+                                    <div class="row">
+                                    <div class="col-sm-3" ><b>Nationality <span class="required">*</span>:</b></div>
+                                    <div class="col-sm-3" ><b>
+                                    <select name="spousenationality" id ="spousenationality">
+
+                                    <option value="{{i.employeeFamilySpouseNationality}}"hidden  selected>{{i.employeeFamilySpouseNationality}}</option>
+
+                                    {% for j in nationalityList %}
+                                    <option value="{{j.nationalityName}}">{{j.nationalityName}}</option>
+                                    {% endfor %}
+                                    </select></b>
+                                    </div>
+                                    <div class="col-sm-3" ><b>National ID </b></div>
+
+                                    <div class="col-sm-3"><b><input value="{{ i.employeeFamilySpouseNationalId }}" type="text" class="num" minlength="8" maxlength="8" name="spousenationalid" id="spousenationalid" ></b>{{nationalmsg}}</div>   
 
                                     </div>
                                     <br>
                                     <div class="row">
-                                        <div class="col-sm-3" ><b>Ethnicity:</b></div>
-                                        <div class="col-sm-3" ><b>
-                                            <select name="spouseethnicity" id ="spouseethnicity">
+                                    <div class="col-sm-3" ><b>Birthdate: </b></div>
+                                    <div class="col-sm-3" ><input type="Date" name="spousebirthdate"  value="{{  i.employeeFamilySpouseBirthDate|date:'Y-m-d' }}" id="spousebirthdate"></div>
+                                    <div class="col-sm-3" ><b>Passport:</b></div>
 
-                                                 <option value="{{i.employeeFamilySpouseEthnicity}}"hidden  selected>{{i.employeeFamilySpouseEthnicity}}</option>
-                                                 {% for option in ethnicityList %}
+                                    <div class="col-sm-3" ><input type="text" name="spousepassport" value="{{ i.employeeFamilySpousePassport }}" class="num" minlength="12" maxlength="12"  id="spousepassport" >{{passmsg}}</div>
 
-                                         <option value="{{ option.ethnicityName }}">{{ option.ethnicityName }}</option>
-                                             {% endfor %}
-                                            </select></b>
-                                        </div>
-                                        <div class="col-sm-3" ><b>Religion:</b></div>
-                                        <div class="col-sm-3" ><b>
-                                            <select name="spouserelegion"id="spouserelegion">
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                    <div class="col-sm-3" ><b>Ethnicity:</b></div>
+                                    <div class="col-sm-3" ><b>
+                                    <select name="spouseethnicity" id ="spouseethnicity">
 
-                                           <option value="{{i.employeeFamilySpouseReligion}}"hidden  selected>{{i.employeeNationalityobjEmployeeFamily.employeeFamilySpouseReligion}}</option>
-                                           {% for option in religionList %}
+                                    <option value="{{i.employeeFamilySpouseEthnicity}}"hidden  selected>{{i.employeeFamilySpouseEthnicity}}</option>
+                                    {% for option in ethnicityList %}
+                                    <option value="{{ option.ethnicityName }}">{{ option.ethnicityName }}</option>
+                                    {% endfor %}
+                                    </select></b>
+                                    </div>
+                                    <div class="col-sm-3" ><b>Religion:</b></div>
+                                    <div class="col-sm-3" ><b>
+                                    <select name="spouserelegion"id="spouserelegion">
 
-                                         <option value="{{ option.religionName }}">{{ option.religionName }}</option>
-                                             {% endfor %} 
-                                            </select></b>
-                                        </div>   
+                                    <option value="{{i.employeeFamilySpouseReligion}}"hidden  selected>{{i.employeeNationalityobjEmployeeFamily.employeeFamilySpouseReligion}}</option>
+                                    {% for option in religionList %}
+                                    <option value="{{ option.religionName }}">{{ option.religionName }}</option>
+                                    {% endfor %} 
+                                    </select></b>
+                                    </div>   
                                     </div><br>
                                     <div style="font-size: 20px; background-color: blue; color: white ">Children Details</div><br>
-                                        <button id="addchildren" type="button" onclick="displayResult()">Insert new row</button>
-                                        <button id="deletechildren" type="button" onclick="deleterow()">Delete row</button>
+                                     <button type="button" class="add_row">Add row</button>
+                                        <button type="button" class="remove_row">Remove row</button>
                                         <br>
+                                        <div class="table-responsive" class="form-control">
                                         <table class="table table-striped" id="myTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>First Name</th>
-                                                        <th>Middle Name</th>
-                                                        <th>Last Name</th>
-                                                        <th>BirthDate</th>
-                                                        <th>Gender</th>
-                                                        <th>Married</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for i in objEmployeePersonal.employeechildren.all %}  
-                                                    <tr> 
-                                                        <td>{{i.employeeChildrenFirstName}}
-                                                        </td>
-                                                    </tr>
-                                                       {% endfor %}                                           
+                                            <thead>
+                                                <tr>
+                                                    <th>First Name</th>
+                                                    <th>Middle Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>BirthDate</th>
+                                                    <th>Gender</th>
+                                                    <th>Married</th>
                                                     
-                                                </tbody>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                   {% for i in objEmployeeChildren %}
+                                                   <tr> <td>
+                                                       <input type = "text" class="childfirstname" name="childfirstname" class="alph" value="{{i.employeeChildrenFirstName}}"></td> <td><input type = "text" name="childmiddlename" class="childmiddlename" class="alph" value="{{i.employeeChildrenMiddelName}}"></td> <td><input type = "text" name="childlastname" class="childlastname" class="alph" value="{{i.employeeChildrenLastName}}"></td> <td><input type = "Date" class="childbirthdate" name="childbirthdate" id="childbirthdate" value="{{i.employeeChildrenBirthDate}}"></td> <td><select class="childgender" name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select class="childmaritalstatus" name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></td></tr>
+                                                      {% endfor %}
+                                               </tbody>
 
                                         </table>
-                                <div class="f1-buttons">
+                                    </div>
+                                    <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="button" class="btn btn-next">Next</button>
-                                </div>
-                            </fieldset>
-                            {% endfor %}
+                                    </div>
+                                    </fieldset>
+                                    {% endfor %}
                                   {% for i in objEmployeeContact %}
 
                             <fieldset id="contactfield">
@@ -740,7 +803,7 @@
                                 </div>
                                 <div class="row">
                                         <div class="col-sm-6" ><b>Gender:</b></div>
-                                        <div class="col-sm-6"  id= "gendern_p" ></div>
+                                        <div class="col-sm-6"  id= "gender_p" ></div>
                                 </div>
                                 <div class="row">
                                         <div class="col-sm-6" ><b>Birth date:</b></div>
@@ -1249,12 +1312,11 @@ function preview_image(event)
  <script>
  $(document).ready(function(){             
     $("#fullform").validate({
-
         rules: {
-        employeeid: 'required',
+        employeeid: {required:true},
         firstname: 'required',
         lastname: 'required',
-        gendern: 'required',
+        gender: 'required',
         birthdate: 'required',
         nationalitydd: 'required',
         nationalid: {
@@ -1293,14 +1355,28 @@ function preview_image(event)
         jobstatuseffectivedate:'required',
         employmentstatuseffectivedate:'required',
         countrydd:'required',
-        spousenationality:'required',
+        spousenationality:'required'
         },
-        // messages: {
-        //   datejoin: 'This field is required',
-        //   positiondd: 'This field is required',
-        //   jobstatuseffectivedate: 'Enter a valid email',
-        //   employmentstatuseffectivedate: 'Enter a valid email' 
-        // },
+
+       messages: {
+        employeeid: 'Required',
+        firstname: 'Required',
+        lastname:'Required',
+        gender:'Required',
+        birthdate:'Required',
+        nationalitydd:'Required',
+        nationalid: 'Enter 8 digits',
+        spousenationalid: 'Enter 8 digits',
+        passport: 'Enter 12 digits',
+        office: 'Enter 10 digits',
+        officeextention: 'Enter 10 digits',
+        home: 'Enter 10 digits',
+        mobile: 'Enter 10 digits',
+        postcode: 'Enter 6 digits',
+        coehousephone: 'Enter 10 digits',
+        ceoofficephone: 'Enter 10 digits',
+       }
+
         // submitHandler: function(form) {
         //    form.submit();
         // }

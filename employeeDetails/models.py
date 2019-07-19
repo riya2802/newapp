@@ -78,7 +78,7 @@ class employee(models.Model):
 	employeeFirstName= models.CharField(max_length=255,blank=False,null=False)
 	employeeMiddelName=models.CharField(max_length=255,null=True,blank=True)
 	employeeLastName=models.CharField( max_length=255,blank=False,null=False)
-	employeeGender= models.CharField(max_length=15, choices=gender, default='U',blank=False,null=False)
+	employeeGender= models.CharField(max_length=15, choices=gender,blank=False,null=False)
 	employeeBirthDate=models.DateField(blank=False,null=False)
 	employeeNationality=models.CharField(max_length=15, default='India',blank=False,null=False)
 	employeeNationalId=models.IntegerField(null=False,blank=False)
@@ -104,13 +104,13 @@ class employeeFamily(models.Model):
 	employeeFamilySpouseReligion=models.CharField(max_length=15,default='NA',null=True,blank=True)
 
 class employeeChildren(models.Model):
-	employeeForeignId =models.OneToOneField(employee,models.CASCADE)
+	employeeForeignId =models.ForeignKey(employee,models.CASCADE)
 	employeeChildrenFirstName= models.CharField(max_length=255,blank=True,null=True)
 	employeeChildrenMiddelName=models.CharField(max_length=255,null=True,blank=True)
 	employeeChildrenLastName=models.CharField( max_length=255,blank=True,null=True)
 	employeeChildrenBirthDate=models.DateField(blank=True,null=True)
 	employeeChildrenGender= models.CharField(max_length=15, choices=gender, default='U',blank=True,null=True)
-	employeeChildrenMaritalStatus=models.CharField(max_length=1,default='Unmarried')
+	employeeChildrenMaritalStatus=models.CharField(max_length=15,default='Unmarried')
 	# employeeChildKey=models.CharField(max_length=15,default=0)
 
 class employeeHealth(models.Model):
