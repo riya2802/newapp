@@ -296,7 +296,7 @@
                                             <option value="">Select</option>
 
                                             {% for option in positionList %}
-                                            <option value="{{ option.position }}">{{ option.position }}</option>
+                                            <option value="{{option.position}}">{{option.position}}</option>
                                             {% endfor %}
                                             </select></b>
                                         </div>
@@ -464,12 +464,12 @@
                                             <option value="">Select</option>
 
                                             {% for option in MaritalStatusList %}
-                                            <option value="{{ option.Maritalstatus }}">{{ option.Maritalstatus }}</option>
+                                            <option value="{{option.Maritalstatus}}">{{option.Maritalstatus}}</option>
                                               {% endfor %}
                                             </select></b>
                                         </div>
 
-                                        <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" style="padding-right: 8px;" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
+                                        <div class="col-sm-6" style="padding-left: 15px;"><b>Spouse Working:<input type="checkbox"  name = "spouseworking"  id = "spouseworking" value="Yes"></b></div>
 
                                     </div><br>
                                     <div class="row">
@@ -902,7 +902,7 @@
                                         <div class="col-sm-6" ><b>Religion:</b></div>
                                         <div class="col-sm-6"  id= "spouserelegion_p" ></div>
                                 </div>
-
+                                    
                                 <div class="row">
                                         <div class="col-sm-6" ><b>Child First Name:</b></div>
                                         <div class="col-sm-6"  class= "childfirstname_p" ></div>
@@ -1072,6 +1072,19 @@
         <script src="{% static 'assets/js/scripts.js' %}"></script>
         <script>
 $(document).ready(function(){
+     $("#spouseworking").attr('disabled',true);
+        $("#numberofchild").attr('disabled',true);
+        $("#spousefirstname").attr('disabled',true);
+        $("#spouselastname").attr('disabled',true);
+        $("#spousemiddlename").attr('disabled',true);
+        $("#spousenationality").attr('disabled',true);
+        $("#spousenationalid").attr('disabled',true);
+        $("#spousebirthdate").attr('disabled',true);
+        $("#spousepassport").attr('disabled',true);
+        $("#spouseethnicity").attr('disabled',true);
+        $("#spouserelegion").attr('disabled',true);
+        $(".add_row").attr('disabled',true);
+        $(".remove_row").attr('disabled',true);
 
   var today = new Date();
   var dd = today.getDate();
@@ -1159,33 +1172,33 @@ var eopdatemax = yyyy+'-'+mm+'-'+dd;
 $("#endofprobation").attr("max", eopdatemax);
 
 
-    $("#addchildren").attr("disabled", true);
-    $("#deletechildren").attr("disabled", true);
+    // $("#addchildren").attr("disabled", true);
+    // $("#deletechildren").attr("disabled", true);
     $('#numberofchild').change(function(){
 
-        console.log($(this).val())
-        var y=$(this).val()
-        if (y==0){
+        // console.log($(this).val())
+        // var y=$(this).val()
+        // if (y==0){
 
-            $("#addchildren").attr("disabled", true);
-            $("#deletechildren").attr("disabled", true);
-        }
-        else if (y=='more'){
-            $("#addchildren").attr("disabled", false);
-            $("#deletechildren").attr("disabled", false);
-        }
-        else{
-            $("#addchildren").attr("disabled", false);
-            $("#deletechildren").attr("disabled", false);
-            // for(i = 0; i <y; i++) { 
-            //     displayResult();
-            //         }
-            //displayResult();
-            // $(y).each(function() { 
-            //   displayResult();
-            // });
+        //     $("#addchildren").attr("disabled", true);
+        //     $("#deletechildren").attr("disabled", true);
+        // }
+        // else if (y=='more'){
+        //     $("#addchildren").attr("disabled", false);
+        //     $("#deletechildren").attr("disabled", false);
+        // }
+        // else{
+        //     $("#addchildren").attr("disabled", false);
+        //     $("#deletechildren").attr("disabled", false);
+        //     // for(i = 0; i <y; i++) { 
+        //     //     displayResult();
+        //     //         }
+        //     //displayResult();
+        //     // $(y).each(function() { 
+        //     //   displayResult();
+        //     // });
             
-        }
+        // }
     });
 
 
@@ -1203,42 +1216,44 @@ $("#endofprobation").attr("max", eopdatemax);
 </script>
 
 <script type="text/javascript">
-
-
-
-
-  $("#maritalstatus").on('change',function(){
+$("#maritalstatus").on('change',function(){
     console.log("in")
-
-   if($(this).find('option:selected').text()=="Unmarried" && $(this).find('option:selected').text()==""  )
-   {
-    $("#spouseworking").attr('disabled',true);
-    $("#numberofchild").attr('disabled',true);
-    $("#spousefirstname").attr('disabled',true);
-    $("#spouselastname").attr('disabled',true);
-    $("#spousemiddlename").attr('disabled',true);
-    $("#spousenationality").attr('disabled',true);
-    $("#spousenationalid").attr('disabled',true);
-    $("#spousebirthdate").attr('disabled',true);
-    $("#spousepassport").attr('disabled',true);
-    $("#spouseethnicity").attr('disabled',true);
-    $("#spouserelegion").attr('disabled',true);
-   }
-   else
-   {
-    $("#spouseworking").attr('disabled',false);
-    $("#numberofchild").attr('disabled',false);
-    $("#spousefirstname").attr('disabled',false);
-    $("#spouselastname").attr('disabled',false);
-    $("#spousemiddlename").attr('disabled',false);
-    $("#spousenationality").attr('disabled',false);
-    $("#spousenationalid").attr('disabled',false);
-    $("#spousebirthdate").attr('disabled',false);
-    $("#spousepassport").attr('disabled',false);
-    $("#spouseethnicity").attr('disabled',false);
-    $("#spouserelegion").attr('disabled',false);
+    var rr= $(this).find('option:selected').val()
+    console.log(rr,"this is the value")
+    if($(this).find('option:selected').val()=="Unmarried" || $(this).find('option:selected').val()=="" || $(this).find('option:selected').val()==" ")
+    {
+        console.log("inthe fun")
+        $("#spouseworking").attr('disabled',true);
+        $("#numberofchild").attr('disabled',true);
+        $("#spousefirstname").attr('disabled',true);
+        $("#spouselastname").attr('disabled',true);
+        $("#spousemiddlename").attr('disabled',true);
+        $("#spousenationality").attr('disabled',true);
+        $("#spousenationalid").attr('disabled',true);
+        $("#spousebirthdate").attr('disabled',true);
+        $("#spousepassport").attr('disabled',true);
+        $("#spouseethnicity").attr('disabled',true);
+        $("#spouserelegion").attr('disabled',true);
+        $(".add_row").attr('disabled',true);
+        $(".remove_row").attr('disabled',true);
     }
-  });
+    else
+    {
+        $("#spouseworking").attr('disabled',false);
+        $("#numberofchild").attr('disabled',false);
+        $("#spousefirstname").attr('disabled',false);
+        $("#spouselastname").attr('disabled',false);
+        $("#spousemiddlename").attr('disabled',false);
+        $("#spousenationality").attr('disabled',false);
+        $("#spousenationalid").attr('disabled',false);
+        $("#spousebirthdate").attr('disabled',false);
+        $("#spousepassport").attr('disabled',false);
+        $("#spouseethnicity").attr('disabled',false);
+        $("#spouserelegion").attr('disabled',false);
+        $(".add_row").attr('disabled',false);
+        $(".remove_row").attr('disabled',false);
+    }
+});
 </script>
 
  <script type='text/javascript'>

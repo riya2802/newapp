@@ -320,6 +320,7 @@ def jobAjaxRequest(request):
 		print('EndofProbation',EndofProbation)
 		print('EndofProbation',EndofProbation,type(EndofProbation))
 		Position = request.POST.get('positiondd',None)
+		Position.count(' ')
 		print('Position',Position)
 		JobStatusEffectiveDate = request.POST.get('jobstatuseffectivedate',None)
 		print('JobStatusEffectiveDate',JobStatusEffectiveDate)
@@ -349,7 +350,7 @@ def jobAjaxRequest(request):
 		TermEnd = request.POST.get('termend',None)
 		print('TermEnd',TermEnd)
 		print('EmploymentStatusEffectiveDate',EmploymentStatusEffectiveDate,'DateJoined',DateJoined,'Position',Position,'JobStatusEffectiveDate',JobStatusEffectiveDate)
-		if employeementId_obj is None or employeementId_obj=="" and DateJoined is  None or DateJoined == "" and Position is None or Position == "" and JobStatusEffectiveDate is None or JobStatusEffectiveDate == "" and EmploymentStatusEffectiveDate is None or EmploymentStatusEffectiveDate == "":		    
+		if employeementId_obj is None or employeementId_obj=="" and DateJoined is  None or DateJoined == "" and Position is None or Position == "" or Position == " " and JobStatusEffectiveDate is None or JobStatusEffectiveDate == "" and EmploymentStatusEffectiveDate is None or EmploymentStatusEffectiveDate == "":		    
 			return JsonResponse({'msg':'Required fields empty !','status':400})
 		if EndofProbation is not None and EndofProbation != '':
 			if not validation_function.end_of_probation(EndofProbation,DateJoined):
@@ -778,7 +779,7 @@ class HelloPDFView(PDFTemplateView):
 		objEmployeePersonal=employee.objects.filter(employeeId = self.kwargs['employeeId']).first()
 		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal).first()
 		# objEmployeeFamily=userCheck.employeefamily_set.all()
-		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal).first()
+		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal).values()
 		# objEmployeeChildren= userCheck.employeechildren_set.all()
 		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal).first()
 		# objEmployeeHealth=userCheck.employeehealth_set.all()

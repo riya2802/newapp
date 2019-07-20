@@ -242,6 +242,8 @@
                                 <div class="col-sm-2" ><b>Nationality  <span class="required">*</span>:</b></div>
                                 <div class="col-sm-4" ><b>
                                   <select name="nationalitydd" id="nationalitydd">
+
+                                    <option value="">Select</option>
                                     <option value="{{objEmployeePersonal.employeeNationality}}"hidden  selected>{{objEmployeePersonal.employeeNationality}}</option>
                                     {% for option in nationalityList %}
 
@@ -268,6 +270,7 @@
                                 <div class="col-sm-2" ><b>Ethnicity:</b></div>
                                 <div class="col-sm-2" ><b>
                                     <select name= "ethnicity" id= "ethnicity">
+                                        <option value="">Select</option>
 
                                     <option value="noethnicity">No Ethnicity</<option value="{{objEmployeePersonal.employeeEthnicity}}"hidden  selected>{{objEmployeePersonal.employeeEthnicity}}</option>
 
@@ -281,8 +284,9 @@
                                 <div class="col-sm-2" ><b>Religion:</b></div>
                                 <div class="col-sm-2" ><b>
                                     <select name = "religion"  id = "religion">
+                                        <option value="">Select</option>
 
-                                    <option value="{{objEmployeePersonal.employeeReligion}}"hidden  selected>{{objEmployeePersonal.employeeReligion}}</option>
+                                    <option value="{{objEmployeePersonal.employeeReligion}}"hidden selected>{{objEmployeePersonal.employeeReligion}}</option>
                                             {% for option in religionList %}
 
                                          <option value="{{ option.religionName }}">{{ option.religionName }}</option>
@@ -317,6 +321,7 @@
                                 <div class="col-sm-2" ><b>Position <span class="required">*</span>:</b></div> 
                                 <div class="col-sm-4" ><b> 
                                 <select name="positiondd"  id="positiondd" >
+                                    <option value="">Select</option>
 
                                 <option value="{{i.position}}"hidden  selected>{{i.position}}</option>
 
@@ -333,7 +338,7 @@
                                 <div class="col-sm-2" ><b>Line Manager:</b></div>
                                 <div class="col-sm-4" ><b>
                                 <select name="linemanagedd" id="linemanagedd">
-
+                                    <option value="">Select</option>
                                 <option value="{{i.lineManager}}"hidden  selected>{{i.lineManager}}</option>
                                 {% for option in lineManagerList %}
 
@@ -345,7 +350,7 @@
                                 <div class="col-sm-2"><b>Department:</b></div>
                                 <div class="col-sm-4"><b>   
                                 <select name="departmentdd"id="departmentdd">
-
+                                    <option value="">Select</option>
                                 <option value="{{i.department}}"hidden  selected>{{i.department}}</option>
 
                                 {% for option in departmentList %}
@@ -359,8 +364,8 @@
                                 <div class="col-sm-2" ><b>Branch:</b></div>
                                 <div class="col-sm-4" ><b>
                                 <select name="branchdd"  id="branchdd">
-
-                                < <option value="{{i.branch}}"hidden  selected>{{i.branch}}</option>
+                                    <option value="">Select</option>
+                                 <option value="{{i.branch}}"hidden  selected>{{i.branch}}</option>
 
                                 {% for option in branchList %}
                                 <option value="{{ option.branchName }}">{{ option.branchName }}</option>
@@ -371,7 +376,7 @@
                                 <div class="col-sm-2"><b>Level:</b></div>
                                 <div class="col-sm-4"><b>
                                 <select name="leveldd" id="leveldd">
-
+                                    <option value="">Select</option>
                                 <option value="{{i.level}}"hidden  selected>{{i.level}}</option>
 
                                 {% for option in levelList %}
@@ -402,7 +407,7 @@
                                 <div class="col-sm-2" ><b>Job Status:</b></div>
                                 <div class="col-sm-4" ><b>
                                 <select name="jobstatusdd" id="jobstatusdd">
-
+                                    <option value="">Select</option>
                                 <option value="{{i.jobStatus}}"hidden  selected>{{i.jobStatus}}</option>
 
                                 {% for option in jobStatusList %}
@@ -413,7 +418,7 @@
                                 <div class="col-sm-2"><b>Leave Workflow:</b></div>  
                                 <div class="col-sm-4"><b>   
                                 <select name="leaveworkflowdd" id="leaveworkflowdd">
-
+                                    <option value="">Select</option>
                                 <option value="{{i.leaveWorkflow}}"hidden  selected>{{i.leaveWorkflow}}</option>
 
                                 {% for option in leaveWorkFlowList %}
@@ -427,7 +432,7 @@
                                 <div class="col-sm-2" ><b>Workdays:</b></div>
                                 <div class="col-sm-4" ><b>
                                 <select name="workdays" id="workdays">
-
+                                    <option value="">Select</option>
                                 <option value="{{i.workdays}}"hidden  selected>{{i.workdays}}</option>
 
                                 {% for option in workDaysList %}
@@ -438,8 +443,8 @@
                                 <div class="col-sm-2"><b>Holidays:</b></div>
                                 <div class="col-sm-4"><b>
                                 <select name="holidaysdd" id="holidaysdd">
-
-                                <<option value="{{i.holidays}}"hidden  selected>{{i.holidays}}</option>
+                                    <option value="">Select</option>
+                                <option value="{{i.holidays}}"hidden  selected>{{i.holidays}}</option>
 
                                 {% for option in holiDaysList %}
                                 <option value="{{ option.holidays }}">{{ option.holidays }}</option>
@@ -452,19 +457,17 @@
                                 <div class="col-sm-2" ><b style="color: lightgrey">Term Start:</b></div>
                                 <div class="col-sm-4"><b style="color: lightgrey">
                                 <select disabled name="termstartdd" id="termstartdd">
+                                    <option value="">Select</option>
                                 <option value="{{i.termStart}}"hidden  selected>{{i.termStart}}</option>
-                                <option value="termstartasyouwant">As you want</option>
-                                <option value="termstartasyouwant">As you want</option>
-                                <option value="termstartasyouwant">As you want</option>
+                                
                                 </select></b>
                                 </div>
                                 <div class="col-sm-2" ><b style="color: lightgrey">Term End:</b></div>
                                 <div class="col-sm-4"><b style="color: lightgrey">
                                 <select  disabled name="termend" id="termend">
+                                <option value="">Select</option>
                                 <option value="{{i.termEnd}}"hidden  selected>{{i.termEnd}}</option>
-                                <option value="termendasyouwant">As you want</option>
-                                <option value="termstartasyouwant">As you want</option>
-                                <option value="termstartasyouwant">As you want</option>
+                               
                                 </select></b>
                                 </div>
                                 </div>
@@ -485,22 +488,23 @@
                                     <div class="col-sm-3" ><b>Maritial Status:</b></div>
                                     <div class="col-sm-3"><b>
                                     <select name="maritalstatus" id="maritalstatus">
-
+                                        <option value="">Select</option>
                                     <option value="{{i.employeeFamilyMaritalStatus}}"hidden  selected>{{i.employeeFamilyMaritalStatus}}</option>
-                                    {% for option in MaritalStatus %}
-
-                                    <option value="{{ option.Maritalstatus }}">{{ option.Maritalstatus }}</option>
-                                    {% endfor %}
+                                    {% for option in MaritalStatusList %}
+                                           <option value="{{ option.Maritalstatus }}">{{ option.Maritalstatus }}</option>
+                                             {% endfor %}
                                     </select></b>
                                     </div>
-
-                                    <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" style="size: 8px" name = "spouseworking"  id = "spouseworking" value="yes"></b></div>
-
+                                    {% if employeeFamily.employeeFamilySpouseWorking == "Yes" %}
+                                    <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" style="size: 15px" name = "spouseworking"  id = "spouseworking" value="Yes" checked ></b></div>
+                                    {% else %}
+                                    <div class="col-sm-6"><b>Spouse Working:<input type="checkbox" style="size: 15px" name = "spouseworking"  id = "spouseworking" value="Yes" ></b></div>
+                                    {% endif %}
                                     </div><br>
                                     <div class="row">
                                     <div class="col-sm-3" ><b>Number of Children:</b></div>
                                     <div class="col-sm-3"><b>
-                                    <select name="numberofchild" id="numberofchild">
+                                    <select name="numberofchild" id="numberofchild" class="test">
 
                                     <option value="{{i.employeeFamilyNumberOfChild}}"hidden  selected>{{i.employeeFamilyNumberOfChild}}</option>
 
@@ -536,7 +540,7 @@
                                     <div class="col-sm-3" ><b>Nationality <span class="required">*</span>:</b></div>
                                     <div class="col-sm-3" ><b>
                                     <select name="spousenationality" id ="spousenationality">
-
+                                        <option value="">Select</option>
                                     <option value="{{i.employeeFamilySpouseNationality}}"hidden  selected>{{i.employeeFamilySpouseNationality}}</option>
 
                                     {% for j in nationalityList %}
@@ -563,7 +567,7 @@
                                     <div class="col-sm-3" ><b>Ethnicity:</b></div>
                                     <div class="col-sm-3" ><b>
                                     <select name="spouseethnicity" id ="spouseethnicity">
-
+                                        <option value="">Select</option>
                                     <option value="{{i.employeeFamilySpouseEthnicity}}"hidden  selected>{{i.employeeFamilySpouseEthnicity}}</option>
                                     {% for option in ethnicityList %}
                                     <option value="{{ option.ethnicityName }}">{{ option.ethnicityName }}</option>
@@ -573,7 +577,7 @@
                                     <div class="col-sm-3" ><b>Religion:</b></div>
                                     <div class="col-sm-3" ><b>
                                     <select name="spouserelegion"id="spouserelegion">
-
+                                        <option value="">Select</option>
                                     <option value="{{i.employeeFamilySpouseReligion}}"hidden  selected>{{i.employeeNationalityobjEmployeeFamily.employeeFamilySpouseReligion}}</option>
                                     {% for option in religionList %}
                                     <option value="{{ option.religionName }}">{{ option.religionName }}</option>
@@ -601,10 +605,11 @@
                                             <tbody>
                                                    {% for i in objEmployeeChildren %}
                                                    <tr> <td>
-                                                       <input type = "text" class="childfirstname" name="childfirstname" class="alph" value="{{i.employeeChildrenFirstName}}"></td> <td><input type = "text" name="childmiddlename" class="childmiddlename" class="alph" value="{{i.employeeChildrenMiddelName}}"></td> <td><input type = "text" name="childlastname" class="childlastname" class="alph" value="{{i.employeeChildrenLastName}}"></td> <td><input type = "Date" class="childbirthdate" name="childbirthdate" id="childbirthdate" value="{{i.employeeChildrenBirthDate}}"></td> <td><select class="childgender" name="childgender"><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select class="childmaritalstatus" name="childmaritalstatus"><option value="UnMarried">UnMarried</option><option value="Married">Married</option></td></tr>
+                                                       <input type = "text" class="childfirstname" name="childfirstname" class="alph" value="{{i.employeeChildrenFirstName}}"></td> <td><input type = "text" name="childmiddlename" class="childmiddlename" class="alph" value="{{i.employeeChildrenMiddelName}}"></td> <td><input type = "text" name="childlastname" class="childlastname" class="alph" value="{{i.employeeChildrenLastName}}"></td> <td><input type = "Date" class="childbirthdate" name="childbirthdate" id="childbirthdate" value="{{i.employeeChildrenBirthDate|date:'Y-m-d'}}"></td> <td><select class="childgender" name="childgender"><option value="{{i.employeeChildrenGender}}"hidden  selected>{{i.employeeChildrenGender}}</option><option value="Male">Male</option><option value="Female">Female</option><option value="Unknown">Unknown</option></td> <td><select class="childmaritalstatus" name="childmaritalstatus"><option value="{{i.employeeChildrenMaritalStatus}}"hidden  selected>{{i.employeeChildrenMaritalStatus}}</option><option value="UnMarried">UnMarried</option><option value="Married">Married</option></td><td><button type="button"  class="del_row_test" >Delete</button></td></tr>
                                                       {% endfor %}
                                                </tbody>
 
+            
                                         </table>
                                     </div>
                                     <div class="f1-buttons">
@@ -681,7 +686,7 @@
                                         <select name="countrydd"  id="countrydd">
 
                                         <option value="{{ i.country }}"hidden  selected>{{ i.country }}
-
+                                            <option value="">Select</option>
                                         {% for j in countryList %}
                                             <option value="{{j.countryName}}">{{j.countryName}}</option>
                                             {% endfor %}
@@ -764,6 +769,7 @@
                                         <div class="col-sm-3" ><b>Blood Type:</b></div>
                                         <div class="col-sm-3"><b>
                                             <select name="bloodgroup" id="bloodgroup">
+                                                <option value="">Select</option>
                                              <option value="{{i.employeeHealthBloodGroup}}"hidden  selected>{{i.employeeHealthBloodGroup}}</option>
                                             {% for option in bloodGroupList %}
                                             <option value="{{ option.bloodgroup }}">{{ option.bloodgroup }}</option>
@@ -978,7 +984,7 @@
 
                                 <div class="row">
                                         <div class="col-sm-6" ><b>child Birthdate:</b></div>
-                                        <div class="col-sm-6"  class= "childbirthdate" ></div>
+                                        <div class="col-sm-6"  class= "childbirthdate_p" ></div>
                                 </div>
 
 
@@ -1120,7 +1126,19 @@
         <script src="{% static 'assets/js/scripts.js' %}"></script>
         <script>
 $(document).ready(function(){
-
+ // $("#spouseworking").attr('disabled',true);
+ //        $("#numberofchild").attr('disabled',true);
+ //        $("#spousefirstname").attr('disabled',true);
+ //        $("#spouselastname").attr('disabled',true);
+ //        $("#spousemiddlename").attr('disabled',true);
+ //        $("#spousenationality").attr('disabled',true);
+ //        $("#spousenationalid").attr('disabled',true);
+ //        $("#spousebirthdate").attr('disabled',true);
+ //        $("#spousepassport").attr('disabled',true);
+ //        $("#spouseethnicity").attr('disabled',true);
+ //        $("#spouserelegion").attr('disabled',true);
+ //        $(".add_row").attr('disabled',true);
+ //        $(".remove_row").attr('disabled',true);
   var today = new Date();
   var dd = today.getDate();
   var mm = today.getMonth()+1; //January is 0!
@@ -1206,34 +1224,8 @@ var eopdatemax = yyyy+'-'+mm+'-'+dd;
 $("#endofprobation").attr("max", eopdatemax);
 
 
-    $("#addchildren").attr("disabled", true);
-    $("#deletechildren").attr("disabled", true);
-    $('#numberofchild').change(function(){
 
-        console.log($(this).val())
-        var y=$(this).val()
-        if (y==0){
 
-            $("#addchildren").attr("disabled", true);
-            $("#deletechildren").attr("disabled", true);
-        }
-        else if (y=='more'){
-            $("#addchildren").attr("disabled", false);
-            $("#deletechildren").attr("disabled", false);
-        }
-        else{
-            $("#addchildren").attr("disabled", false);
-            $("#deletechildren").attr("disabled", false);
-            // for(i = 0; i <y; i++) { 
-            //     displayResult();
-            //         }
-            //displayResult();
-            // $(y).each(function() { 
-            //   displayResult();
-            // });
-            
-        }
-    });
 
 
   $("#preview").click(function(){
@@ -1251,43 +1243,45 @@ $("#endofprobation").attr("max", eopdatemax);
 
 
 <script type="text/javascript">
-
-
-
-
-  $("#maritalstatus").on('change',function(){
+$("#maritalstatus").on('change',function(){
     console.log("in")
-   if($(this).find('option:selected').text()=="Single")
-   {
-    $("#spouseworking").attr('disabled',true);
-    $("#numberofchild").attr('disabled',true);
-    $("#spousefirstname").attr('disabled',true);
-    $("#spouselastname").attr('disabled',true);
-    $("#spousemiddlename").attr('disabled',true);
-    $("#spousenationality").attr('disabled',true);
-    $("#spousenationalid").attr('disabled',true);
-    $("#spousebirthdate").attr('disabled',true);
-    $("#spousepassport").attr('disabled',true);
-    $("#spouseethnicity").attr('disabled',true);
-    $("#spouserelegion").attr('disabled',true);
-   }
-   else
-   {
-    $("#spouseworking").attr('disabled',false);
-    $("#numberofchild").attr('disabled',false);
-    $("#spousefirstname").attr('disabled',false);
-    $("#spouselastname").attr('disabled',false);
-    $("#spousemiddlename").attr('disabled',false);
-    $("#spousenationality").attr('disabled',false);
-    $("#spousenationalid").attr('disabled',false);
-    $("#spousebirthdate").attr('disabled',false);
-    $("#spousepassport").attr('disabled',false);
-    $("#spouseethnicity").attr('disabled',false);
-    $("#spouserelegion").attr('disabled',false);
+    var rr= $(this).find('option:selected').val()
+    console.log(rr,"this is the value")
+    if($(this).find('option:selected').val()=="Unmarried" || $(this).find('option:selected').val()=="" || $(this).find('option:selected').val()==" ")
+    {
+        console.log("inthe fun")
+        $("#spouseworking").attr('disabled',true);
+        $("#numberofchild").attr('disabled',true);
+        $("#spousefirstname").attr('disabled',true);
+        $("#spouselastname").attr('disabled',true);
+        $("#spousemiddlename").attr('disabled',true);
+        $("#spousenationality").attr('disabled',true);
+        $("#spousenationalid").attr('disabled',true);
+        $("#spousebirthdate").attr('disabled',true);
+        $("#spousepassport").attr('disabled',true);
+        $("#spouseethnicity").attr('disabled',true);
+        $("#spouserelegion").attr('disabled',true);
+        $(".add_row").attr('disabled',true);
+        $(".remove_row").attr('disabled',true);
     }
-  });
+    else
+    {
+        $("#spouseworking").attr('disabled',false);
+        $("#numberofchild").attr('disabled',false);
+        $("#spousefirstname").attr('disabled',false);
+        $("#spouselastname").attr('disabled',false);
+        $("#spousemiddlename").attr('disabled',false);
+        $("#spousenationality").attr('disabled',false);
+        $("#spousenationalid").attr('disabled',false);
+        $("#spousebirthdate").attr('disabled',false);
+        $("#spousepassport").attr('disabled',false);
+        $("#spouseethnicity").attr('disabled',false);
+        $("#spouserelegion").attr('disabled',false);
+        $(".add_row").attr('disabled',false);
+        $(".remove_row").attr('disabled',false);
+    }
+});
 </script>
-
 
 
  <script type='text/javascript'>

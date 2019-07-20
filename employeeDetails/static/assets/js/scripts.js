@@ -157,6 +157,7 @@ function apiServiceForFormData(form)
 {
     console.log('we are in the persoanl function')
     var apiUrl = '/newapp/persoanldetails';
+    console.log("this is the data",form)
     var res=''
     $.ajax({
         url : apiUrl,
@@ -331,7 +332,8 @@ jQuery(document).ready(function()
                                         var data = {};
                                         data[$('.empid').attr('name')] = $('.empid').val();
                                         data[$('#maritalstatus').attr('name')] = $('#maritalstatus').val();
-                                        data[$('#spouseworking').attr('name')] = $('#spouseworking').val();
+
+                                        data[$('#spouseworking').attr('name')] = $("input[name='spouseworking']:checked").val();
                                         data[$('#numberofchild').attr('name')] = $('#numberofchild').val();
                                         data[$('#spousefirstname').attr('name')] = $('#spousefirstname').val();
                                         data[$('#spousemiddlename').attr('name')] = $('#spousemiddlename').val();
