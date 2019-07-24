@@ -903,37 +903,29 @@
                                         <div class="col-sm-6"  id= "spouserelegion_p" ></div>
                                 </div>
                                     
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Child First Name:</b></div>
-                                        <div class="col-sm-6"  class= "childfirstname_p" ></div>
+                                  <div class="row" id="hh">
+                                    <div class="col-sm-12" ><b>Children:</b></div>
+                                    <div class="col-sm-12" > <table class="table" id="childtbl" >
+                                            <thead>
+                                                <tr>
+                                                    <th>First Name</th>
+                                                    <th>Middle Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>BirthDate</th>
+                                                    <th>Gender</th>
+                                                    <th>Married</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody id="childbdy">
+
+                                               </tbody>
+
+            
+                                        </table>
+                                    </div>
+                                         
                                 </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Child Middle Name:</b></div>
-                                        <div class="col-sm-6"  class= "childmiddlename_p" ></div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Child Last Name:</b></div>
-                                        <div class="col-sm-6"  class= "childlastname_p" ></div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Child Gender:</b></div>
-                                        <div class="col-sm-6"  class= "childgender_p" ></div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>Child Maritalstatus:</b></div>
-                                        <div class="col-sm-6"  class= "childmaritalstatus_p" ></div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="col-sm-6" ><b>child Birthdate:</b></div>
-                                        <div class="col-sm-6"  class= "childbirthdate" ></div>
-                                </div>
-
-
                                 <hr>
 
                                 <div class="row">
@@ -1072,19 +1064,19 @@
         <script src="{% static 'assets/js/scripts.js' %}"></script>
         <script>
 $(document).ready(function(){
-     $("#spouseworking").attr('disabled',true);
-        $("#numberofchild").attr('disabled',true);
-        $("#spousefirstname").attr('disabled',true);
-        $("#spouselastname").attr('disabled',true);
-        $("#spousemiddlename").attr('disabled',true);
-        $("#spousenationality").attr('disabled',true);
-        $("#spousenationalid").attr('disabled',true);
-        $("#spousebirthdate").attr('disabled',true);
-        $("#spousepassport").attr('disabled',true);
-        $("#spouseethnicity").attr('disabled',true);
-        $("#spouserelegion").attr('disabled',true);
-        $(".add_row").attr('disabled',true);
-        $(".remove_row").attr('disabled',true);
+     // $("#spouseworking").attr('disabled',true);
+     //    $("#numberofchild").attr('disabled',true);
+     //    $("#spousefirstname").attr('disabled',true);
+     //    $("#spouselastname").attr('disabled',true);
+     //    $("#spousemiddlename").attr('disabled',true);
+     //    $("#spousenationality").attr('disabled',true);
+     //    $("#spousenationalid").attr('disabled',true);
+     //    $("#spousebirthdate").attr('disabled',true);
+     //    $("#spousepassport").attr('disabled',true);
+     //    $("#spouseethnicity").attr('disabled',true);
+     //    $("#spouserelegion").attr('disabled',true);
+     //    $(".add_row").attr('disabled',true);
+     //    $(".remove_row").attr('disabled',true);
 
   var today = new Date();
   var dd = today.getDate();
@@ -1171,47 +1163,55 @@ var eopdatemax = yyyy+'-'+mm+'-'+dd;
 
 $("#endofprobation").attr("max", eopdatemax);
 
+ $("#back_to_preview").click(function(){
+        console.log('back');
+        $("div#hh table tbody").html("");
+    })
 
-    // $("#addchildren").attr("disabled", true);
-    // $("#deletechildren").attr("disabled", true);
-    $('#numberofchild').change(function(){
+    $("#preview").click(function(){
+        console.log('in the preview')
+        var x = $("form").serializeArray();
+        console.log(x); 
 
-        // console.log($(this).val())
-        // var y=$(this).val()
-        // if (y==0){
+        $.each(x, function(i, field){
+            if(field.name == "childfirstname[]" || field.name == "childmiddlename[]" || field.name == "childlastname[]" || field.name == "childgender[]" || field.name == "childbirthdate[]" || field.name == "childmaritalstatus[]"){
+             
+            }
+            else{
+                $("#"+field.name+"_p").text(field.value)
+            }
+        });
+        
+        var child_f_name = $(".childfirstname").map(function(){return $(this).val();}).get();
+        console.log(child_f_name)
+        var child_m_name = $(".childmiddlename").map(function(){return $(this).val();}).get();
+        console.log(child_m_name)
+        var child_l_name = $(".childlastname").map(function(){return $(this).val();}).get();
+        console.log(child_l_name)
+        var child_gen = $(".childgender").map(function(){return $(this).val();}).get();
+        console.log(child_gen)
+        var child_b_date = $(".childbirthdate").map(function(){return $(this).val();}).get();
+        console.log(child_b_date)
+        var child_marital_st = $(".childmaritalstatus").map(function(){return $(this).val();}).get();
+        console.log(child_marital_st)
+        
+        
 
-        //     $("#addchildren").attr("disabled", true);
-        //     $("#deletechildren").attr("disabled", true);
-        // }
-        // else if (y=='more'){
-        //     $("#addchildren").attr("disabled", false);
-        //     $("#deletechildren").attr("disabled", false);
-        // }
-        // else{
-        //     $("#addchildren").attr("disabled", false);
-        //     $("#deletechildren").attr("disabled", false);
-        //     // for(i = 0; i <y; i++) { 
-        //     //     displayResult();
-        //     //         }
-        //     //displayResult();
-        //     // $(y).each(function() { 
-        //     //   displayResult();
-        //     // });
-            
-        // }
+        var numofchild=$('#numberofchild').val()
+        console.log(numofchild,'numofchild')
+            for(i=0; i<numofchild; i++)
+            { 
+                // var childht`m =''
+                // $('#hh').prepend(childhtm)
+
+                console.log("in the funtion ");
+                var childtable = '<tr><td>'+child_f_name[i]+'</td>     <td>'+child_m_name[i]+'</td>        <td>'+child_l_name[i]+'</td>        <td>'+child_b_date[i]+'</td>       <td>'+child_gen[i]+'</td>        <td>'+child_marital_st[i]+'</td></tr>'
+
+                var childhtm = '<br> <div class="row"><div class="col-sm-6" ><b>Child First Name:</b></div><div class="col-sm-6"  class= "childfirstname_p" >'+child_f_name[i]+'</div></div><div class="row"><div class="col-sm-6" ><b>Child Middle Name:</b></div><div class="col-sm-6"  class= "childmiddlename_p" >'+child_m_name[i]+'</div></div><div class="row"><div class="col-sm-6" ><b>Child Last Name:</b></div><div class="col-sm-6"  class= "childlastname_p" >'+child_l_name[i]+'</div></div><div class="row"><div class="col-sm-6" ><b>Child Gender:</b></div><div class="col-sm-6"  class= "childgender_p" >'+child_gen[i]+'</div></div><div class="row"><div class="col-sm-6" ><b>Child Maritalstatus:</b></div><div class="col-sm-6"  class= "childmaritalstatus_p" >'+child_marital_st[i]+'</div></div><div class="row"><div class="col-sm-6" ><b>Child Birthdate:</b></div><div class="col-sm-6"  class= "childbirthdate_p" >'+child_b_date[i]+'</div></div><br>'
+                 
+                $('div#hh table tbody').append(childtable);
+            }
     });
-
-
-  $("#preview").click(function(){
-    var x = $("form").serializeArray();
-    console.log(x);
-    $.each(x, function(i, field){
-         // $("#results").append('<div class="row"><div class="col-sm-6" style="text-transform: capitalize" ><b>'+field.name+':</b></div><div class="col-sm-6" style="text-transform: capitalize"  >'+field.value+'</div>')
-         $("#"+field.name+"_p").text(field.value)
-
-      //$("#results").append(field.name + ":" + " " + field.value + " " + "<br>");
-    });
-  });
 });
 </script>
 
@@ -1268,24 +1268,6 @@ function preview_image(event)
  reader.readAsDataURL(event.target.files[0]);
 }
 
-// function preview_image(event) 
-// {
-//  var reader = new FileReader();
-//  reader.onload = function()
-//  {
-//   var output = document.getElementById('output_image');
-//   console.log(output,"output")
-//   output.src = reader.result;
-//   console.log(output.src,"output.src")
-//  }
-//  var fileName = event.target.files[0].name;
-//  console.log(fileName,'fileName');
-// $("#irn").val(fileName);
-
-// value = $("#irn").attr('value');
-// console.log(value,"this is the name")
-//  reader.readAsDataURL(event.target.files[0]);
-// }
 </script>
  <script>
 
