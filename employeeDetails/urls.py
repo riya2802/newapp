@@ -4,6 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('passwordchange',views.passwordchange),
+    path('signup/', views.SignUp.as_view(), name='signup'),
     path('isuseridcorrect',views.isuserIdcorrect),
     path('login',views.loginFun),
     path('logout',views.logoutFun),

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>fdsf</title>
+</head>
+<body>
+
+	<div id="ch">
+		<table> 
+			<thead>
+				<th>Name</th>
+				<th>age</th>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+		
+	</div>
+<form id="form">
+	<input type="text" name="aa" id="aa" class="aa" >
+	<input type="text" name="nm[]" >
+	<input type="text" name="age[]">
+	
+	<button id="sub" type="submit">send</button>
+</form>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+<script type="text/javascript">
+		
+$('#sub').click(function(event)
+{
+	var count =jQuery("input[name='nm[]']").length
+	var values = $("input[name='nm[]']")
+              .map(function(){return $(this).val();}).get();
+    var agearr = $("input[name='age[]']")
+              .map(function(){return $(this).val();}).get();
+    console.log(values);
+    var htm ='';
+    for (var i = values.length - 1; i >= 0; i--) {
+    	values[i]
+    	htm +='<tr><td>'+values[i]+'</td><td>'+agearr[i]+'</td> <td><input type="text" name = "aa" class="aa" id="aa"></td></tr>';
+    }
+    $('#ch table tbody').append(htm);
+ event.preventDefault();
+
+
+
+
+})
+		
+
+	
+</script>
+<script>
+
+	$("#form").validate();
+	$("input.aa").on("click", function (e) {
+    e.preventDefault();
+
+    $('input.aa').each(function () { 
+        $(this).rules("add", {
+            required: true,
+            number:true
+        });
+    });
+
+});
+// 	$().ready(function(){  
+// $('.aa').each(function () {
+//     $(this).rules("add", {
+//         required: true
+//     });
+// });
+// });
+//             
+//    $( "#form" ).validate({
+// 		  rules: {
+// 		    aa: {
+// 		      required: true,
+// 		      number: true
+// 		    }
+// 		  }
+// 		});
+// 
+ </script>
+
+</html>

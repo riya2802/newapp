@@ -1,0 +1,7 @@
+Requirement already satisfied: xhtml2pdf in d:\newapp\env\lib\site-packages (0.2.3)
+Requirement already satisfied: html5lib>=1.0 in d:\newapp\env\lib\site-packages (from xhtml2pdf) (1.0.1)
+Requirement already satisfied: pyPdf2 in d:\newapp\env\lib\site-packages (from xhtml2pdf) (1.26.0)
+Requirement already satisfied: Pillow in d:\newapp\env\lib\site-packages (from xhtml2pdf) (6.0.0)
+Requirement already satisfied: reportlab>=3.0 in d:\newapp\env\lib\site-packages (from xhtml2pdf) (3.5.23)
+Requirement already satisfied: six in d:\newapp\env\lib\site-packages (from xhtml2pdf) (1.12.0)
+Requirement already satisfied: webencodings in d:\newapp\env\lib\site-packages (from html5lib>=1.0->xhtml2pdf) (0.5.1)

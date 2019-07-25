@@ -1,0 +1,361 @@
+
+{% load staticfiles %}
+{% load static %} 
+<html>
+  <head>
+    <title> View </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href=" {% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/form-elements.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}"> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+        .mainbody{
+                    margin-top: 5px;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                    margin-bottom: 20px;
+                    height:initial;
+                    background-color: white;
+
+                 }
+        .row{
+            margin-left: 20px;
+            padding: 10px;
+        }
+      
+
+
+
+      
+    </style>
+    
+
+  </head>
+  <body style="background-color: lightgrey">
+
+        <div class="container" style="background-color: white; border-radius: 8px ">
+
+        
+
+
+            <!-- <div class="row" style="padding-top: 25px">
+                <div class="col-lg-4" ><h4 align='center'><b>Employee Detail</b></h4></div>
+              <div class="col-lg-8" align="right" ><a href='/blogging/logout'><button type="button" style="border-radius: 3px">Logout</button></a></div>
+            </div> -->
+
+
+             <div class="row" style="padding-top: 20px">
+                 <div class = "mainbody">
+                <h4 style=" margin-top:20px; ">Preview:</h4>
+                            
+                                <div class="row">
+
+                                        <div class="col-sm-6" ><b>ID:</b></div>
+                                        <div class="col-sm-6"  id= "employeeid_p" >{{objEmployeePersonal.employeementId }}</div>
+                                </div>
+                                <!-- <div class="row">
+                                        <div class="col-sm-6" ><b>First Name:</b></div>
+                                        <div class="col-sm-6"  id= "FirstName_p" ></div>
+                                </div> -->
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>First Name:</b></div>
+                                        <div class="col-sm-6"  id= "firstname_p" >{{ objEmployeePersonal.employeeFirstName}}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Middle Name:</b></div>
+                                        <div class="col-sm-6"  id= "middlename_p" >{{ objEmployeePersonal.employeeMiddelName}}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Last Name:</b></div>
+                                        <div class="col-sm-6"  id= "lastname_p" >{{ objEmployeePersonal.employeeLastName}}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Gender:</b></div>
+                                        <div class="col-sm-6"  id= "gendern_p" >{{ objEmployeePersonal.employeeGender}}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Birth date:</b></div>
+                                        <div class="col-sm-6"  id= "birthdate_p" >{{ objEmployeePersonal.employeeBirthDate}}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Nationality:</b></div>
+                                        <div class="col-sm-6"  id= "nationalitydd_p" >{{objEmployeePersonal.employeeNationality }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Nationality ID:</b></div>
+                                        <div class="col-sm-6"  id= "nationalid_p" >{{objEmployeePersonal.employeeNationalId }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Passport:</b></div>
+                                        <div class="col-sm-6"  id= "passport_p" >{{ objEmployeePersonal.employeePassport}}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Ethnicity:</b></div>
+                                        <div class="col-sm-6"  id= "ethnicity_p" >{{ objEmployeePersonal.employeeEthnicity}}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Religion:</b></div>
+                                        <div class="col-sm-6"  id= "religion_p" >{{ objEmployeePersonal.employeeReligion}}</div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Date Join:</b></div>
+                                        <div class="col-sm-6"  id= "datejoin_p" >{{objEmployeeJob.dateJoined }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>End of Probation:</b></div>
+                                        <div class="col-sm-6"  id= "endofprobation_p" >{{objEmployeeJob.endofProbation }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Position:</b></div>
+                                        <div class="col-sm-6"  id= "positiondd_p" >{{objEmployeeJob.position }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Effective Date:</b></div>
+                                        <div class="col-sm-6"  id= "jobstatuseffectivedate_p" >{{objEmployeeJob.jobStatusEffectiveDate }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Line Manager:</b></div>
+                                        <div class="col-sm-6"  id= "linemanagedd_p" >{{objEmployeeJob.lineManager }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Department:</b></div>
+                                        <div class="col-sm-6"  id= "departmentdd_p" >{{objEmployeeJob.department }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Branch:</b></div>
+                                        <div class="col-sm-6"  id= "branchdd_p" >{{objEmployeeJob.branch }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Level:</b></div>
+                                        <div class="col-sm-6"  id= "leveldd_p" >{{objEmployeeJob.level }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Job Type:</b></div>
+                                        <div class="col-sm-6"  id= "jobtypedd_p" >{{objEmployeeJob.jobType }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Effective Date:</b></div>
+                                        <div class="col-sm-6"  id= "employmentstatuseffectivedate_p" >{{objEmployeeJob.employmentStatusEffectiveDate }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Job Status:</b></div>
+                                        <div class="col-sm-6"  id= "jobstatusdd_p" >{{objEmployeeJob.jobStatus }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Leave Workflow:</b></div>
+                                        <div class="col-sm-6"  id= "leaveworkflowdd_p" >{{objEmployeeJob.leaveWorkflow }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Workdays:</b></div>
+                                        <div class="col-sm-6"  id= "workdays_p" >{{objEmployeeJob.workdays }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Holidays:</b></div>
+                                        <div class="col-sm-6"  id= "holidaysdd_p" >{{objEmployeeJob.holidays }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Term Start:</b></div>
+                                        <div class="col-sm-6"  id= "termstartdd_p" >{{objEmployeeJob.termStart }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>TermEnd:</b></div>
+                                        <div class="col-sm-6"  id= "termend_p" >{{objEmployeeJob.termEnd }}</div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Maritial Status:</b></div>
+                                        <div class="col-sm-6"  id= "maritalstatus_p" >{{objEmployeeFamily.employeeFamilyMaritalStatus }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Spouse Working :</b></div>
+                                        <div class="col-sm-6"  id= "spouseworking_p" >{{objEmployeeFamily.employeeFamilySpouseWorking }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Number of Children:</b></div>
+                                        <div class="col-sm-6"  id= "numberofchild_p" >{{objEmployeeFamily.employeeFamilyNumberOfChild }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Spouse First Name:</b></div>
+                                        <div class="col-sm-6"  id= "spousefirstname_p" >{{objEmployeeFamily.employeeFamilySpouseFirstName }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Spouse Last Name:</b></div>
+                                        <div class="col-sm-6"  id= "spouselastname_p" >{{objEmployeeFamily.employeeFamilySpouseLastName }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Spouse Middle Name:</b></div>
+                                        <div class="col-sm-6"  id= "spousemiddlename_p">{{objEmployeeFamily.employeeFamilySpouseMiddelName }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Spouse Nationality:</b></div>
+                                        <div class="col-sm-6"  id= "spousenationality_p" >{{objEmployeeFamily.employeeFamilySpouseNationality }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>National ID :</b></div>
+                                        <div class="col-sm-6"  id= "spousenationalid_p" >{{objEmployeeFamily.employeeFamilySpouseNationalId }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Birthdate:</b></div>
+                                        <div class="col-sm-6"  id= "spousebirthdate_p" >{{objEmployeeFamily.employeeFamilySpouseBirthDate }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Passport:</b></div>
+                                        <div class="col-sm-6"  id= "spousepassport_p" >{{objEmployeeFamily.employeeFamilySpousePassport }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Ethnicity:</b></div>
+                                        <div class="col-sm-6"  id= "spouseethnicity_p" >{{objEmployeeFamily.employeeFamilySpouseEthnicity }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Religion:</b></div>
+                                        <div class="col-sm-6"  id= "spouserelegion_p" >{{objEmployeeFamily.employeeFamilySpouseReligion }}</div>
+                                </div>
+
+                                {% for i in objEmployeeChildren %}
+
+                                    <div class="col-sm-6" ><b>Child First Name:</b></div>
+                                    <div class="col-sm-6"  id= "childfirstname_p" >{{i.employeeChildrenFirstName}}</div>
+
+                                    <div class="col-sm-6" ><b>Child Middle Name:</b></div>
+                                    <div class="col-sm-6"  id= "childmiddlename_p" >{{i.employeeChildrenMiddelName}}</div>
+
+                                    <div class="col-sm-6" ><b>Child Last Name:</b></div>
+                                    <div class="col-sm-6"  id= "childlastname_p" >{{i.employeeChildrenLastName}}</div>
+
+                                    <div class="col-sm-6" ><b>Child Birthdate:</b></div>
+                                    <div class="col-sm-6"  id= "childbirthdate_p" >{{i.employeeChildrenBirthDate}}</div>
+
+                                    <div class="col-sm-6" ><b>Child First Name:</b></div>
+                                    <div class="col-sm-6"  id= "childgender_p" >{{i.employeeChildrenGender}}</div>
+
+                                    <div class="col-sm-6" ><b>Child First Name:</b></div>
+                                    <div class="col-sm-6"  id= "childmaritalstatus_p" >{{i.employeeChildrenMaritalStatus}}</div>   
+
+                                  
+                                      {% endfor %}
+                                
+                                <hr>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Email:</b></div>
+                                        <div class="col-sm-6"  id= "email_p" >{{objEmployeeContact.email }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Blog/Homepage:</b></div>
+                                        <div class="col-sm-6"  id= "bloghomepage_p" >{{objEmployeeContact.blogHomepage }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Office:</b></div>
+                                        <div class="col-sm-6"  id= "office_p" >{{objEmployeeContact.office }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Office Extension:</b></div>
+                                        <div class="col-sm-6"  id= "officeextension_p" >{{objEmployeeContact.officeExtention }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Mobile:</b></div>
+                                        <div class="col-sm-6"  id= "mobile_p" >{{objEmployeeContact.mobile }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Home:</b></div>
+                                        <div class="col-sm-6"  id= "home_p" >{{objEmployeeContact.home }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Address 1:</b></div>
+                                        <div class="col-sm-6"  id= "address1_p" >{{objEmployeeContact.address1 }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Address 2:</b></div>
+                                        <div class="col-sm-6"  id= "address2_p" >{{objEmployeeContact.address2 }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>City:</b></div>
+                                        <div class="col-sm-6"  id= "city_p" >{{objEmployeeContact.city }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Postcode:</b></div>
+                                        <div class="col-sm-6"  id= "postcode_p" >{{objEmployeeContact.postCode }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>State:</b></div>
+                                        <div class="col-sm-6"  id= "state_p" >{{objEmployeeContact.state }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Country:</b></div>
+                                        <div class="col-sm-6"  id= "countrydd_p" >{{objEmployeeContact.country }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE First Name:</b></div>
+                                        <div class="col-sm-6"  id= "coefirstname_p" >{{objEmployeeContact.firstName}}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE Last Name:</b></div>
+                                        <div class="col-sm-6"  id= "coelastname_p" >{{objEmployeeContact.lastName }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE Middle Name:</b></div>
+                                        <div class="col-sm-6"  id= "coemiddlename_p" >{{objEmployeeContact.middleName }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE Relationship:</b></div>
+                                        <div class="col-sm-6"  id= "coerelationship_p" >{{objEmployeeContact.relationship }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE Mobile Phone:</b></div>
+                                        <div class="col-sm-6"  id= "coemobile_p" >{{objEmployeeContact.mobilePhone }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE House Phone:</b></div>
+                                        <div class="col-sm-6"  id= "coehousephone_p" >{{objEmployeeContact.housePhone }}</div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>COE Office Phone:</b></div>
+                                        <div class="col-sm-6"  id= "officephone_p" >{{objEmployeeContact.officePhone}}</div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Height:</b></div>
+                                        <div class="col-sm-6"  id= "height_p" >{{objEmployeeHealth.employeeHealthHeight }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Weight:</b></div>
+                                        <div class="col-sm-6"  id= "weight_p" >{{objEmployeeHealth.employeeHealthWeight }}</div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="col-sm-6" ><b>Blood Type:</b></div>
+                                        <div class="col-sm-6"  id= "bloodgroup_p" >{{objEmployeeHealth.employeeHealthBloodGroup }}</div>
+                                </div>
+        </div>
+                        
+          </div>
+        </div>
+        </body>
+        </html>
+
+
+
+        

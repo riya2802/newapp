@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>fdsf</title>
+</head>
+<body>
+
+	<div id="ch">
+		<select id="example" multiple="multiple" style="width: 300px">
+    <option value="JAN">January</option>
+    <option value="FEB">February</option>
+    <option value="MAR">March</option>
+    <option value="APR">April</option>
+    <option value="MAY">May</option>
+    <option value="JUN">June</option>
+    <option value="JUL">July</option>
+    <option value="AUG">August</option>
+    <option value="SEP">September</option>
+    <option value="OCT">October</option>
+    <option value="NOV">November</option>
+    <option value="DEC">December</option>
+</select>	
+	</div>
+
+	<button id="sub" type="submit">send</button>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$('#example').select2({
+    placeholder: 'Select a month'
+});
+</script>
+</html>

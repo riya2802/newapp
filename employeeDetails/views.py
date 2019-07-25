@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.template import Context
 from django.template.loader import get_template
 
+from django.conf import settings
 
 import datetime
 from xhtml2pdf import pisa 
@@ -671,34 +672,34 @@ def directory(request):
 	# 	p.drawString(keycolumn,row,keyList[key]+":" )
 	# 	p.drawString(valuecolumn,row,"hhcxc")
 	# 	row=row-30
-	p.setFont('Times-Bold',16)
-	p.drawString(245,770, "Employee Details ")
-	p.drawString(70,710, "Employee Id ")
-	p.drawString(350,710, employeeId)
-	p.drawString(70,680, "Name ")
-	p.drawString(350,680,str(objEmployeePersonal.employeeFirstName+' '+objEmployeePersonal.employeeLastName).upper())
-	p.drawString(70,650, "DOB ")
-	p.drawString(350,650,str(objEmployeePersonal.employeeBirthDate))
-	p.drawString(70,620,  "Gender")
-	p.drawString(350,620,str(objEmployeePersonal.employeeGender).upper())
-	p.drawString(70,590, "Nationality ")
-	p.drawString(350,590, str(objEmployeePersonal.employeeNationality).upper())
-	p.drawString(70,560,  "National Id")
-	p.drawString(350,560,str(objEmployeePersonal.employeeNationalId))
-	p.drawString(70,530, "Joining Date")
-	p.drawString(350,530, str(objEmployeeJob.dateJoined))
-	p.drawString(70,500,  "Email")
-	p.drawString(350,500,str(objEmployeeContact.email ))
-	p.drawString(70,470, "Mobile")
-	p.drawString(350,470,str( objEmployeeContact.mobile))
-	p.drawString(70,430,  "Country")
-	p.drawString(350,430,str(objEmployeeContact.country).upper())
-	p.showPage()
-	p.save()
-	pdf = buffer.getvalue()
-	buffer.close()
-	response.write(pdf)
-	return response
+	# p.setFont('Times-Bold',16)
+	# p.drawString(245,770, "Employee Details ")
+	# p.drawString(70,710, "Employee Id ")
+	# p.drawString(350,710, employeeId)
+	# p.drawString(70,680, "Name ")
+	# p.drawString(350,680,str(objEmployeePersonal.employeeFirstName+' '+objEmployeePersonal.employeeLastName).upper())
+	# p.drawString(70,650, "DOB ")
+	# p.drawString(350,650,str(objEmployeePersonal.employeeBirthDate))
+	# p.drawString(70,620,  "Gender")
+	# p.drawString(350,620,str(objEmployeePersonal.employeeGender).upper())
+	# p.drawString(70,590, "Nationality ")
+	# p.drawString(350,590, str(objEmployeePersonal.employeeNationality).upper())
+	# p.drawString(70,560,  "National Id")
+	# p.drawString(350,560,str(objEmployeePersonal.employeeNationalId))
+	# p.drawString(70,530, "Joining Date")
+	# p.drawString(350,530, str(objEmployeeJob.dateJoined))
+	# p.drawString(70,500,  "Email")
+	# p.drawString(350,500,str(objEmployeeContact.email ))
+	# p.drawString(70,470, "Mobile")
+	# p.drawString(350,470,str( objEmployeeContact.mobile))
+	# p.drawString(70,430,  "Country")
+	# p.drawString(350,430,str(objEmployeeContact.country).upper())
+	# p.showPage()
+	# p.save()
+	# pdf = buffer.getvalue()
+	# buffer.close()
+	# response.write(pdf)
+	# return response
     # FileResponse sets the Content-Disposition header so that browsers
     # present the option to save the file.
     #return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
@@ -798,63 +799,14 @@ class HelloPDFView(PDFTemplateView):
 		objEmployeeContact=objEmployeeContact,
 		**kwargs
 		)
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views import generic
 
-# def create_pdf(request):
+class SignUp(generic.CreateView):
+	form_class = UserCreationForm
+	success_url = reverse_lazy('login')
+	template_name = 'signup.html'
 
-
-    # context={'objEmployeePersonal':objEmployeePersonal}
-
-	# config = pdfkit.configuration(wkhtmltopdf="C:\\Program Files\\wkhtmltox\\bin\\wkhtmltopdf.exe")
-	# options = {
- #    'page-size': 'Letter',
- #    'margin-top': '0.75in',
- #    'margin-right': '0.75in',
- #    'margin-bottom': '0.75in',
- #    'margin-left': '0.75in',
- #    'encoding': "UTF-8",
- #    'no-outline': None
-	# }
-	# # pdf=pdfkit.from_url("https://www.w3schools.com/", "ourcodeworld.pdf",configuration=config,options=options)
-	# # response = HttpResponse(pdf,content_type='application/pdf')
-	# # response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
-	# options = {
- #    'quiet': ''
-	# }
-	# p=pdfkit.from_string('Hello!', 'out.pdf',configuration=config)
-	# #p=pdfkit.from_url('google.com', 'out.pdf', options=options,configuration=config)
-	# response = HttpResponse(p,content_type='application/pdf')
-	# return response
-	# data = {}
-
-	# template = get_template('pdftest.html')
-	# html  = template.render({'objEmployeePersonal':objEmployeePersonal})
-
-	# file = open('test.pdf', "w+b")
-	# pisaStatus = pisa.CreatePDF(html.encode('utf-8'), dest=file,
-	#         encoding='utf-8')
-
-	# file.seek(0)
-	# pdf = file.read()
-	# file.close()            
-	# return HttpResponse(pdf, 'application/pdf')
-
-# @csrf_exempt
-# @pdf_decorator(pdfname='1.pdf')
-# def employeeView(request,employeeId):
-# 	print("static")
-# 	objEmployeePersonal=employee.objects.filter(employeeId = employeeId).first()
-# 	if objEmpl'oyeePersonal:
-# 		objEmployeeFamily=employeeFamily.objects.filter(employeeForeignId=objEmployeePersonal).first()
-# 		print('objEmployeeFamily',objEmployeeFamily)
-# 		objEmployeeChildren=employeeChildren.objects.filter(employeeForeignId=objEmployeePersonal).first()
-# 		print('objEmployeeChildren',objEmployeeChildren)
-# 		objEmployeeHealth=employeeHealth.objects.filter(employeeForeignId=objEmployeePersonal).first()
-# 		print('objEmployeeHealth',objEmployeeHealth)
-# 		objEmployeeJob=Job.objects.filter(employeeForeignId=objEmployeePersonal).first()
-# 		objEmployeeContact=Contact.objects.filter(employeeForeignId=objEmployeePersonal).first()
-# 		print("objEmployeeJob",objEmployeeJob)
-# 		print('objEmployeeContact',objEmployeeContact.email)
-# 	context ={'objEmployeePersonal':objEmployeePersonal,'objEmployeeFamily':objEmployeeFamily,'objEmployeeChildren':objEmployeeChildren,'objEmployeeHealth':objEmployeeHealth,'objEmployeeJob':objEmployeeJob,'objEmployeeContact':objEmployeeContact}
-
-# 	return render(request, 'userview.html',context)  
-#     
+def passwordchange(request):
+	return render(request,'passwordchange.html')

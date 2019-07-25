@@ -1,0 +1,346 @@
+<html>
+<head>
+<title></title>
+<style type="text/css">
+body
+{
+    font-family: Arial;
+    font-size: 20px;
+}
+
+@media screen, print {
+
+    table{margin-left: 50px;}
+    .tail{
+            padding-left: 40px;
+    }
+    .head{
+            font-weight: bolder;
+    }
+    td {  font-size: 16px; box-sizing: border-box;  padding-bottom: 5px; padding-top: 5px; width: 100%;  }
+}
+</style>
+</head>
+<body> 
+    <div >
+     <table >
+
+        <tr class="trhead">
+            <td class="head"><b>ID</b></td>
+            <td class="tail">{{objEmployeePersonal.employeementId }}</td>
+        </tr>
+        <tr>
+            <td class="head"><b>First Name</b></td>
+            <td class="tail">{{ objEmployeePersonal.employeeFirstName}}</td>
+        </tr>
+         <tr class="trhead">
+            <td class="head">Middle Name</td>
+            <td class="tail">{{ objEmployeePersonal.employeeMiddelName}}</td>
+        </tr>
+        <tr>
+            <td class="head">Last Name</td>
+            <td class="tail">{{ objEmployeePersonal.employeeLastName}}</td>
+        </tr>
+        
+         <tr class="trhead">
+            <td class="head">Gender</td>
+            <td class="tail">{{ objEmployeePersonal.employeeGender}}</td>
+        </tr>
+        <tr>
+            <td class="head">Birth date</td>
+            <td class="tail">{{ objEmployeePersonal.employeeBirthDate}}</td>
+        </tr>
+        
+         <tr class="trhead">
+            <td class="head">Nationality</td>
+            <td class="tail">{{objEmployeePersonal.employeeNationality }}</td>
+        </tr>
+        <tr>
+            <td class="head">Nationality ID</td>
+            <td class="tail">{{objEmployeePersonal.employeeNationalId }}</td>
+        </tr>
+        
+         <tr class="trhead">
+            <td class="head">Passport</td>
+            <td class="tail">{{ objEmployeePersonal.employeePassport}}</div></td>
+        </tr>
+        <tr >
+            <td class="head">Ethnicity</td>
+            <td class="tail">{{ objEmployeePersonal.employeeEthnicity}}</td>
+        </tr>
+        <tr>
+            <td class="head">Religion</td>
+            <td class="tail">{{ objEmployeePersonal.employeeReligion}}</td>
+        </tr class="trhead">
+    </table><br>
+    <table>
+        <tr>
+            <td class="head">Date Join</td>
+            <td class="tail">{{objEmployeeJob.dateJoined }}</td>
+        </tr>
+        <tr >
+            <td class="head">End of Probation:</td>
+            <td class="tail">{{objEmployeeJob.endofProbation }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Position</td>
+            <td class="tail">{{objEmployeeJob.position }}</td>
+        </tr>
+        <tr >
+            <td class="head">Effective Date</td>
+            <td class="tail">{{objEmployeeJob.jobStatusEffectiveDate }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Line Manager</td>
+            <td class="tail">{{objEmployeeJob.lineManager }}</td>
+        </tr>
+        <tr >
+            <td class="head">Department</td>
+            <td class="tail">{{objEmployeeJob.department }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Branch</td>
+            <td class="tail">{{objEmployeeJob.branch }}</td>
+        </tr>
+        <tr >
+            <td class="head">Level</td>
+            <td class="tail">{{objEmployeeJob.level }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Job Type:</td>
+            <td class="tail">{{objEmployeeJob.jobType }}</td>
+        </tr>
+
+        <tr >
+            <td class="head">Effective Date</td>
+            <td class="tail">{{ objEmployeeJob.employmentStatusEffectiveDate}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Leave Workflow</td>
+            <td class="tail">{{ objEmployeeJob.leaveWorkflow}}</td>
+        </tr>
+        <tr >
+            <td class="head">Workdays</td>
+            <td class="tail">{{ objEmployeeJob.workdays}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Holidays</td>
+            <td class="tail">{{ objEmployeeJob.holidays}}</td>
+        </tr>
+        <tr >
+            <td class="head">Term Start</td>
+            <td class="tail">{{objEmployeeJob.termStart }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Term End</td>
+            <td class="tail">{{objEmployeeJob.termEnd}}</td>
+        </tr>
+    </table><br>
+    <table>
+        <tr >
+            <td class="head">Maritial Status</td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilyMaritalStatus }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Spouse Working </td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilySpouseWorking }}</td>
+        </tr>
+        <tr >
+            <td class="head">Number of Children</td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilyNumberOfChild }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Spouse First Name</td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilySpouseFirstName }}</td>
+        </tr>
+        <tr >
+            <td class="head">Spouse Middle Name</td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilySpouseMiddelName }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Spouse Last Name</td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilySpouseLastName }}</td>
+        </tr>
+        <tr >
+            <td class="head">Spouse Nationality</td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilySpouseNationality }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">National ID </td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilySpouseNationalId }}</td>
+        </tr>
+        <tr >
+            <td class="head">Birthdate</td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilySpouseBirthDate }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Passport</td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilySpousePassport }}</td>
+        </tr>
+        <tr >
+            <td class="head">Ethnicity</td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilySpouseEthnicity }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Religion</td>
+            <td class="tail">{{objEmployeeFamily.employeeFamilySpouseReligion }}</td>
+        </tr>
+
+        {% for i in objEmployeeChildren %}
+       
+         <tr >
+            <td class="head">{{forloop.counter}}. Child First Name</td>
+            <td class="tail">{{i.employeeChildrenFirstName}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Child Middle Name</td>
+            <td class="tail">{{i.employeeChildrenMiddelName}}</td>
+        </tr>
+        <tr >
+            <td class="head">Child Last Name</td>
+            <td class="tail">{{i.employeeChildrenLastName }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Child Birthdate</td>
+            <td class="tail">{{i.employeeChildrenBirthDate }}</td>
+        </tr>
+        <tr >
+            <td class="head">Child Gender</td>
+            <td class="tail">{{i.employeeChildrenGender }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Child Marital Status</td>
+            <td class="tail">{{i.employeeChildrenMaritalStatus }}</td>
+        </tr>
+        <tr >
+            <td class="head"></td>
+        </tr>       
+          {% endfor %}
+
+    </table><br>
+    <table>
+        <tr >
+            <td class="head">Email</td>
+            <td class="tail">{{objEmployeeContact.email}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Blog/Homepage</td>
+            <td class="tail">{{objEmployeeContact.blogHomepage}}</td>
+        </tr>
+        <tr >
+            <td class="head">Office</td>
+            <td class="tail">{{objEmployeeContact.office}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">OfficeExtension</td>
+            <td class="tail">{{objEmployeeContact.officeExtention}}</td>
+        </tr>
+        <tr >
+            <td class="head">Mobile </td>
+            <td class="tail">{{objEmployeeContact.mobile}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Home</td>
+            <td class="tail">{{objEmployeeContact.home}}</td>
+        </tr>
+        <tr >
+            <td class="head">Address 1</td>
+            <td class="tail">{{objEmployeeContact.address1}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Address 2</td>
+            <td class="tail">{{objEmployeeContact.address2}}</td>
+        </tr>
+        <tr >
+            <td class="head">City </td>
+            <td class="tail">{{objEmployeeContact.city}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Postcode </td>
+            <td class="tail">{{objEmployeeContact.postCode}}</td>
+        </tr>
+        <tr >
+            <td class="head">State </td>
+            <td class="tail">{{objEmployeeContact.state}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Country </td>
+            <td class="tail">{{objEmployeeContact.country}}</td>
+        </tr>
+        <tr >
+            <td class="head">COE First Name</td>
+            <td class="tail">{{objEmployeeContact.firstName}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">COE Middle Name</td>
+            <td class="tail">{{objEmployeeContact.middleName}}</td>
+        </tr>
+        <tr >
+            <td class="head">COE Last Name</td>
+            <td class="tail">{{objEmployeeContact.lastName}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">COE Relationship</td>
+            <td class="tail">{{objEmployeeContact.relationship}}</td>
+        </tr>
+        <tr >
+            <td class="head">COE Mobile Phone</td>
+            <td class="tail">{{objEmployeeContact.mobilePhone}}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">COE House Phone</td>
+            <td class="tail">{{objEmployeeContact.housePhone}}</td>
+        </tr>
+        <tr >
+            <td class="head">COE Office Phonee</td>
+            <td class="tail">{{objEmployeeContact.officePhone}}</td>
+        </tr>
+    </table><br>
+    <table>
+        <tr class="trhead">
+            <td class="head">Height</td>
+            <td class="tail">{{objEmployeeHealth.employeeHealthHeight }}</td>
+        </tr>
+        <tr >
+            <td class="head">Weight</td>
+            <td class="tail">{{objEmployeeHealth.employeeHealthWeight }}</td>
+        </tr>
+        <tr class="trhead">
+            <td class="head">Blood Type</td>
+            <td class="tail">{{objEmployeeHealth.employeeHealthBloodGroup }}</td>
+        </tr>
+    </table>
+</div>
+   <!--  <br />
+    <a href='/newapp/create_pdf'><button type="submit" id="btnExport" value="Export">pdf</button></a>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> -->
+   <!--  <script type="text/javascript">
+        $("body").on("click", "#btnExport", function () {
+            html2canvas($('#tblCustomers')[0], {
+                onrendered: function (canvas) {
+                const context = canvas.getContext('2d');
+                context.scale(2, 2);
+                context['dpi'] = 144;
+                context['imageSmoothingEnabled'] = false;
+                context['mozImageSmoothingEnabled'] = false;
+                context['oImageSmoothingEnabled'] = false;
+                context['webkitImageSmoothingEnabled'] = false;
+                context['msImageSmoothingEnabled'] = false;
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 250,
+                            "margin-left":80  
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("Table.pdf");
+                }
+            });
+        });
+    </script> -->
+</body>
+
+</html>
