@@ -1,53 +1,69 @@
+function justcalling() 
+{
+    $.ajax({
+			url: "/newapp/work_reports",
+			type:"GET",
+			cache: false,
+			data:{},
+			success: function(response){
+			res=JSON.parse(JSON.stringify(response))
+			console.log(response,"sdhjasd")
+			}
+		});
+    return res
+}
+
+
 //== Class definition
 var DatatableChildDataLocalDemo = function () {
 	//== Private functions
 
 	var subTableInit = function (e) {
-		$('<div/>').attr('id', 'child_data_local_' + e.data.RecordID).appendTo(e.detailCell)
-			.mDatatable({
-				data: {
-					type: 'local',
-					source: e.data.Orders,
-					pageSize: 10,
-					saveState: {
-						cookie: true,
-						webstorage: true
-					}
-				},
+		$('<div/>').attr('id', 'child_data_local_').appendTo(e.detailCell)
+			// .mDatatable({
+			// 	data: {
+			// 		type: 'local',
+			// 		source: e.data.Orders,
+			// 		pageSize: 10,
+			// 		saveState: {
+			// 			cookie: true,
+			// 			webstorage: true
+			// 		}
+			// 	},
 
-				// layout definition
-				layout: {
-					theme: 'default',
-					scroll: true,
-					height: 300,
-					footer: false,
+			// 	// layout definition
+			// 	layout: {
+			// 		theme: 'default',
+			// 		scroll: true,
+			// 		height: 300,
+			// 		footer: false,
 
-					// enable/disable datatable spinner.
-					spinner: {
-						type: 1,
-						theme: 'default'
-					}
-				},
+			// 		// enable/disable datatable spinner.
+			// 		spinner: {
+			// 			type: 1,
+			// 			theme: 'default'
+			// 		}
+			// 	},
 
-				sortable: true,
+			// 	sortable: true,
 
-				// columns definition
-				columns: [{
-					field: "OrderID",
-					title: "Order ID",
-					sortable: false
-				}, {
-					field: "ShipCountry",
-					title: "Country",
-					width: 100
-				}, {
-					field: "ShipAddress",
-					title: "Ship Address"
-				}, {
-					field: "ShipName",
-					title: "Ship Name"
-				}]
-			});
+			// 	// columns definition
+			// 	columns: [{
+			// 		field: "OrderID",
+			// 		title: "Order ID",
+			// 		sortable: false
+			// 	}, {
+			// 		field: "ShipCountry",
+			// 		title: "Country",
+			// 		width: 100
+			// 	}, {
+			// 		field: "ShipAddress",
+			// 		title: "Ship Address"
+			// 	}, {
+			// 		field: "ShipName",
+			// 		title: "Ship Name"
+			// 	}]
+			// });
 	}
 
 	// demo initializer
@@ -81,34 +97,39 @@ var DatatableChildDataLocalDemo = function () {
 
 			pagination: true,
 
-			detail: {
-				title: 'Load sub table',
-				content: subTableInit
-			},
+			// detail: {
+			// 	title: 'Load sub table',
+			// 	content: subTableInit
+			// },
 
 			search: {
 				input: $('#generalSearch')
 			},
 
 			// columns definition
-			columns: [{
-				field: "RecordID",
-				title: "",
-				sortable: false,
-				width: 20,
-				textAlign: 'center' // left|right|center,
+			columns: [
+			// {
+			// 	field: "RecordID",
+			// 	title: "",
+			// 	sortable: false,
+			// 	width: 20,
+			// 	textAlign: 'center' 
+			// },
+			{
+				field: "employeementId",
+				title: "Employee ID"
 			}, {
-				field: "FirstName",
+				field: "employeeFirstName",
 				title: "First Name"
 			}, {
-				field: "LastName",
+				field: "employeeLastName",
 				title: "Last Name"
 			}, {
-				field: "Company",
-				title: "Company"
+				field: "employeeBirthDate",
+				title: "Birth Date"
 			}, {
-				field: "Email",
-				title: "Email"
+				field: "employeeGender",
+				title: "Gender"
 			}, {
 				field: "Actions",
 				width: 110,

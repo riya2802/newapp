@@ -4,7 +4,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.template import Context
 from django.template.loader import get_template
-
+from django.core import serializers
 from django.conf import settings
 
 import datetime
@@ -808,5 +808,15 @@ class SignUp(generic.CreateView):
 	success_url = reverse_lazy('login')
 	template_name = 'signup.html'
 
-def passwordchange(request):
+def password_change(request):
 	return render(request,'passwordchange.html')
+
+def work_reports(request):
+	dataw=employee.objects.all()
+	# print(dataw,"dataw");
+	sdataj=serializers.serialize("json",dataw)
+	return JsonResponse({'sdataj':sdataj})
+	# return render(request,'data-local.html',{'dataw':dataw})
+
+def work_report_render(request):
+	return render(request,'data-local.html')
