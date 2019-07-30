@@ -574,7 +574,7 @@ def submit(request):
 def employeeList(request):
 	if not request.user.is_authenticated:
 		return redirect('/newapp/login')
-	employeeObj= employee.objects.filter(status='Success')
+	employeeObj= employee.objects.filter(status='Success').order_by('-employeeBirthDate')
 	if employeeObj is None:## if no employee is addedd
 		return render(request, 'Employee.html',{'form':form})
 	paginator = Paginator(employeeObj, 10) # Show 25 contacts per page
@@ -812,11 +812,30 @@ def password_change(request):
 	return render(request,'passwordchange.html')
 
 def work_reports(request):
-	dataw=employee.objects.all()
-	# print(dataw,"dataw");
-	sdataj=serializers.serialize("json",dataw)
-	return JsonResponse({'sdataj':sdataj})
+	# emp_obj=employee.objects.all()
+	# emp_obj=employee.objects.raw('select employeeId from employeeDetails_employee')
+	emp_obj=employee.objects.filter(status='Success').order_by('-employeeBirthDate')
+	print(emp_obj,"emp_obj");
+	json_res=serializers.serialize("json",emp_obj)
+	res =json.loads(json_res)
+	# print(res)
+	return JsonResponse({'result':res})
 	# return render(request,'data-local.html',{'dataw':dataw})
+
+# def work_reports(request):
+# 	# emp_obj = list(employee.objects.all().values_list('employeementId', 'employeeFirstName','employeeMiddelName','employeeLastName','employeeGender','employeeBirthDate','employeeNationality'))
+# 	emp_obj=employee.objects.values('employeeId','employeeFirstName')
+# 	print(emp_obj,"emp_obj");
+# 	print(emp_obj.count())
+# 	# json_res=serializers.serialize("json",emp_obj)
+# 	# res =json.loads(json_res)
+# 	# print(json_res,"json_res");
+# 	# print(json_res,"json response")
+
+# 	# res =json.loads(json_res)
+# 	# print(res)
+# 	return JsonResponse({'result':list(emp_obj)})
+# 	# return render(request,'data-local.html',{'dataw':dataw})
 
 def work_report_render(request):
 	return render(request,'data-local.html')
