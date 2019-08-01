@@ -812,14 +812,44 @@ def password_change(request):
 	return render(request,'passwordchange.html')
 
 def work_reports(request):
+	page_number=request.GET.get('datatable[pagination][page]')
+	print(page_number,'page_number')
+	pages_number=request.GET.get('datatable[pagination][pages]')
+	print(pages_number,'pages_number')
+	per_page=request.GET.get('datatable[pagination][perpage]')
+	print(per_page,'per_page')
+	selected_status=request.GET.get('datatable[query][Status]')
+	print(selected_status,'selected_status')
+	user_objs=employee.objects.all()
+	searchby=request.GET.get('datatable[query][generalSearch]')
+	print(searchby,'searchby')
+
+	offset=(int(page_number)-1)*int(per_page)
+	print(offset,"offset")
+	if selected_status == '1':
+		data_obj=employee.objects.filter(status='Pending',employeeFirstName=searchby).order_by('-employeeBirthDate')[offset:offset+int(per_page)]
+
+	elif selected_status == '2':
+		data_obj=employee.objects.filter(status='Success',employeeFirstName=searchby).order_by('-employeeBirthDate')[offset:offset+int(per_page)]
+	else:
+		if searchby is not None and searchby is not '':
+			data_obj=employee.objects.filter(employeeFirstName=searchby).order_by('-employeeBirthDate')[offset:offset+int(per_page)]
+		else:
+			data_obj=employee.objects.all().order_by('-employeeBirthDate')[offset:offset+int(per_page)]
+
+	meta ={'total':user_objs.count(),
+			'page': page_number,
+			'pages': pages_number,
+			'perpage': per_page}
 	# emp_obj=employee.objects.all()
 	# emp_obj=employee.objects.raw('select employeeId from employeeDetails_employee')
-	emp_obj=employee.objects.filter(status='Success').order_by('-employeeBirthDate')
-	print(emp_obj,"emp_obj");
-	json_res=serializers.serialize("json",emp_obj)
+	# emp_obj=employee.objects.filter(status='Success').order_by('-employeeBirthDate')[:10]
+	print(data_obj,"user_objs");
+	json_res=serializers.serialize("json",data_obj)
 	res =json.loads(json_res)
+	
 	# print(res)
-	return JsonResponse({'result':res})
+	return JsonResponse({'result':res,'meta':meta})
 	# return render(request,'data-local.html',{'dataw':dataw})
 
 # def work_reports(request):
@@ -837,5 +867,36 @@ def work_reports(request):
 # 	return JsonResponse({'result':list(emp_obj)})
 # 	# return render(request,'data-local.html',{'dataw':dataw})
 
+
+from django.apps import apps
+def data(request):
+	model_name=request.GET.get('model')
+	page_number=request.GET.get('page')
+	per_page=request.GET.get('per_page')
+	if model_name is None or model_name is '':
+		user_objs=User.objects.all();
+	elif model_name is not None and model_name is not '' and not model_name.isnumeric():
+		try:	
+			model = apps.get_model('employeeDetails', model_name)
+			print(model,'model')
+			if page_number is not None and page_number is not '' and page_number.isnumeric() and per_page is not None and per_page is not '' and per_page.isnumeric():
+				offset=(int(page_number)-1)*int(per_page)
+				print(type(offset))
+				print(offset,"offset")
+				user_objs=model.objects.filter(status='Success').order_by('-employeeBirthDate')[offset:offset+int(per_page)]
+			else:
+				user_objs=model.objects.filter(status='Success').order_by('-employeeBirthDate')
+		except:
+			return JsonResponse({'result':'no such model'})
+	elif model_name is not None and model_name is not '' and model_name.isnumeric():
+		return JsonResponse({'result':'sorry wrong details'})
+	json_res=serializers.serialize("json",user_objs)
+	res=json.loads(json_res)
+	return JsonResponse({'result':res})
+
 def work_report_render(request):
 	return render(request,'data-local.html')
+
+def list_employee(request):
+	return render(request,'data-ajax.html')
+	

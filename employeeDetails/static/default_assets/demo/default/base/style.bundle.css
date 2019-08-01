@@ -23451,7 +23451,7 @@ body.m-portlet--fullscreen {
   padding: 10px 15px; }
 
 select.m-bootstrap-select {
-  opacity: 0 ;
+ 
   filter: alpha(opacity=0) ; }
 
 .m-bootstrap-select.bootstrap-select.btn-group.m-bootstrap-select--pill > .dropdown-toggle {

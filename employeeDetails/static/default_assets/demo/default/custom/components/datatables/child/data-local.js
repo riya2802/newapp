@@ -101,6 +101,7 @@ var DatatableChildDataLocalDemo = function () {
 				}
 			console.log(arr,"this is the response")
 		var datatable = $('.m_datatable').mDatatable({
+			// order: [ 0, 'desc' ],
 			// datasource definition
 			data: {
 				type: 'local',
@@ -120,13 +121,15 @@ var DatatableChildDataLocalDemo = function () {
 				footer: false
 			},
 
+			// order : [ 0, 'desc' ],
+
 			sortable: false,
 
 			filterable: false,
 
 			pagination: true,
 
-			// aaSorting: [ 1, "desc" ],
+			// sortable: [ 4, 'desc' ],
 			// detail: {
 			// 	title: 'Load sub table',
 			// 	content: subTableInit
@@ -156,6 +159,7 @@ var DatatableChildDataLocalDemo = function () {
 			}, {
 				field: "employeeBirthDate",
 				title: "Birth Date",
+				order : [ 0, 'desc' ],
 			}, {
 				field: "employeeGender",
 				title: "Gender"
